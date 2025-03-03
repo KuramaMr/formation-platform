@@ -1,14 +1,18 @@
 import { Metadata } from 'next';
-import { Inter } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from './contexts/AuthContext';
 import Link from "next/link";
 import Navigation from './components/Navigation';
 
-const inter = Inter({
+const geistSans = Geist({
+  variable: "--font-geist-sans",
   subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
@@ -22,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className={inter.variable}>
+    <html lang="fr">
       <body>
         <AuthProvider>
           <div className="min-h-screen flex flex-col">
