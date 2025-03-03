@@ -224,7 +224,7 @@ export default function QuizForm({ quiz, coursId, isEditing = false }: QuizFormP
                   ))}
                 </div>
                 <p className="mt-1 text-sm text-gray-500">
-                  Sélectionnez la réponse correcte en cochant le bouton radio à côté de l'option.
+                  Sélectionnez la réponse correcte en cochant le bouton radio à côté de l&apos;option.
                 </p>
               </div>
             </div>

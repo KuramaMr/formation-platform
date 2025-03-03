@@ -117,7 +117,7 @@ export default function SignIn() {
         <p className="mt-10 text-center text-sm text-gray-500">
           Pas encore de compte ?{' '}
           <Link href="/auth/signup" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-            S'inscrire
+            S&apos;inscrire
           </Link>
         </p>
       </div>
