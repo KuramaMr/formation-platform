@@ -60,7 +60,7 @@ export default function GestionSignaturesPage() {
         {formations.length === 0 ? (
           <div className="bg-white shadow overflow-hidden sm:rounded-lg p-6">
             <p className="text-gray-500">
-              Vous n'avez pas encore créé de formation.
+              Vous n&apos;avez pas encore créé de formation.
             </p>
             <Link
               href="/formations/create"

@@ -360,7 +360,7 @@ export default function GestionSignaturesFormationPage() {
         {sortedDates.length === 0 ? (
           <div className="bg-white shadow overflow-hidden sm:rounded-lg p-6">
             <p className="text-gray-500">
-              Aucune signature n'a été enregistrée pour cette {filterByPeriod ? 'période' : 'formation'}.
+              Aucune signature n&apos;a été enregistrée pour cette {filterByPeriod ? 'période' : 'formation'}.
             </p>
           </div>
         ) : (
@@ -414,7 +414,7 @@ export default function GestionSignaturesFormationPage() {
               Tableau récapitulatif des présences
             </h2>
             <p className="mt-1 max-w-2xl text-sm text-gray-500">
-              Vue d'ensemble des signatures par étudiant et par jour
+              Vue d&apos;ensemble des signatures par étudiant et par jour
             </p>
           </div>
           
@@ -424,7 +424,7 @@ export default function GestionSignaturesFormationPage() {
                 <thead className="bg-gray-50">
                   <tr>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Nom de l'élève
+                      Nom de l&apos;élève
                     </th>
                     {sortedDates.map((date) => {
                       // Formater la date en format français

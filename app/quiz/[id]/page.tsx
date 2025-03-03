@@ -201,7 +201,7 @@ export default function QuizPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
             <strong className="font-bold">Accès refusé :</strong>
-            <span className="block sm:inline"> Vous n'êtes pas autorisé à accéder à ce quiz.</span>
+            <span className="block sm:inline"> Vous n&apos;êtes pas autorisé à accéder à ce quiz.</span>
           </div>
           <div className="mt-4">
             <Link href="/formations" className="text-indigo-600 hover:text-indigo-800">

@@ -621,7 +621,7 @@ export default function GestionResultatsPage() {
       {showStudentPdf && currentStudentData && (
         <div className="hidden">
           <div ref={studentPdfRef} style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-            <h1>Résultats de l'élève: {currentStudentData.eleve?.displayName || 'Élève inconnu'}</h1>
+            <h1>Résultats de l&apos;élève: {currentStudentData.eleve?.displayName || 'Élève inconnu'}</h1>
             <p>Email: {currentStudentData.eleve?.email || 'Email inconnu'}</p>
             <p>Nombre de quiz complétés: {currentStudentData.resultats.length}</p>
             <p>Score moyen: {(currentStudentData.resultats.reduce((sum, result) => sum + result.score, 0) / currentStudentData.resultats.length).toFixed(2)}%</p>

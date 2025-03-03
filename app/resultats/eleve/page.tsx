@@ -279,7 +279,7 @@ export default function ResultatsElevePage() {
           <div className="px-4 py-8 sm:px-0">
             {resultats.length === 0 ? (
               <div className="bg-white shadow rounded-lg p-6">
-                <p className="text-gray-500">Vous n'avez pas encore de résultats.</p>
+                <p className="text-gray-500">Vous n&apos;avez pas encore de résultats.</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
