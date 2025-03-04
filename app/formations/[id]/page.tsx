@@ -46,10 +46,7 @@ export default function FormationDetails() {
     const fetchData = async () => {
       try {
         if (!user || authLoading) return;
-        
-        console.log("Récupération de la formation:", id);
         const formationResult = await getFormationById(id);
-        console.log("Formation récupérée:", formationResult);
         
         if (!formationResult) {
           router.push('/formations');

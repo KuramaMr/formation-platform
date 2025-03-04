@@ -51,19 +51,96 @@ export default function GestionResultatsPage() {
       try {
         setLoading(true);
         
-        // Récupérer tous les résultats de quiz
-        const resultsRef = collection(db, 'resultats');
-        const resultsSnapshot = await getDocs(resultsRef);
+        // 1. D'abord, récupérer les formations du formateur
+        const formationsRef = collection(db, 'formations');
+        const formationsQuery = query(
+          formationsRef,
+          where('formateurId', '==', user.uid)
+        );
+        const formationsSnapshot = await getDocs(formationsQuery);
         
-        console.log("Nombre de résultats trouvés:", resultsSnapshot.size);
+        // Si aucune formation, retourner un tableau vide
+        if (formationsSnapshot.empty) {
+          setResultats([]);
+          return;
+        }
         
-        const resultsData: any[] = [];
-        resultsSnapshot.forEach((doc) => {
-          resultsData.push({
-            id: doc.id,
-            ...doc.data()
-          });
+        // 2. Récupérer les IDs des formations
+        const formationIds = formationsSnapshot.docs.map(doc => doc.id);
+        
+        // 3. Récupérer tous les cours de ces formations
+        const coursRef = collection(db, 'cours');
+        const coursPromises = formationIds.map(async (formationId) => {
+          const coursQuery = query(
+            coursRef,
+            where('formationId', '==', formationId)
+          );
+          return getDocs(coursQuery);
         });
+        
+        const coursSnapshots = await Promise.all(coursPromises);
+        
+        // 4. Récupérer les IDs des cours
+        const coursIds = coursSnapshots
+          .flatMap(snapshot => snapshot.docs)
+          .map(doc => doc.id);
+        
+        // Si aucun cours, retourner un tableau vide
+        if (coursIds.length === 0) {
+          setResultats([]);
+          return;
+        }
+        
+        // 5. Récupérer tous les quiz de ces cours
+        const quizIds = [];
+        
+        // Firestore ne permet pas de faire un where('coursId', 'in', coursIds) si coursIds contient plus de 10 éléments
+        // On doit donc faire des requêtes par lots de 10
+        for (let i = 0; i < coursIds.length; i += 10) {
+          const batch = coursIds.slice(i, i + 10);
+          
+          const quizRef = collection(db, 'quiz');
+          const quizQuery = query(
+            quizRef,
+            where('coursId', 'in', batch)
+          );
+          
+          const quizSnapshot = await getDocs(quizQuery);
+          
+          quizSnapshot.forEach((doc) => {
+            quizIds.push(doc.id);
+          });
+        }
+        
+        // Si aucun quiz, retourner un tableau vide
+        if (quizIds.length === 0) {
+          setResultats([]);
+          return;
+        }
+        
+        // 6. Récupérer tous les résultats de ces quiz
+        const resultsData = [];
+        
+        // Firestore ne permet pas de faire un where('quizId', 'in', quizIds) si quizIds contient plus de 10 éléments
+        // On doit donc faire des requêtes par lots de 10
+        for (let i = 0; i < quizIds.length; i += 10) {
+          const batch = quizIds.slice(i, i + 10);
+          
+          const resultsRef = collection(db, 'resultats');
+          const resultsQuery = query(
+            resultsRef,
+            where('quizId', 'in', batch)
+          );
+          
+          const resultsSnapshot = await getDocs(resultsQuery);
+          
+          resultsSnapshot.forEach((doc) => {
+            resultsData.push({
+              id: doc.id,
+              ...doc.data()
+            });
+          });
+        }
         
         // Récupérer les informations des quiz associés
         const quizPromises = resultsData.map(async (resultat) => {
@@ -84,7 +161,6 @@ export default function GestionResultatsPage() {
               };
             }
           } catch (error) {
-            console.error("Erreur lors de la récupération du quiz:", error);
             return {
               ...resultat,
               quiz: null
@@ -113,7 +189,6 @@ export default function GestionResultatsPage() {
               };
             }
           } catch (error) {
-            console.error("Erreur lors de la récupération de l'élève:", error);
             return {
               ...resultat,
               eleve: null
@@ -125,7 +200,7 @@ export default function GestionResultatsPage() {
         
         setResultats(finalResults);
       } catch (error) {
-        console.error("Erreur lors de la récupération des résultats:", error);
+        // Erreur silencieuse
       } finally {
         setLoading(false);
       }

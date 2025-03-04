@@ -8,7 +8,11 @@ import {
   signOut as firebaseSignOut,
   onAuthStateChanged,
   updateProfile,
-  getAuth
+  getAuth,
+  sendPasswordResetEmail,
+  setPersistence,
+  browserLocalPersistence,
+  browserSessionPersistence
 } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
@@ -28,8 +32,9 @@ interface AuthContextType {
   loading: boolean;
   error: string | null;
   signUp: (email: string, password: string, displayName: string, role: UserRole) => Promise<User | null>;
-  signIn: (email: string, password: string) => Promise<User | null>;
+  signIn: (email: string, password: string, rememberMe?: boolean) => Promise<User | null>;
   signOut: () => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -105,12 +110,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const signIn = async (email: string, password: string) => {
+  const signIn = async (email: string, password: string, rememberMe = false) => {
     try {
       setLoading(true);
       setError(null);
       
       const auth = getAuth();
+      
+      // Définir la persistance en fonction de l'option "Se souvenir de moi"
+      const persistenceType = rememberMe ? browserLocalPersistence : browserSessionPersistence;
+      await setPersistence(auth, persistenceType);
+      
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       
       return userCredential.user;
@@ -135,9 +145,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setLoading(false);
     }
   };
+  
+  const resetPassword = async (email: string) => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const auth = getAuth();
+      await sendPasswordResetEmail(auth, email);
+    } catch (error: any) {
+      setError(error.message || 'Une erreur est survenue lors de l\'envoi de l\'email de réinitialisation');
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <AuthContext.Provider value={{ user, userData, loading, error, signUp, signIn, signOut }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      userData, 
+      loading, 
+      error, 
+      signUp, 
+      signIn, 
+      signOut,
+      resetPassword 
+    }}>
       {children}
     </AuthContext.Provider>
   );

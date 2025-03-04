@@ -65,7 +65,6 @@ export default function SignaturePage() {
     );
   }
   
-  console.log("ID de formation pour signature:", formationId);
   
   return (
     <div className="py-10">

@@ -141,8 +141,6 @@ export default function useFormations() {
       setLoading(true);
       setError(null);
       
-      console.log("Récupération des formations pour l'élève:", eleveId);
-      
       // Tableau pour stocker les IDs des formations et leurs dates d'inscription
       const formationInfo: { id: string, dateInscription?: any }[] = [];
       
@@ -150,8 +148,6 @@ export default function useFormations() {
       const inscriptionsRef = collection(db, 'inscriptions');
       const inscriptionsQuery = query(inscriptionsRef, where('eleveId', '==', eleveId));
       const inscriptionsSnapshot = await getDocs(inscriptionsQuery);
-      
-      console.log("Inscriptions trouvées:", inscriptionsSnapshot.size);
       
       inscriptionsSnapshot.forEach((doc) => {
         const data = doc.data();
@@ -166,8 +162,6 @@ export default function useFormations() {
       const studentsQuery = query(studentsRef, where('userId', '==', eleveId));
       const studentsSnapshot = await getDocs(studentsQuery);
       
-      console.log("Students trouvés:", studentsSnapshot.size);
-      
       studentsSnapshot.forEach((doc) => {
         const data = doc.data();
         formationInfo.push({
@@ -175,8 +169,6 @@ export default function useFormations() {
           dateInscription: data.createdAt || null
         });
       });
-      
-      console.log("Total des formations trouvées:", formationInfo.length);
       
       // Si aucune inscription, retourner un tableau vide
       if (formationInfo.length === 0) {
@@ -199,7 +191,6 @@ export default function useFormations() {
       // Firestore ne permet pas de faire un where('id', 'in', formationIds) directement
       // On doit donc faire une requête pour chaque formation
       for (const [formationId, info] of formationMap.entries()) {
-        console.log("Récupération de la formation:", formationId);
         const formationDoc = await getDoc(doc(db, 'formations', formationId));
         if (formationDoc.exists()) {
           const data = formationDoc.data();
@@ -213,15 +204,11 @@ export default function useFormations() {
             updatedAt: data.updatedAt,
             dateInscription: info.dateInscription // Ajouter la date d'inscription
           });
-        } else {
-          console.log("Formation non trouvée:", formationId);
         }
       }
       
-      console.log("Formations récupérées:", formations.length);
       return formations;
     } catch (error: any) {
-      console.error('Erreur lors de la récupération des formations:', error);
       setError(error.message || 'Une erreur est survenue lors de la récupération des formations');
       return [];
     } finally {
@@ -406,7 +393,6 @@ export default function useFormations() {
   // Vérifier si un élève est inscrit à une formation
   const estInscrit = async (formationId: string, userId: string) => {
     try {
-      console.log("Vérification de l'inscription pour:", formationId, userId);
       
       const studentsRef = collection(db, 'students');
       const q = query(
@@ -418,7 +404,6 @@ export default function useFormations() {
       const querySnapshot = await getDocs(q);
       const inscrit = !querySnapshot.empty;
       
-      console.log("Résultat de la vérification:", inscrit);
       return inscrit;
     } catch (error) {
       console.error("Erreur lors de la vérification de l'inscription:", error);
@@ -436,7 +421,6 @@ export default function useFormations() {
       const students = [];
       
       // 1. Vérifier la collection "students"
-      console.log("Vérification de la collection 'students'");
       const studentsRef = collection(db, 'students');
       const studentsQuery = query(
         studentsRef,
@@ -444,10 +428,8 @@ export default function useFormations() {
       );
       
       const studentsSnapshot = await getDocs(studentsQuery);
-      console.log("Nombre d'élèves trouvés dans 'students':", studentsSnapshot.size);
       
       // 2. Vérifier la collection "inscriptions"
-      console.log("Vérification de la collection 'inscriptions'");
       const inscriptionsRef = collection(db, 'inscriptions');
       const inscriptionsQuery = query(
         inscriptionsRef,
@@ -455,7 +437,6 @@ export default function useFormations() {
       );
       
       const inscriptionsSnapshot = await getDocs(inscriptionsQuery);
-      console.log("Nombre d'élèves trouvés dans 'inscriptions':", inscriptionsSnapshot.size);
       
       // Traiter les résultats de "students"
       for (const docSnapshot of studentsSnapshot.docs) {
@@ -510,7 +491,6 @@ export default function useFormations() {
         }
       }
       
-      console.log("Total d'élèves trouvés:", students.length);
       return students;
     } catch (error: any) {
       console.error("Erreur dans getStudentsByFormation:", error);

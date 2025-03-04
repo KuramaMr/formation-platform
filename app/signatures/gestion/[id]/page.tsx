@@ -634,14 +634,6 @@ export default function GestionSignaturesFormationPage() {
                       </td>
                       
                       {sortedDates.map((date) => {
-                        // Vérifier si l'étudiant a signé ce jour-là
-                        // Ajouter des logs pour déboguer
-                        console.log(`Vérification pour l'étudiant ${student.id} (${student.displayName || student.email}) à la date ${date}`);
-                        console.log(`Signatures disponibles:`, signaturesByDay[date].map((sig: any) => ({ 
-                          userId: sig.userId, 
-                          userName: sig.userName 
-                        })));
-                        
                         // Vérification plus flexible
                         const hasSigned = signaturesByDay[date].some((sig: any) => 
                           sig.userId === student.id || 

@@ -308,11 +308,6 @@ export default function QuizPage() {
     );
   }
   
-  console.log('User ID:', user?.uid);
-  console.log('User Role:', userData?.role);
-  console.log('Formation:', formation);
-  console.log('Formation Owner ID:', formation?.formateurId);
-  
   return (
     <div className="py-10">
       <header>

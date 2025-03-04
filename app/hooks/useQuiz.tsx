@@ -30,7 +30,6 @@ export default function useQuiz() {
       setLoading(true);
       setError(null);
       
-      console.log("Recherche des quiz pour le cours:", coursId);
       
       const quizRef = collection(db, 'quiz');
       const q = query(
@@ -40,12 +39,10 @@ export default function useQuiz() {
       );
       const querySnapshot = await getDocs(q);
       
-      console.log("Nombre de quiz trouvés:", querySnapshot.size);
       
       const quiz: Quiz[] = [];
       querySnapshot.forEach((doc) => {
         const data = doc.data();
-        console.log("Quiz trouvé:", doc.id, data);
         quiz.push({
           id: doc.id,
           coursId: data.coursId,
@@ -239,17 +236,13 @@ export default function useQuiz() {
       }
       
       // Supprimer d'abord les résultats liés à ce quiz
-      console.log("Recherche des résultats pour le quiz:", id);
       const resultsRef = collection(db, 'resultats');
       const q = query(resultsRef, where('quizId', '==', id));
       const resultsSnapshot = await getDocs(q);
       
-      console.log("Nombre de résultats trouvés:", resultsSnapshot.size);
-      
       // Supprimer chaque résultat individuellement
       const deletePromises = [];
       resultsSnapshot.forEach((doc) => {
-        console.log("Suppression du résultat:", doc.id);
         deletePromises.push(deleteDoc(doc.ref));
       });
       
@@ -257,12 +250,10 @@ export default function useQuiz() {
       await Promise.all(deletePromises);
       
       // Maintenant, supprimer le quiz
-      console.log("Suppression du quiz:", id);
       await deleteDoc(doc(db, 'quiz', id));
       
       return true;
     } catch (error: any) {
-      console.error("Erreur lors de la suppression du quiz:", error);
       setError(error.message || 'Une erreur est survenue lors de la suppression du quiz');
       return false;
     } finally {
@@ -482,32 +473,25 @@ export default function useQuiz() {
       }
       
       // Rechercher les résultats pour ce quiz
-      console.log("Recherche des résultats pour le quiz:", quizId);
       const resultsRef = collection(db, 'resultats');
       const q = query(resultsRef, where('quizId', '==', quizId));
       const resultsSnapshot = await getDocs(q);
       
-      console.log("Nombre de résultats trouvés:", resultsSnapshot.size);
-      
       if (resultsSnapshot.empty) {
-        console.log("Aucun résultat trouvé pour ce quiz");
         return true;
       }
       
       // Supprimer chaque résultat individuellement
       const deletePromises = [];
       resultsSnapshot.forEach((doc) => {
-        console.log("Suppression du résultat:", doc.id);
         deletePromises.push(deleteDoc(doc.ref));
       });
       
       // Attendre que tous les résultats soient supprimés
       await Promise.all(deletePromises);
-      console.log("Tous les résultats ont été supprimés avec succès");
       
       return true;
     } catch (error: any) {
-      console.error("Erreur lors de la suppression des résultats:", error);
       setError(error.message || 'Une erreur est survenue lors de la suppression des résultats');
       return false;
     } finally {
@@ -591,7 +575,6 @@ export default function useQuiz() {
       
       return quizzes;
     } catch (error: any) {
-      console.error("Erreur lors de la récupération des quiz du formateur:", error);
       setError(error.message || 'Une erreur est survenue lors de la récupération des quiz');
       return [];
     } finally {

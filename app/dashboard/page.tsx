@@ -69,7 +69,6 @@ export default function DashboardPage() {
           }
         }
         
-        console.log("Formations récupérées:", formationsData);
         setFormations(formationsData || []);
       } catch (error) {
         console.error('Erreur lors de la récupération des données:', error);

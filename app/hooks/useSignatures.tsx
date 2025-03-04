@@ -40,7 +40,6 @@ export default function useSignatures() {
       setLoading(true);
       setError(null);
       
-      console.log("Recherche des signatures pour la formation:", formationId);
       
       const signaturesRef = collection(db, 'signatures');
       const q = query(
@@ -51,7 +50,6 @@ export default function useSignatures() {
       
       try {
         const querySnapshot = await getDocs(q);
-        console.log("Nombre de signatures trouvées:", querySnapshot.size);
         
         const signatures: Signature[] = [];
         querySnapshot.forEach((doc) => {
@@ -80,7 +78,6 @@ export default function useSignatures() {
         );
         
         const fallbackSnapshot = await getDocs(qWithoutOrder);
-        console.log("Nombre de signatures trouvées (sans tri):", fallbackSnapshot.size);
         
         const signatures: Signature[] = [];
         fallbackSnapshot.forEach((doc) => {
@@ -483,7 +480,6 @@ export default function useSignatures() {
       setLoading(true);
       setError(null);
       
-      console.log(`Recherche des signatures pour la formation: ${formationId} du ${startDate} au ${endDate}`);
       
       // Convertir les dates en objets Date
       const start = new Date(startDate);
@@ -507,7 +503,6 @@ export default function useSignatures() {
       
       try {
         const querySnapshot = await getDocs(q);
-        console.log(`Nombre de signatures trouvées: ${querySnapshot.size}`);
         
         const signatures: Signature[] = [];
         querySnapshot.forEach((doc) => {
