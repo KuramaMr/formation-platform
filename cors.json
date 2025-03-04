@@ -1,0 +1,7 @@
+[
+  {
+    "origin": ["https://view.officeapps.live.com", "https://officeapps.live.com"],
+    "method": ["GET", "HEAD"],
+    "maxAgeSeconds": 3600
+  }
+]

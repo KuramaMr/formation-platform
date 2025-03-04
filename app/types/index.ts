@@ -27,6 +27,7 @@ export interface User {
     titre: string;
     contenu: string;
     ordre: number;
+    presentationUrl?: string; // URL du fichier PowerPoint stocké dans Firebase
     createdAt: string;
     updatedAt: string;
   }

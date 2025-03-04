@@ -170,6 +170,44 @@ export default function CoursDetails() {
               <div className="prose max-w-none">
                 <div dangerouslySetInnerHTML={{ __html: cours.contenu }} />
               </div>
+              
+              {cours.presentationUrl && (
+                <div className="mt-8">
+                  <h3 className="text-lg font-medium leading-6 text-gray-900 mb-4">
+                    Présentation PowerPoint
+                  </h3>
+                  <div className="aspect-[16/9] w-full relative">
+                    <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+                      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+                    </div>
+                    
+                    <iframe
+                      src={`https://docs.google.com/viewer?url=${encodeURIComponent(cours.presentationUrl)}&embedded=true`}
+                      width="100%"
+                      height="100%"
+                      frameBorder="0"
+                      className="min-h-[500px] relative z-10"
+                      loading="lazy"
+                      onLoad={(e) => {
+                        if (e.target.parentElement) {
+                          const loadingDiv = e.target.parentElement.querySelector('div');
+                          if (loadingDiv) loadingDiv.style.display = 'none';
+                        }
+                      }}
+                    ></iframe>
+                  </div>
+                  <div className="mt-2">
+                    <a 
+                      href={cours.presentationUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-sm text-indigo-600 hover:text-indigo-500"
+                    >
+                      Télécharger la présentation
+                    </a>
+                  </div>
+                </div>
+              )}
             </div>
             
             <div className="mt-8">

@@ -45,6 +45,7 @@ export default function useCours() {
           titre: data.titre,
           contenu: data.contenu,
           ordre: data.ordre,
+          presentationUrl: data.presentationUrl || null,
           createdAt: data.createdAt,
           updatedAt: data.updatedAt
         });
@@ -78,6 +79,7 @@ export default function useCours() {
         titre: data.titre,
         contenu: data.contenu,
         ordre: data.ordre,
+        presentationUrl: data.presentationUrl || null,
         createdAt: data.createdAt,
         updatedAt: data.updatedAt
       } as Cours;

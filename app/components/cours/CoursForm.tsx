@@ -8,6 +8,8 @@ import useCours from '../../hooks/useCours';
 import useFormations from '../../hooks/useFormations';
 import { useAuth } from '../../contexts/AuthContext';
 import { Editor } from '@tinymce/tinymce-react';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage } from '../../lib/firebase';
 
 interface CoursFormProps {
   cours?: Cours;
@@ -19,6 +21,7 @@ type FormData = {
   titre: string;
   contenu: string;
   ordre: number;
+  presentation?: FileList;
 };
 
 export default function CoursForm({ cours, formationId, isEditing = false }: CoursFormProps) {
@@ -30,6 +33,8 @@ export default function CoursForm({ cours, formationId, isEditing = false }: Cou
   const [error, setError] = useState<string | null>(null);
   const [formationTitre, setFormationTitre] = useState<string | null>(null);
   const editorRef = useRef<any>(null);
+  const [presentationFile, setPresentationFile] = useState<File | null>(null);
+  const [presentationUrl, setPresentationUrl] = useState<string | null>(cours?.presentationUrl || null);
   
   const { register, handleSubmit, control, formState: { errors } } = useForm<FormData>({
     defaultValues: {
@@ -58,34 +63,54 @@ export default function CoursForm({ cours, formationId, isEditing = false }: Cou
       setLoading(true);
       setError(null);
       
+      let finalPresentationUrl = cours?.presentationUrl || null;
+      
+      if (data.presentation && data.presentation.length > 0) {
+        const file = data.presentation[0];
+        const storageRef = ref(storage, `formations/${user?.uid}/${Date.now()}_${file.name}`);
+        
+        const snapshot = await uploadBytes(storageRef, file);
+        
+        finalPresentationUrl = await getDownloadURL(snapshot.ref);
+      }
+      
       if (isEditing && cours) {
-        // Mettre à jour le cours
         await updateCours(cours.id, {
           titre: data.titre,
           contenu: data.contenu,
-          ordre: data.ordre
+          ordre: data.ordre,
+          presentationUrl: finalPresentationUrl
         });
-        
-        // Rediriger vers la page du cours
-        router.push(`/cours/${cours.id}`);
-      } else if (formationId) {
-        // Créer un nouveau cours
-        const nouveauCours = await createCours({
-          formationId,
+      } else {
+        await createCours({
+          formationId: formationId!,
           titre: data.titre,
           contenu: data.contenu,
-          ordre: data.ordre
+          ordre: data.ordre,
+          presentationUrl: finalPresentationUrl
         });
-        
-        if (nouveauCours) {
-          // Rediriger vers la page de la formation
-          router.push(`/formations/${formationId}`);
-        }
       }
+      
+      router.push(`/formations/${formationId}`);
     } catch (error: any) {
       setError(error.message || 'Une erreur est survenue');
     } finally {
       setLoading(false);
+    }
+  };
+  
+  const handlePresentationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    
+    if (files && files.length > 0) {
+      const file = files[0];
+      
+      if (!file.name.endsWith('.ppt') && !file.name.endsWith('.pptx')) {
+        setError("Le fichier sélectionné n'est pas une présentation PowerPoint valide (.ppt ou .pptx)");
+        return;
+      }
+      
+      setPresentationFile(file);
     }
   };
   
@@ -180,6 +205,41 @@ export default function CoursForm({ cours, formationId, isEditing = false }: Cou
             <p className="mt-1 text-sm text-red-600">{errors.ordre.message}</p>
           )}
         </div>
+      </div>
+      
+      <div>
+        <label htmlFor="presentation" className="block text-sm font-medium leading-6 text-gray-900">
+          Présentation PowerPoint (optionnelle)
+        </label>
+        <div className="mt-2">
+          <input
+            id="presentation"
+            type="file"
+            accept=".ppt,.pptx,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"
+            {...register('presentation')}
+            onChange={handlePresentationChange}
+            className="block w-full text-sm text-gray-500
+              file:mr-4 file:py-2 file:px-4
+              file:rounded-md file:border-0
+              file:text-sm file:font-semibold
+              file:bg-indigo-50 file:text-indigo-700
+              hover:file:bg-indigo-100"
+          />
+        </div>
+        
+        {presentationUrl && (
+          <div className="mt-2">
+            <p className="text-sm font-medium text-gray-900">Présentation actuelle :</p>
+            <a 
+              href={presentationUrl} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-sm text-indigo-600 hover:text-indigo-500"
+            >
+              Voir la présentation
+            </a>
+          </div>
+        )}
       </div>
       
       <div>
