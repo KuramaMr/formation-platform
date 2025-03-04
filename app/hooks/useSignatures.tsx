@@ -9,7 +9,11 @@ import {
   orderBy, 
   Timestamp,
   addDoc,
-  serverTimestamp
+  serverTimestamp,
+  doc,
+  getDoc,
+  deleteDoc,
+  writeBatch
 } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import jsPDF from 'jspdf';
@@ -939,6 +943,59 @@ export default function useSignatures() {
     }
   };
 
+  // Ajouter cette fonction avant le return
+  const deleteSignature = async (signatureId: string) => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      // Vérifier si la signature existe
+      const signatureRef = doc(db, 'signatures', signatureId);
+      const signatureDoc = await getDoc(signatureRef);
+      
+      if (!signatureDoc.exists()) {
+        throw new Error('Signature non trouvée');
+      }
+      
+      // Supprimer la signature
+      await deleteDoc(signatureRef);
+      return true;
+    } catch (error: any) {
+      console.error("Erreur lors de la suppression de la signature:", error);
+      setError(error.message || 'Une erreur est survenue lors de la suppression de la signature');
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Ajouter cette fonction avant le return
+  const deleteMultipleSignatures = async (signatureIds: string[]) => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      // Utiliser une transaction ou un batch pour supprimer plusieurs documents
+      const batch = writeBatch(db);
+      
+      // Ajouter chaque signature au batch pour suppression
+      signatureIds.forEach(id => {
+        const signatureRef = doc(db, 'signatures', id);
+        batch.delete(signatureRef);
+      });
+      
+      // Exécuter le batch
+      await batch.commit();
+      return true;
+    } catch (error: any) {
+      console.error("Erreur lors de la suppression multiple de signatures:", error);
+      setError(error.message || 'Une erreur est survenue lors de la suppression des signatures');
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     loading,
     error,
@@ -948,6 +1005,8 @@ export default function useSignatures() {
     getSignaturesByDayInPeriod,
     generatePeriodSignaturesPDF,
     addManualSignature,
-    hasSignedToday
+    hasSignedToday,
+    deleteSignature,
+    deleteMultipleSignatures
   };
 } 

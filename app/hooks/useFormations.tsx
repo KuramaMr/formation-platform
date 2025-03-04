@@ -14,7 +14,8 @@ import {
   where, 
   orderBy,
   Timestamp,
-  serverTimestamp
+  serverTimestamp,
+  writeBatch
 } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { useAuth } from '../contexts/AuthContext';
@@ -349,37 +350,170 @@ export default function useFormations() {
       setLoading(true);
       setError(null);
       
-      // Récupérer les IDs des élèves inscrits à la formation
+      // Tableau pour stocker les données des élèves
+      const students = [];
+      
+      // 1. Vérifier la collection "students"
+      console.log("Vérification de la collection 'students'");
       const studentsRef = collection(db, 'students');
-      const q = query(
+      const studentsQuery = query(
         studentsRef,
         where('formationId', '==', formationId)
       );
       
-      const querySnapshot = await getDocs(q);
+      const studentsSnapshot = await getDocs(studentsQuery);
+      console.log("Nombre d'élèves trouvés dans 'students':", studentsSnapshot.size);
       
-      if (querySnapshot.empty) {
-        return [];
-      }
+      // 2. Vérifier la collection "inscriptions"
+      console.log("Vérification de la collection 'inscriptions'");
+      const inscriptionsRef = collection(db, 'inscriptions');
+      const inscriptionsQuery = query(
+        inscriptionsRef,
+        where('formationId', '==', formationId)
+      );
       
-      // Récupérer les informations des élèves
-      const studentIds = querySnapshot.docs.map(doc => doc.data().userId);
-      const students = [];
+      const inscriptionsSnapshot = await getDocs(inscriptionsQuery);
+      console.log("Nombre d'élèves trouvés dans 'inscriptions':", inscriptionsSnapshot.size);
       
-      for (const studentId of studentIds) {
-        const userDoc = await getDoc(doc(db, 'users', studentId));
-        if (userDoc.exists()) {
+      // Traiter les résultats de "students"
+      for (const docSnapshot of studentsSnapshot.docs) {
+        const studentData = docSnapshot.data();
+        const userId = studentData.userId;
+        
+        // Récupérer les données de l'utilisateur
+        const userDocRef = doc(db, 'users', userId);
+        const userDocSnapshot = await getDoc(userDocRef);
+        
+        if (userDocSnapshot.exists()) {
+          const userData = userDocSnapshot.data();
+          
           students.push({
-            id: userDoc.id,
-            ...userDoc.data()
+            id: docSnapshot.id,
+            userId: userId,
+            formationId: formationId,
+            displayName: userData.displayName,
+            email: userData.email,
+            createdAt: studentData.createdAt,
+            source: 'students'
           });
         }
       }
       
+      // Traiter les résultats de "inscriptions"
+      for (const docSnapshot of inscriptionsSnapshot.docs) {
+        const inscriptionData = docSnapshot.data();
+        const userId = inscriptionData.eleveId || inscriptionData.userId;
+        
+        // Vérifier si cet utilisateur n'est pas déjà dans la liste (pour éviter les doublons)
+        if (students.some(s => s.userId === userId)) {
+          continue;
+        }
+        
+        // Récupérer les données de l'utilisateur
+        const userDocRef = doc(db, 'users', userId);
+        const userDocSnapshot = await getDoc(userDocRef);
+        
+        if (userDocSnapshot.exists()) {
+          const userData = userDocSnapshot.data();
+          
+          students.push({
+            id: docSnapshot.id,
+            userId: userId,
+            formationId: formationId,
+            displayName: userData.displayName,
+            email: userData.email,
+            createdAt: inscriptionData.createdAt,
+            source: 'inscriptions'
+          });
+        }
+      }
+      
+      console.log("Total d'élèves trouvés:", students.length);
       return students;
     } catch (error: any) {
+      console.error("Erreur dans getStudentsByFormation:", error);
       setError(error.message || 'Une erreur est survenue lors de la récupération des élèves');
       return [];
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fonction pour désinscrire un élève d'une formation et supprimer toutes ses données associées
+  const desinscrireEleve = async (formationId: string, userId: string) => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      // Référence à la base de données Firestore
+      const batch = writeBatch(db);
+      
+      // 1. Supprimer l'inscription de l'élève (dans la collection "students")
+      const studentsRef = collection(db, 'students');
+      const q = query(
+        studentsRef,
+        where('formationId', '==', formationId),
+        where('userId', '==', userId)
+      );
+      
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        batch.delete(doc.ref);
+      });
+      
+      // 2. Supprimer les signatures de l'élève pour cette formation
+      const signaturesRef = collection(db, 'signatures');
+      const signaturesQuery = query(
+        signaturesRef,
+        where('formationId', '==', formationId),
+        where('userId', '==', userId)
+      );
+      
+      const signaturesSnapshot = await getDocs(signaturesQuery);
+      signaturesSnapshot.forEach((doc) => {
+        batch.delete(doc.ref);
+      });
+      
+      // 3. Supprimer les résultats de quiz de l'élève pour cette formation
+      // D'abord, récupérer tous les cours de la formation
+      const coursRef = collection(db, 'cours');
+      const coursQuery = query(coursRef, where('formationId', '==', formationId));
+      const coursSnapshot = await getDocs(coursQuery);
+      
+      // Récupérer tous les quiz liés à ces cours
+      const coursIds = coursSnapshot.docs.map(doc => doc.id);
+      
+      if (coursIds.length > 0) {
+        const quizRef = collection(db, 'quiz');
+        const quizQuery = query(quizRef, where('coursId', 'in', coursIds));
+        const quizSnapshot = await getDocs(quizQuery);
+        
+        // Récupérer tous les résultats liés à ces quiz
+        const quizIds = quizSnapshot.docs.map(doc => doc.id);
+        
+        if (quizIds.length > 0) {
+          const resultatsRef = collection(db, 'resultats');
+          const resultatsQuery = query(
+            resultatsRef,
+            where('quizId', 'in', quizIds),
+            where('userId', '==', userId)
+          );
+          
+          const resultatsSnapshot = await getDocs(resultatsQuery);
+          resultatsSnapshot.forEach((doc) => {
+            batch.delete(doc.ref);
+          });
+        }
+      }
+      
+      // Exécuter toutes les suppressions en une seule transaction
+      await batch.commit();
+      
+      return true;
+    } catch (error: any) {
+      console.error("Erreur lors de la désinscription de l'élève:", error);
+      setError(error.message || "Une erreur est survenue lors de la désinscription de l'élève");
+      return false;
     } finally {
       setLoading(false);
     }
@@ -397,6 +531,7 @@ export default function useFormations() {
     deleteFormation,
     inscrireEleve,
     estInscrit,
-    getStudentsByFormation
+    getStudentsByFormation,
+    desinscrireEleve
   };
 }

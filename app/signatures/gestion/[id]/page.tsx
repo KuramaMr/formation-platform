@@ -7,6 +7,7 @@ import useFormations from '../../../hooks/useFormations';
 import useSignatures from '../../../hooks/useSignatures';
 import Link from 'next/link';
 import SignatureCanvas from 'react-signature-canvas';
+import { writeBatch } from 'firebase/firestore';
 
 export default function GestionSignaturesFormationPage() {
   const { user, userData, loading: authLoading } = useAuth();
@@ -16,6 +17,8 @@ export default function GestionSignaturesFormationPage() {
     getSignaturesByDayInPeriod,
     generatePeriodSignaturesPDF,
     addManualSignature,
+    deleteSignature,
+    deleteMultipleSignatures,
     loading: signaturesLoading 
   } = useSignatures();
   
@@ -36,6 +39,10 @@ export default function GestionSignaturesFormationPage() {
   const [endDate, setEndDate] = useState('');
   
   const sigCanvas = useRef<SignatureCanvas>(null);
+  
+  // États pour suivre les signatures sélectionnées
+  const [selectedSignatures, setSelectedSignatures] = useState<{[key: string]: boolean}>({});
+  const [selectionMode, setSelectionMode] = useState(false);
   
   useEffect(() => {
     if (authLoading) return;
@@ -176,6 +183,100 @@ export default function GestionSignaturesFormationPage() {
   const clearSignature = () => {
     if (sigCanvas.current) {
       sigCanvas.current.clear();
+    }
+  };
+  
+  const handleDeleteSignature = async (signatureId: string) => {
+    if (!confirm('Êtes-vous sûr de vouloir supprimer cette signature ?')) {
+      return;
+    }
+    
+    try {
+      setLoading(true);
+      const success = await deleteSignature(signatureId);
+      
+      if (success) {
+        // Rafraîchir les données après la suppression
+        if (filterByPeriod && startDate && endDate) {
+          await applyPeriodFilter();
+        } else {
+          const signatures = await getSignaturesByDay(id);
+          setSignaturesByDay(signatures);
+        }
+        alert('Signature supprimée avec succès');
+      } else {
+        alert('Erreur lors de la suppression de la signature');
+      }
+    } catch (error) {
+      console.error('Erreur lors de la suppression:', error);
+      alert('Une erreur est survenue lors de la suppression');
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  // Fonction pour basculer le mode de sélection
+  const toggleSelectionMode = () => {
+    setSelectionMode(!selectionMode);
+    setSelectedSignatures({});
+  };
+  
+  // Fonction pour gérer la sélection d'une signature
+  const toggleSignatureSelection = (signatureId: string) => {
+    setSelectedSignatures(prev => ({
+      ...prev,
+      [signatureId]: !prev[signatureId]
+    }));
+  };
+  
+  // Fonction pour sélectionner/désélectionner toutes les signatures d'un jour
+  const toggleAllSignaturesForDay = (date: string, select: boolean) => {
+    const newSelectedSignatures = { ...selectedSignatures };
+    
+    signaturesByDay[date].forEach((signature: any) => {
+      newSelectedSignatures[signature.id] = select;
+    });
+    
+    setSelectedSignatures(newSelectedSignatures);
+  };
+  
+  // Fonction pour supprimer les signatures sélectionnées
+  const handleDeleteSelectedSignatures = async () => {
+    const selectedIds = Object.entries(selectedSignatures)
+      .filter(([_, isSelected]) => isSelected)
+      .map(([id]) => id);
+    
+    if (selectedIds.length === 0) {
+      alert('Aucune signature sélectionnée');
+      return;
+    }
+    
+    if (!confirm(`Êtes-vous sûr de vouloir supprimer ${selectedIds.length} signature(s) ?`)) {
+      return;
+    }
+    
+    try {
+      setLoading(true);
+      const success = await deleteMultipleSignatures(selectedIds);
+      
+      if (success) {
+        // Rafraîchir les données après la suppression
+        if (filterByPeriod && startDate && endDate) {
+          await applyPeriodFilter();
+        } else {
+          const signatures = await getSignaturesByDay(id);
+          setSignaturesByDay(signatures);
+        }
+        setSelectedSignatures({});
+        alert('Signatures supprimées avec succès');
+      } else {
+        alert('Erreur lors de la suppression des signatures');
+      }
+    } catch (error) {
+      console.error('Erreur lors de la suppression multiple:', error);
+      alert('Une erreur est survenue lors de la suppression');
+    } finally {
+      setLoading(false);
     }
   };
   
@@ -365,46 +466,132 @@ export default function GestionSignaturesFormationPage() {
           </div>
         ) : (
           <div className="space-y-6">
-            {sortedDates.map((date) => {
-              // Formater la date en format français
-              const [year, month, day] = date.split('-');
-              const formattedDate = `${day}/${month}/${year}`;
-              
-              return (
-                <div key={date} className="bg-white shadow overflow-hidden sm:rounded-lg">
-                  <div className="px-4 py-5 sm:px-6">
-                    <h2 className="text-lg leading-6 font-medium text-gray-900">
-                      Signatures du {formattedDate}
-                    </h2>
-                    <p className="mt-1 max-w-2xl text-sm text-gray-500">
+            {/* Ajouter un bouton pour activer/désactiver le mode de sélection */}
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">Signatures par jour</h2>
+              <div className="flex space-x-2">
+                <button
+                  onClick={toggleSelectionMode}
+                  className={`px-3 py-1 text-sm rounded-md ${
+                    selectionMode 
+                      ? 'bg-red-100 text-red-700 border border-red-300' 
+                      : 'bg-gray-100 text-gray-700 border border-gray-300'
+                  }`}
+                >
+                  {selectionMode ? 'Annuler la sélection' : 'Sélectionner plusieurs'}
+                </button>
+                
+                {selectionMode && (
+                  <button
+                    onClick={handleDeleteSelectedSignatures}
+                    className="px-3 py-1 text-sm bg-red-600 text-white rounded-md hover:bg-red-700"
+                    disabled={Object.values(selectedSignatures).filter(Boolean).length === 0}
+                  >
+                    Supprimer la sélection
+                  </button>
+                )}
+              </div>
+            </div>
+            
+            {/* Pour chaque jour */}
+            {sortedDates.map((date) => (
+              <div key={date} className="mb-6 bg-white shadow rounded-lg overflow-hidden">
+                <div className="px-4 py-3 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
+                  <div>
+                    <h3 className="text-lg font-medium text-gray-900">
+                      {new Date(date).toLocaleDateString('fr-FR', { 
+                        weekday: 'long', 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                      })}
+                    </h3>
+                    <p className="text-sm text-gray-500">
                       {signaturesByDay[date].length} signature(s)
                     </p>
                   </div>
                   
-                  <div className="border-t border-gray-200">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
-                      {signaturesByDay[date].map((signature: any) => (
-                        <div key={signature.id} className="border rounded-lg p-4">
-                          <p className="text-sm font-medium text-gray-900 mb-2">
-                            {signature.userName}
-                          </p>
-                          <div className="border rounded-lg overflow-hidden bg-gray-50">
-                            <img 
-                              src={signature.signatureData} 
-                              alt={`Signature de ${signature.userName}`}
-                              className="w-full h-20 object-contain"
+                  {/* Ajouter des contrôles de sélection pour le jour entier */}
+                  {selectionMode && signaturesByDay[date].length > 0 && (
+                    <div className="flex space-x-2">
+                      <button
+                        onClick={() => toggleAllSignaturesForDay(date, true)}
+                        className="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded hover:bg-blue-200"
+                      >
+                        Tout sélectionner
+                      </button>
+                      <button
+                        onClick={() => toggleAllSignaturesForDay(date, false)}
+                        className="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded hover:bg-gray-200"
+                      >
+                        Tout désélectionner
+                      </button>
+                    </div>
+                  )}
+                </div>
+                
+                <div className="border-t border-gray-200">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
+                    {signaturesByDay[date].map((signature: any) => (
+                      <div 
+                        key={signature.id} 
+                        className={`border rounded-lg p-4 ${
+                          selectionMode && selectedSignatures[signature.id] 
+                            ? 'ring-2 ring-blue-500 border-blue-500' 
+                            : ''
+                        }`}
+                        onClick={() => selectionMode && toggleSignatureSelection(signature.id)}
+                      >
+                        {/* Ajouter une case à cocher pour la sélection */}
+                        {selectionMode && (
+                          <div className="flex justify-end mb-2">
+                            <input
+                              type="checkbox"
+                              checked={!!selectedSignatures[signature.id]}
+                              onChange={() => toggleSignatureSelection(signature.id)}
+                              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                              onClick={(e) => e.stopPropagation()}
                             />
                           </div>
-                          <p className="text-xs text-gray-500 mt-2">
+                        )}
+                        
+                        <p className="text-sm font-medium text-gray-900 mb-2">
+                          {signature.userName}
+                        </p>
+                        <div className="border rounded-lg overflow-hidden bg-gray-50">
+                          <img 
+                            src={signature.signatureData} 
+                            alt={`Signature de ${signature.userName}`}
+                            className="w-full h-20 object-contain"
+                          />
+                        </div>
+                        <div className="flex justify-between items-center mt-2">
+                          <p className="text-xs text-gray-500">
                             {new Date(signature.createdAt.toDate()).toLocaleTimeString('fr-FR')}
                           </p>
+                          
+                          {/* Afficher le bouton de suppression uniquement en mode normal */}
+                          {!selectionMode && (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteSignature(signature.id);
+                              }}
+                              className="text-xs text-red-600 hover:text-red-800"
+                              title="Supprimer cette signature"
+                            >
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                              </svg>
+                            </button>
+                          )}
                         </div>
-                      ))}
-                    </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
         )}
         

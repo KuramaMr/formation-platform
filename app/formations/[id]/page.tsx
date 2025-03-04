@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { useAuth } from '../../contexts/AuthContext';
 import useFormations from '../../hooks/useFormations';
 import useCours from '../../hooks/useCours';
+import useSignatures from '../../hooks/useSignatures';
 import { Formation, Cours } from '../../types';
 
 export default function FormationDetails() {
@@ -23,6 +24,7 @@ export default function FormationDetails() {
     loading: coursLoading, 
     error: coursError 
   } = useCours();
+  const { hasSignedToday } = useSignatures();
   
   const router = useRouter();
   const params = useParams();
@@ -34,6 +36,7 @@ export default function FormationDetails() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
+  const [dejaSigneAujourdhui, setDejaSigneAujourdhui] = useState(false);
   
   useEffect(() => {
     setMounted(true);
@@ -42,6 +45,8 @@ export default function FormationDetails() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        if (!user || authLoading) return;
+        
         console.log("Récupération de la formation:", id);
         const formationResult = await getFormationById(id);
         console.log("Formation récupérée:", formationResult);
@@ -61,13 +66,21 @@ export default function FormationDetails() {
         if (user && userData?.role === 'eleve') {
           const inscritResult = await estInscrit(id, user.uid);
           setInscrit(inscritResult);
+          
+          // Vérifier si l'élève a déjà signé aujourd'hui
+          if (inscritResult) {
+            const signatureResult = await hasSignedToday(id, user.uid);
+            setDejaSigneAujourdhui(signatureResult);
+          }
         }
       } catch (error) {
         console.error("Erreur lors de la récupération des données:", error);
       }
     };
     
-    fetchData();
+    if (mounted && !authLoading) {
+      fetchData();
+    }
   }, [mounted, authLoading, user, userData, id, router]);
   
   const handleInscription = async () => {
@@ -155,12 +168,24 @@ export default function FormationDetails() {
                           Vous êtes inscrit à cette formation
                         </div>
                         
-                        <Link
-                          href={`/formations/${formation.id}/signature`}
-                          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700"
-                        >
-                          Signer ma présence
-                        </Link>
+                        {dejaSigneAujourdhui ? (
+                          <button
+                            disabled
+                            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gray-400 cursor-not-allowed"
+                          >
+                            <svg className="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                            </svg>
+                            Présence signée aujourd&apos;hui
+                          </button>
+                        ) : (
+                          <Link
+                            href={`/formations/${formation.id}/signature`}
+                            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700"
+                          >
+                            Signer ma présence
+                          </Link>
+                        )}
                       </div>
                     ) : (
                       <button
@@ -184,17 +209,17 @@ export default function FormationDetails() {
                     </Link>
                     
                     <Link
-                      href={`/formations/gestion/${formation.id}`}
-                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                    >
-                      Gérer la formation
-                    </Link>
-                    
-                    <Link
                       href={`/cours/create?formationId=${formation.id}`}
                       className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
                       Ajouter un cours
+                    </Link>
+                    
+                    <Link
+                      href={`/formations/gestion/${formation.id}`}
+                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    >
+                      Gérer
                     </Link>
                   </div>
                 )}
