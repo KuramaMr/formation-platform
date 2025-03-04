@@ -73,7 +73,9 @@ export default function useFormations() {
       );
       const querySnapshot = await getDocs(q);
       
-      const formations: Formation[] = [];
+      const formations: any[] = [];
+      
+      // D'abord, récupérer toutes les formations
       querySnapshot.forEach((doc) => {
         const data = doc.data();
         formations.push({
@@ -83,9 +85,46 @@ export default function useFormations() {
           image: data.image,
           formateurId: data.formateurId,
           createdAt: data.createdAt,
-          updatedAt: data.updatedAt
+          updatedAt: data.updatedAt,
+          studentCount: 0 // Initialiser à 0
         });
       });
+      
+      // Ensuite, pour chaque formation, compter les élèves
+      for (const formation of formations) {
+        // Compter les élèves dans la collection "students"
+        const studentsRef = collection(db, 'students');
+        const studentsQuery = query(
+          studentsRef,
+          where('formationId', '==', formation.id)
+        );
+        const studentsSnapshot = await getDocs(studentsQuery);
+        
+        // Compter les élèves dans la collection "inscriptions"
+        const inscriptionsRef = collection(db, 'inscriptions');
+        const inscriptionsQuery = query(
+          inscriptionsRef,
+          where('formationId', '==', formation.id)
+        );
+        const inscriptionsSnapshot = await getDocs(inscriptionsQuery);
+        
+        // Éviter les doublons en utilisant un Set d'IDs d'élèves
+        const studentIds = new Set();
+        
+        // Ajouter les IDs des élèves de la collection "students"
+        studentsSnapshot.forEach(doc => {
+          studentIds.add(doc.data().userId);
+        });
+        
+        // Ajouter les IDs des élèves de la collection "inscriptions"
+        inscriptionsSnapshot.forEach(doc => {
+          const userId = doc.data().eleveId || doc.data().userId;
+          studentIds.add(userId);
+        });
+        
+        // Mettre à jour le nombre d'élèves
+        formation.studentCount = studentIds.size;
+      }
       
       return formations;
     } catch (error: any) {

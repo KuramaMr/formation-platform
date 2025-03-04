@@ -764,7 +764,11 @@ export default function useSignatures() {
               
               if (fullDate && signaturesByDay[fullDate]) {
                 // Vérifier si l'étudiant a signé ce jour-là
-                const hasSigned = signaturesByDay[fullDate].some((sig: any) => sig.userId === student.id);
+                const hasSigned = signaturesByDay[fullDate].some((sig: any) => {
+                  // Vérification plus flexible
+                  return sig.userId === student.id || 
+                         sig.userName === (student.displayName || student.email);
+                });
                 
                 if (hasSigned) {
                   status = 'Signé';
