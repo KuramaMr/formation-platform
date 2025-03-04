@@ -80,12 +80,25 @@ export default function FormationForm({ formation, isEditing = false }: Formatio
   };
   
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+    const files = e.target.files;
     
-    if (file) {
+    if (files && files.length > 0) {
+      const file = files[0];
+      
+      // Vérifier que c'est bien une image
+      if (!file.type.startsWith('image/')) {
+        setError("Le fichier sélectionné n'est pas une image valide");
+        setImagePreview(null);
+        return;
+      }
+      
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result as string);
+      };
+      reader.onerror = () => {
+        setError("Erreur lors de la lecture du fichier");
+        setImagePreview(null);
       };
       reader.readAsDataURL(file);
     } else {
@@ -144,8 +157,9 @@ export default function FormationForm({ formation, isEditing = false }: Formatio
             id="image"
             type="file"
             accept="image/*"
-            {...register('image')}
-            onChange={handleImageChange}
+            {...register('image', {
+              onChange: (e) => handleImageChange(e)
+            })}
             className="block w-full text-sm text-gray-500
               file:mr-4 file:py-2 file:px-4
               file:rounded-md file:border-0
