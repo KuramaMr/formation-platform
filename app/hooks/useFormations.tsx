@@ -141,27 +141,65 @@ export default function useFormations() {
       setLoading(true);
       setError(null);
       
-      // Récupérer d'abord les inscriptions de l'élève
-      const inscriptionsRef = collection(db, 'inscriptions');
-      const q = query(inscriptionsRef, where('eleveId', '==', eleveId));
-      const querySnapshot = await getDocs(q);
+      console.log("Récupération des formations pour l'élève:", eleveId);
       
-      const formationIds: string[] = [];
-      querySnapshot.forEach((doc) => {
-        formationIds.push(doc.data().formationId);
+      // Tableau pour stocker les IDs des formations et leurs dates d'inscription
+      const formationInfo: { id: string, dateInscription?: any }[] = [];
+      
+      // 1. Vérifier dans la collection "inscriptions"
+      const inscriptionsRef = collection(db, 'inscriptions');
+      const inscriptionsQuery = query(inscriptionsRef, where('eleveId', '==', eleveId));
+      const inscriptionsSnapshot = await getDocs(inscriptionsQuery);
+      
+      console.log("Inscriptions trouvées:", inscriptionsSnapshot.size);
+      
+      inscriptionsSnapshot.forEach((doc) => {
+        const data = doc.data();
+        formationInfo.push({
+          id: data.formationId,
+          dateInscription: data.createdAt || null
+        });
       });
       
+      // 2. Vérifier également dans la collection "students"
+      const studentsRef = collection(db, 'students');
+      const studentsQuery = query(studentsRef, where('userId', '==', eleveId));
+      const studentsSnapshot = await getDocs(studentsQuery);
+      
+      console.log("Students trouvés:", studentsSnapshot.size);
+      
+      studentsSnapshot.forEach((doc) => {
+        const data = doc.data();
+        formationInfo.push({
+          id: data.formationId,
+          dateInscription: data.createdAt || null
+        });
+      });
+      
+      console.log("Total des formations trouvées:", formationInfo.length);
+      
       // Si aucune inscription, retourner un tableau vide
-      if (formationIds.length === 0) {
+      if (formationInfo.length === 0) {
         return [];
       }
+      
+      // Éliminer les doublons potentiels en gardant la date d'inscription la plus ancienne
+      const formationMap = new Map();
+      formationInfo.forEach(info => {
+        if (!formationMap.has(info.id) || 
+            (info.dateInscription && (!formationMap.get(info.id).dateInscription || 
+             new Date(info.dateInscription) < new Date(formationMap.get(info.id).dateInscription)))) {
+          formationMap.set(info.id, info);
+        }
+      });
       
       // Récupérer les formations correspondantes
       const formations: Formation[] = [];
       
       // Firestore ne permet pas de faire un where('id', 'in', formationIds) directement
       // On doit donc faire une requête pour chaque formation
-      for (const formationId of formationIds) {
+      for (const [formationId, info] of formationMap.entries()) {
+        console.log("Récupération de la formation:", formationId);
         const formationDoc = await getDoc(doc(db, 'formations', formationId));
         if (formationDoc.exists()) {
           const data = formationDoc.data();
@@ -172,13 +210,18 @@ export default function useFormations() {
             image: data.image,
             formateurId: data.formateurId,
             createdAt: data.createdAt,
-            updatedAt: data.updatedAt
+            updatedAt: data.updatedAt,
+            dateInscription: info.dateInscription // Ajouter la date d'inscription
           });
+        } else {
+          console.log("Formation non trouvée:", formationId);
         }
       }
       
+      console.log("Formations récupérées:", formations.length);
       return formations;
     } catch (error: any) {
+      console.error('Erreur lors de la récupération des formations:', error);
       setError(error.message || 'Une erreur est survenue lors de la récupération des formations');
       return [];
     } finally {

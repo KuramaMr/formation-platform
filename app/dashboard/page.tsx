@@ -12,7 +12,7 @@ export default function DashboardPage() {
   const { user, userData, loading: authLoading } = useAuth();
   const { getFormations, getFormationsFormateur, getFormationsEleve } = useFormations();
   const { getCoursByFormation, loading: coursLoading } = useCours();
-  const { getQuizByCours, getResultatsEleve, getQuizzesByFormateur, loading: quizLoading } = useQuiz();
+  const { getQuizByCours, getResultatsEleve, getQuizzesByFormateur, getQuizById, loading: quizLoading } = useQuiz();
   const router = useRouter();
   
   const [formations, setFormations] = useState<any[]>([]);
@@ -57,9 +57,20 @@ export default function DashboardPage() {
           });
         } else if (userData?.role === 'eleve') {
           formationsData = await getFormationsEleve(user.uid);
+          
+          const resultatsData = await getResultatsEleve(user.uid);
+          setResultats(resultatsData);
+          
+          if (resultatsData.length > 0) {
+            const quizIds = [...new Set(resultatsData.map(r => r.quizId))];
+            const quizPromises = quizIds.map(id => getQuizById(id));
+            const quizData = await Promise.all(quizPromises);
+            setQuizzes(quizData.filter(q => q !== null));
+          }
         }
         
-        setFormations(formationsData);
+        console.log("Formations récupérées:", formationsData);
+        setFormations(formationsData || []);
       } catch (error) {
         console.error('Erreur lors de la récupération des données:', error);
       } finally {
@@ -68,7 +79,7 @@ export default function DashboardPage() {
     };
     
     fetchData();
-  }, [user, userData, authLoading, router]);
+  }, [user, userData, authLoading, router, getFormationsFormateur, getFormationsEleve, getQuizzesByFormateur, getResultatsEleve, getQuizById]);
   
   const formatDate = (date: any) => {
     if (!date) return 'Date inconnue';
@@ -259,6 +270,54 @@ export default function DashboardPage() {
                 <p className="text-center text-gray-500">
                   Aucune activité récente.
                 </p>
+              )}
+            </div>
+          )}
+          
+          {userData?.role === 'eleve' && (
+            <div>
+              {resultats && resultats.length > 0 ? (
+                <ul className="space-y-4">
+                  {resultats.slice(0, 5).map((resultat) => {
+                    const quiz = quizzes.find(q => q?.id === resultat.quizId);
+                    return (
+                      <li key={resultat.id} className="flex items-start space-x-3 p-3 hover:bg-gray-50 rounded-md">
+                        <div className="flex-shrink-0 h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
+                          <span className="text-green-600 font-medium text-lg">Q</span>
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between">
+                            <p className="text-sm font-medium text-gray-900">
+                              {quiz ? quiz.titre : 'Quiz inconnu'}
+                            </p>
+                            <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
+                              resultat.score >= 70 ? 'bg-green-100 text-green-800' : 
+                              resultat.score >= 50 ? 'bg-yellow-100 text-yellow-800' : 
+                              'bg-red-100 text-red-800'
+                            }`}>
+                              {resultat.score.toFixed(0)}%
+                            </span>
+                          </div>
+                          <p className="text-sm text-gray-500">
+                            Complété le {formatDate(resultat.completedAt)}
+                          </p>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              ) : (
+                <p className="text-center text-gray-500">
+                  Aucune activité récente. Complétez des quiz pour voir vos résultats ici.
+                </p>
+              )}
+              
+              {resultats.length > 5 && (
+                <div className="mt-4 text-center">
+                  <Link href="/resultats/eleve" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                    Voir tous mes résultats
+                  </Link>
+                </div>
               )}
             </div>
           )}

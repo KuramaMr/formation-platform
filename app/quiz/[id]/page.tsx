@@ -12,7 +12,7 @@ import Link from 'next/link';
 
 export default function QuizPage() {
   const { user, userData, loading: authLoading } = useAuth();
-  const { getQuizById, soumettreResultat, deleteQuiz, deleteQuizResults, loading: quizLoading, error } = useQuiz();
+  const { getQuizById, soumettreResultat, deleteQuiz, deleteQuizResults, aDejaCompleteQuiz, getResultatsEleve, loading: quizLoading, error } = useQuiz();
   const { getCoursById } = useCours();
   const { getFormationById, estInscrit } = useFormations();
   const router = useRouter();
@@ -29,6 +29,8 @@ export default function QuizPage() {
   const [resultat, setResultat] = useState<ResultatQuiz | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [checkingAuth, setCheckingAuth] = useState(true);
+  const [dejaComplete, setDejaComplete] = useState(false);
+  const [ancienResultat, setAncienResultat] = useState<any>(null);
   
   useEffect(() => {
     setMounted(true);
@@ -81,6 +83,19 @@ export default function QuizPage() {
         const inscrit = await estInscrit(formationResult.id, user.uid);
         if (inscrit) {
           setAuthorized(true);
+          
+          // Vérifier si l'élève a déjà complété ce quiz
+          const aDejaFait = await aDejaCompleteQuiz(id, user.uid);
+          setDejaComplete(aDejaFait);
+          
+          if (aDejaFait) {
+            // Récupérer les résultats de l'élève pour ce quiz
+            const resultats = await getResultatsEleve(user.uid);
+            const resultatQuiz = resultats.find(r => r.quizId === id);
+            if (resultatQuiz) {
+              setAncienResultat(resultatQuiz);
+            }
+          }
         }
       }
       
@@ -198,15 +213,82 @@ export default function QuizPage() {
   if (!authorized && !submitting) {
     return (
       <div className="py-10">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-            <strong className="font-bold">Accès refusé :</strong>
-            <span className="block sm:inline"> Vous n&apos;êtes pas autorisé à accéder à ce quiz.</span>
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+            <div className="px-4 py-5 sm:p-6">
+              <h3 className="text-lg leading-6 font-medium text-gray-900">
+                Accès non autorisé
+              </h3>
+              <div className="mt-2 max-w-xl text-sm text-gray-500">
+                <p>
+                  Vous n'êtes pas autorisé à accéder à ce quiz. Veuillez vous inscrire à la formation correspondante.
+                </p>
+              </div>
+              <div className="mt-5">
+                <Link href="/formations" className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  Retour aux formations
+                </Link>
+              </div>
+            </div>
           </div>
-          <div className="mt-4">
-            <Link href="/formations" className="text-indigo-600 hover:text-indigo-800">
-              Retour aux formations
-            </Link>
+        </div>
+      </div>
+    );
+  }
+  
+  if (userData?.role === 'eleve' && dejaComplete && ancienResultat) {
+    return (
+      <div className="py-10">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+            <div className="px-4 py-5 sm:p-6">
+              <div className="flex items-center justify-between">
+                <h1 className="text-2xl font-bold text-gray-900">{quiz.titre}</h1>
+                <span className={`px-3 py-1 text-sm font-semibold rounded-full ${
+                  ancienResultat.score >= 70 ? 'bg-green-100 text-green-800' : 
+                  ancienResultat.score >= 50 ? 'bg-yellow-100 text-yellow-800' : 
+                  'bg-red-100 text-red-800'
+                }`}>
+                  {ancienResultat.score.toFixed(0)}%
+                </span>
+              </div>
+              
+              <div className="mt-4 p-4 border border-yellow-300 bg-yellow-50 rounded-md">
+                <div className="flex">
+                  <div className="flex-shrink-0">
+                    <svg className="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <div className="ml-3">
+                    <h3 className="text-sm font-medium text-yellow-800">Quiz déjà complété</h3>
+                    <div className="mt-2 text-sm text-yellow-700">
+                      <p>
+                        Vous avez déjà complété ce quiz. Vous ne pouvez pas le refaire.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="mt-6">
+                <h3 className="text-lg font-medium text-gray-900">Votre résultat</h3>
+                <div className="mt-2">
+                  <p className="text-sm text-gray-500">
+                    Vous avez obtenu un score de <span className="font-semibold">{ancienResultat.score.toFixed(0)}%</span>.
+                  </p>
+                </div>
+              </div>
+              
+              <div className="mt-6 flex space-x-3">
+                <Link href={`/cours/${cours.id}`} className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  Retour au cours
+                </Link>
+                <Link href="/resultats/eleve" className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  Voir tous mes résultats
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </div>

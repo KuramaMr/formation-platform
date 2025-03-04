@@ -12,7 +12,8 @@ import {
   query, 
   where, 
   orderBy,
-  writeBatch
+  writeBatch,
+  limit
 } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { useAuth } from '../contexts/AuthContext';
@@ -598,6 +599,31 @@ export default function useQuiz() {
     }
   };
 
+  // Vérifier si un élève a déjà complété un quiz
+  const aDejaCompleteQuiz = async (quizId: string, eleveId: string) => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const resultatsRef = collection(db, 'resultats');
+      const q = query(
+        resultatsRef, 
+        where('quizId', '==', quizId),
+        where('eleveId', '==', eleveId),
+        limit(1)
+      );
+      const querySnapshot = await getDocs(q);
+      
+      return !querySnapshot.empty;
+    } catch (error: any) {
+      console.error("Erreur lors de la vérification des résultats:", error);
+      setError(error.message || 'Une erreur est survenue lors de la vérification des résultats');
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     loading,
     error,
@@ -611,6 +637,7 @@ export default function useQuiz() {
     getResultatsQuiz,
     getResultatById,
     deleteQuizResults,
-    getQuizzesByFormateur
+    getQuizzesByFormateur,
+    aDejaCompleteQuiz
   };
 }
