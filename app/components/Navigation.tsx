@@ -41,7 +41,7 @@ export default function Navigation() {
             </Link>
             
             {/* Liens de navigation desktop - Utilisation de classe personnalisée pour 990px */}
-            <div className="hidden max-[990px]:hidden min-[991px]:flex ml-6 space-x-4">
+            <div className="hidden max-[1030px]:hidden min-[1031px]:flex items-center space-x-4 ml-6">
               <Link 
                 href="/" 
                 className={`px-3 py-2 rounded-md text-sm font-medium ${
@@ -106,11 +106,11 @@ export default function Navigation() {
           </div>
           
           {/* Profil et déconnexion - Utilisation de classe personnalisée pour 990px */}
-          <div className="hidden max-[990px]:hidden min-[991px]:flex items-center space-x-3">
+          <div className="hidden max-[1030px]:hidden min-[1031px]:flex items-center space-x-3">
             {user ? (
               <div className="flex items-center space-x-4">
                 <div className="flex items-center">
-                  <div className="bg-indigo-600 h-8 w-8 rounded-full flex items-center justify-center">
+                  <div className="bg-indigo-600 h-8 w-8 rounded-full flex items-center justify-center ml-4">
                     <span className="text-white font-medium">
                       {userData?.displayName?.charAt(0) || user.email?.charAt(0) || '?'}
                     </span>
@@ -154,7 +154,7 @@ export default function Navigation() {
           </div>
           
           {/* Bouton menu mobile - Utilisation de classe personnalisée pour 990px */}
-          <div className="flex min-[991px]:hidden items-center">
+          <div className="flex min-[1030px]:hidden items-center">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none"
@@ -176,7 +176,7 @@ export default function Navigation() {
       
       {/* Menu mobile - Utilisation de classe personnalisée pour 990px */}
       {isMenuOpen && (
-        <div className="min-[991px]:hidden bg-gray-800 pb-3 px-2">
+        <div className="min-[1030px]:hidden bg-gray-800 pb-3 px-2">
           <div className="space-y-1 px-2 pt-2 pb-3">
             <Link 
               href="/" 

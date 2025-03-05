@@ -399,11 +399,11 @@ export default function GestionResultatsPage() {
   
   return (
     <>
-      <div className="py-10">
+      <div className="py-6 sm:py-10">
         <header>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center">
-              <h1 className="text-3xl font-bold leading-tight tracking-tight text-gray-900">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
+              <h1 className="text-2xl sm:text-3xl font-bold leading-tight tracking-tight text-gray-900">
                 Gestion des résultats de quiz
               </h1>
               <button 
@@ -461,7 +461,7 @@ export default function GestionResultatsPage() {
                     alert('Une erreur est survenue lors de la génération du PDF.');
                   }
                 }}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"
+                className="inline-flex items-center px-3 py-2 text-xs sm:text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 w-full sm:w-auto justify-center"
               >
                 Télécharger tous les résultats (PDF)
               </button>
@@ -471,7 +471,7 @@ export default function GestionResultatsPage() {
         
         <main>
           <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div className="px-4 py-8 sm:px-0">
+            <div className="px-4 py-6 sm:py-8 sm:px-0">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">Résultats par élève</h2>
               {Object.keys(resultsByStudent).length === 0 ? (
                 <div className="bg-white shadow rounded-lg p-6">
@@ -479,115 +479,120 @@ export default function GestionResultatsPage() {
                 </div>
               ) : (
                 <div className="bg-white shadow rounded-lg overflow-hidden">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
-                      <tr>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Élève
-                        </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Email
-                        </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Quiz complétés
-                        </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Score moyen
-                        </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Actions
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                      {Object.entries(resultsByStudent).map(([eleveId, data]: [string, any]) => {
-                        const averageScore = data.resultats.reduce((sum: number, r: any) => sum + r.score, 0) / data.resultats.length;
-                        return (
-                          <tr key={eleveId}>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <div className="text-sm font-medium text-gray-900">
-                                {data.eleve.displayName || 'Élève inconnu'}
-                              </div>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <div className="text-sm text-gray-500">
-                                {data.eleve.email || 'Email inconnu'}
-                              </div>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <div className="text-sm text-gray-900">
-                                {data.resultats.length}
-                              </div>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <div className={`text-sm font-semibold ${
-                                averageScore >= 80 ? 'text-green-600' : 
-                                averageScore >= 60 ? 'text-yellow-600' : 
-                                'text-red-600'
-                              }`}>
-                                {averageScore.toFixed(2)}%
-                              </div>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                              <button 
-                                onClick={() => generateStudentPDF(eleveId, data.eleve.displayName || 'Élève inconnu')}
-                                className="text-indigo-600 hover:text-indigo-900"
-                              >
-                                Télécharger PDF
-                              </button>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-gray-200">
+                      <thead className="bg-gray-50">
+                        <tr>
+                          <th scope="col" className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Élève
+                          </th>
+                          <th scope="col" className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
+                            Email
+                          </th>
+                          <th scope="col" className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Quiz
+                          </th>
+                          <th scope="col" className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Score
+                          </th>
+                          <th scope="col" className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Actions
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="bg-white divide-y divide-gray-200">
+                        {Object.entries(resultsByStudent).map(([eleveId, data]: [string, any]) => {
+                          const averageScore = data.resultats.reduce((sum: number, r: any) => sum + r.score, 0) / data.resultats.length;
+                          return (
+                            <tr key={eleveId}>
+                              <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
+                                <div className="text-sm font-medium text-gray-900">
+                                  {data.eleve.displayName || 'Élève inconnu'}
+                                </div>
+                                <div className="text-xs text-gray-500 sm:hidden">
+                                  {data.eleve.email || 'Email inconnu'}
+                                </div>
+                              </td>
+                              <td className="px-4 sm:px-6 py-4 whitespace-nowrap hidden sm:table-cell">
+                                <div className="text-sm text-gray-500">
+                                  {data.eleve.email || 'Email inconnu'}
+                                </div>
+                              </td>
+                              <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
+                                <div className="text-sm text-gray-900">
+                                  {data.resultats.length}
+                                </div>
+                              </td>
+                              <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
+                                <div className={`text-sm font-semibold ${
+                                  averageScore >= 80 ? 'text-green-600' : 
+                                  averageScore >= 60 ? 'text-yellow-600' : 
+                                  'text-red-600'
+                                }`}>
+                                  {averageScore.toFixed(2)}%
+                                </div>
+                              </td>
+                              <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <button 
+                                  onClick={() => generateStudentPDF(eleveId, data.eleve.displayName || 'Élève inconnu')}
+                                  className="text-indigo-600 hover:text-indigo-900"
+                                >
+                                  PDF
+                                </button>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               )}
             </div>
             
-            <div className="px-4 py-8 sm:px-0">
+            <div className="px-4 py-6 sm:py-8 sm:px-0">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">Résultats par quiz</h2>
               {Object.keys(resultsByQuiz).length === 0 ? (
                 <div className="bg-white shadow rounded-lg p-6">
                   <p className="text-gray-500">Aucun résultat trouvé.</p>
                 </div>
               ) : (
-                <div className="space-y-8">
+                <div className="space-y-6 sm:space-y-8">
                   {Object.entries(resultsByQuiz).map(([quizId, quizResults]) => {
                     const typedResults = quizResults as any[];
                     return (
                       <div key={quizId} className="bg-white shadow rounded-lg overflow-hidden">
-                        <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                        <div className="px-4 sm:px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
                           <div>
-                            <h2 className="text-xl font-semibold text-gray-800">
+                            <h2 className="text-lg sm:text-xl font-semibold text-gray-800">
                               {typedResults[0].quiz ? typedResults[0].quiz.titre : 'Quiz non trouvé'}
                             </h2>
                             <p className="text-sm text-gray-500">
                               {typedResults.length} résultat(s)
                             </p>
                           </div>
-                          <div className="flex space-x-2">
+                          <div className="flex flex-wrap gap-2 w-full sm:w-auto">
                             {typedResults[0].quiz && (
                               <>
                                 <Link 
                                   href={`/quiz/${quizId}`}
-                                  className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                  className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs sm:text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 flex-1 sm:flex-none justify-center"
                                 >
                                   Voir le quiz
                                 </Link>
                                 <button 
                                   onClick={() => generateQuizPDF(quizId, typedResults)}
-                                  className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                                  className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs sm:text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 flex-1 sm:flex-none justify-center"
                                 >
-                                  Télécharger PDF
+                                  PDF
                                 </button>
                               </>
                             )}
                             <button 
                               onClick={() => handleDeleteQuizResults(quizId)}
-                              className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                              className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs sm:text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 flex-1 sm:flex-none justify-center"
                             >
-                              Supprimer tous les résultats
+                              Supprimer
                             </button>
                           </div>
                         </div>
@@ -595,16 +600,16 @@ export default function GestionResultatsPage() {
                           <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
                               <tr>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th scope="col" className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                   Élève
                                 </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th scope="col" className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                   Score
                                 </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th scope="col" className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
                                   Date
                                 </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th scope="col" className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                   Actions
                                 </th>
                               </tr>
@@ -612,19 +617,22 @@ export default function GestionResultatsPage() {
                             <tbody className="bg-white divide-y divide-gray-200">
                               {typedResults.map((resultat) => (
                                 <tr key={resultat.id}>
-                                  <td className="px-6 py-4 whitespace-nowrap">
+                                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
                                     <div className="flex items-center">
                                       <div>
                                         <div className="text-sm font-medium text-gray-900">
                                           {resultat.eleve ? resultat.eleve.displayName : 'Élève inconnu'}
                                         </div>
-                                        <div className="text-sm text-gray-500">
+                                        <div className="text-xs text-gray-500">
                                           {resultat.eleve ? resultat.eleve.email : 'Email inconnu'}
+                                        </div>
+                                        <div className="text-xs text-gray-500 sm:hidden">
+                                          {new Date(resultat.completedAt).toLocaleDateString()}
                                         </div>
                                       </div>
                                     </div>
                                   </td>
-                                  <td className="px-6 py-4 whitespace-nowrap">
+                                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
                                     <div className={`text-sm font-semibold ${
                                       resultat.score >= 80 ? 'text-green-600' : 
                                       resultat.score >= 60 ? 'text-yellow-600' : 
@@ -633,10 +641,10 @@ export default function GestionResultatsPage() {
                                       {resultat.score.toFixed(2)}%
                                     </div>
                                   </td>
-                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500 hidden sm:table-cell">
                                     {new Date(resultat.completedAt).toLocaleString()}
                                   </td>
-                                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <button 
                                       onClick={() => handleDeleteResult(resultat.id)}
                                       className="text-red-600 hover:text-red-900"

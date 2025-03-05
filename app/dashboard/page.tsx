@@ -11,7 +11,7 @@ import useQuiz from '../hooks/useQuiz';
 export default function DashboardPage() {
   const { user, userData, loading: authLoading } = useAuth();
   const { getFormations, getFormationsFormateur, getFormationsEleve } = useFormations();
-  const { getCoursByFormation, loading: coursLoading } = useCours();
+  const { getCoursByFormation, loading: coursLoading, getCoursById } = useCours();
   const { getQuizByCours, getResultatsEleve, getQuizzesByFormateur, getQuizById, loading: quizLoading } = useQuiz();
   const router = useRouter();
   
@@ -43,7 +43,30 @@ export default function DashboardPage() {
           formationsData = await getFormationsFormateur(user.uid);
           
           const quizzesData = await getQuizzesByFormateur(user.uid);
-          setQuizzes(quizzesData);
+          
+          // Enrichir les quiz avec les informations de cours et formation
+          const enrichedQuizzes = [];
+          for (const quiz of quizzesData) {
+            const cours = await getCoursById(quiz.coursId);
+            if (cours) {
+              const formation = formationsData.find(f => f.id === cours.formationId);
+              enrichedQuizzes.push({
+                ...quiz,
+                coursTitle: cours.titre,
+                formationTitle: formation ? formation.titre : 'Sans formation',
+                formationId: cours.formationId
+              });
+            } else {
+              enrichedQuizzes.push({
+                ...quiz,
+                coursTitle: 'Cours inconnu',
+                formationTitle: 'Sans formation',
+                formationId: null
+              });
+            }
+          }
+          
+          setQuizzes(enrichedQuizzes);
           
           const totalStudents = formationsData.reduce((acc, formation) => {
             return acc + (formation.studentCount || 0);
@@ -78,7 +101,7 @@ export default function DashboardPage() {
     };
     
     fetchData();
-  }, [user, userData, authLoading, router, getFormationsFormateur, getFormationsEleve, getQuizzesByFormateur, getResultatsEleve, getQuizById]);
+  }, [user, userData, authLoading, router, getFormationsFormateur, getFormationsEleve, getQuizzesByFormateur, getResultatsEleve, getQuizById, getCoursById]);
   
   const formatDate = (date: any) => {
     if (!date) return 'Date inconnue';
@@ -438,7 +461,7 @@ export default function DashboardPage() {
                       </div>
                       <div className="ml-2 flex-shrink-0 flex">
                         <p className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                          {'Sans formation'}
+                          {quiz.formationTitle || 'Sans formation'}
                         </p>
                       </div>
                     </div>

@@ -292,17 +292,17 @@ export default function GestionSignaturesFormationPage() {
   const sortedDates = Object.keys(signaturesByDay).sort().reverse();
   
   return (
-    <div className="py-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">
-            Signatures - {formation?.titre}
+    <div className="py-6 sm:py-10">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 mb-6">
+          <h1 className="text-2xl sm:text-3xl font-bold leading-tight tracking-tight text-gray-900">
+            Signatures pour {formation?.titre || 'la formation'}
           </h1>
           
-          <div className="flex space-x-3">
+          <div className="flex flex-wrap gap-2 w-full sm:w-auto">
             <button
               onClick={() => setShowSignaturePad(true)}
-              className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50"
+              className="inline-flex items-center px-3 py-2 border border-gray-300 text-xs sm:text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 flex-1 sm:flex-none justify-center"
             >
               Ajouter une signature
             </button>
@@ -310,14 +310,14 @@ export default function GestionSignaturesFormationPage() {
             <button
               onClick={handleGenerateCalendarPDF}
               disabled={signaturesLoading || Object.keys(signaturesByDay).length === 0}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 disabled:bg-green-300"
+              className="inline-flex items-center px-3 py-2 border border-transparent text-xs sm:text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 disabled:bg-green-300 flex-1 sm:flex-none justify-center"
             >
-              {signaturesLoading ? 'Génération...' : 'Télécharger le tableau de signatures'}
+              {signaturesLoading ? 'Génération...' : 'PDF'}
             </button>
             
             <Link
               href="/signatures/gestion"
-              className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50"
+              className="inline-flex items-center px-3 py-2 border border-gray-300 text-xs sm:text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 flex-1 sm:flex-none justify-center"
             >
               Retour
             </Link>
@@ -325,7 +325,7 @@ export default function GestionSignaturesFormationPage() {
         </div>
         
         {/* Filtre par période */}
-        <div className="mb-6 bg-white shadow overflow-hidden sm:rounded-lg p-6">
+        <div className="mb-6 bg-white shadow overflow-hidden sm:rounded-lg p-4 sm:p-6">
           <div className="flex items-center mb-4">
             <input
               type="checkbox"
@@ -340,7 +340,7 @@ export default function GestionSignaturesFormationPage() {
           </div>
           
           {filterByPeriod && (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               <div>
                 <label htmlFor="startDate" className="block text-sm font-medium text-gray-700">
                   Date de début
@@ -370,7 +370,7 @@ export default function GestionSignaturesFormationPage() {
               <div className="flex items-end">
                 <button
                   onClick={applyPeriodFilter}
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"
+                  className="inline-flex items-center px-3 py-2 border border-transparent text-xs sm:text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 w-full sm:w-auto justify-center"
                 >
                   Appliquer le filtre
                 </button>
@@ -380,7 +380,7 @@ export default function GestionSignaturesFormationPage() {
         </div>
         
         {showSignaturePad && (
-          <div className="mb-6 bg-white shadow overflow-hidden sm:rounded-lg p-6">
+          <div className="mb-6 bg-white shadow overflow-hidden sm:rounded-lg p-4 sm:p-6">
             <h2 className="text-lg font-medium text-gray-900 mb-4">Ajouter une signature</h2>
             
             <div className="mb-4">
@@ -415,24 +415,24 @@ export default function GestionSignaturesFormationPage() {
               />
             </div>
             
-            <div className="flex space-x-3">
+            <div className="flex flex-wrap gap-2">
               <button
                 onClick={clearSignature}
-                className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50"
+                className="inline-flex items-center px-3 py-2 border border-gray-300 text-xs sm:text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 flex-1 sm:flex-none justify-center"
               >
                 Effacer
               </button>
               
               <button
                 onClick={handleAddSignature}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"
+                className="inline-flex items-center px-3 py-2 border border-transparent text-xs sm:text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 flex-1 sm:flex-none justify-center"
               >
-                Enregistrer la signature
+                Enregistrer
               </button>
               
               <button
                 onClick={() => setShowSignaturePad(false)}
-                className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50"
+                className="inline-flex items-center px-3 py-2 border border-gray-300 text-xs sm:text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 flex-1 sm:flex-none justify-center"
               >
                 Annuler
               </button>
@@ -459,7 +459,7 @@ export default function GestionSignaturesFormationPage() {
         )}
         
         {sortedDates.length === 0 ? (
-          <div className="bg-white shadow overflow-hidden sm:rounded-lg p-6">
+          <div className="bg-white shadow overflow-hidden sm:rounded-lg p-4 sm:p-6">
             <p className="text-gray-500">
               Aucune signature n&apos;a été enregistrée pour cette {filterByPeriod ? 'période' : 'formation'}.
             </p>
@@ -467,27 +467,27 @@ export default function GestionSignaturesFormationPage() {
         ) : (
           <div className="space-y-6">
             {/* Ajouter un bouton pour activer/désactiver le mode de sélection */}
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0 mb-4">
               <h2 className="text-xl font-semibold">Signatures par jour</h2>
-              <div className="flex space-x-2">
+              <div className="flex gap-2 w-full sm:w-auto">
                 <button
                   onClick={toggleSelectionMode}
-                  className={`px-3 py-1 text-sm rounded-md ${
+                  className={`px-3 py-1 text-xs sm:text-sm rounded-md flex-1 sm:flex-none justify-center ${
                     selectionMode 
                       ? 'bg-red-100 text-red-700 border border-red-300' 
                       : 'bg-gray-100 text-gray-700 border border-gray-300'
                   }`}
                 >
-                  {selectionMode ? 'Annuler la sélection' : 'Sélectionner plusieurs'}
+                  {selectionMode ? 'Annuler' : 'Sélectionner'}
                 </button>
                 
                 {selectionMode && (
                   <button
                     onClick={handleDeleteSelectedSignatures}
-                    className="px-3 py-1 text-sm bg-red-600 text-white rounded-md hover:bg-red-700"
+                    className="px-3 py-1 text-xs sm:text-sm bg-red-600 text-white rounded-md hover:bg-red-700 flex-1 sm:flex-none justify-center"
                     disabled={Object.values(selectedSignatures).filter(Boolean).length === 0}
                   >
-                    Supprimer la sélection
+                    Supprimer sélection
                   </button>
                 )}
               </div>
@@ -496,9 +496,9 @@ export default function GestionSignaturesFormationPage() {
             {/* Pour chaque jour */}
             {sortedDates.map((date) => (
               <div key={date} className="mb-6 bg-white shadow rounded-lg overflow-hidden">
-                <div className="px-4 py-3 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
+                <div className="px-4 py-3 bg-gray-50 border-b border-gray-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0">
                   <div>
-                    <h3 className="text-lg font-medium text-gray-900">
+                    <h3 className="text-base sm:text-lg font-medium text-gray-900">
                       {new Date(date).toLocaleDateString('fr-FR', { 
                         weekday: 'long', 
                         year: 'numeric', 
@@ -513,16 +513,16 @@ export default function GestionSignaturesFormationPage() {
                   
                   {/* Ajouter des contrôles de sélection pour le jour entier */}
                   {selectionMode && signaturesByDay[date].length > 0 && (
-                    <div className="flex space-x-2">
+                    <div className="flex gap-2 w-full sm:w-auto">
                       <button
                         onClick={() => toggleAllSignaturesForDay(date, true)}
-                        className="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded hover:bg-blue-200"
+                        className="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded hover:bg-blue-200 flex-1 sm:flex-none justify-center"
                       >
                         Tout sélectionner
                       </button>
                       <button
                         onClick={() => toggleAllSignaturesForDay(date, false)}
-                        className="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded hover:bg-gray-200"
+                        className="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded hover:bg-gray-200 flex-1 sm:flex-none justify-center"
                       >
                         Tout désélectionner
                       </button>
@@ -610,8 +610,8 @@ export default function GestionSignaturesFormationPage() {
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Nom de l&apos;élève
+                    <th scope="col" className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Élève
                     </th>
                     {sortedDates.map((date) => {
                       // Formater la date en format français
@@ -619,7 +619,7 @@ export default function GestionSignaturesFormationPage() {
                       const formattedDate = `${day}/${month}`;
                       
                       return (
-                        <th key={date} scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th key={date} scope="col" className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                           {formattedDate}
                         </th>
                       );
@@ -629,7 +629,7 @@ export default function GestionSignaturesFormationPage() {
                 <tbody className="bg-white divide-y divide-gray-200">
                   {students.map((student) => (
                     <tr key={student.id}>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                         {student.displayName || student.email}
                       </td>
                       
@@ -641,7 +641,7 @@ export default function GestionSignaturesFormationPage() {
                         );
                         
                         return (
-                          <td key={`${student.id}-${date}`} className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          <td key={`${student.id}-${date}`} className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {hasSigned ? (
                               <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                 ✓
