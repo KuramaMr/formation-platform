@@ -385,7 +385,6 @@ export default function GestionResultatsPage() {
           }
           
           const quizData = quizDoc.data();
-          console.log("Quiz data:", quizData);
           
           // Vérifier si les questions sont dans le document du quiz
           if (!quizData.questions || !Array.isArray(quizData.questions) || quizData.questions.length === 0) {
@@ -398,7 +397,6 @@ export default function GestionResultatsPage() {
           
           // Récupérer les réponses de l'élève depuis le résultat
           const reponsesEleve = resultat.reponses || {};
-          console.log("Réponses élève:", reponsesEleve);
           
           // Afficher chaque question
           for (let i = 0; i < quizData.questions.length; i++) {
