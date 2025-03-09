@@ -113,14 +113,15 @@ export default function CoursDetails() {
       </div>
     );
   }
-  
+   
   return (
-    <div className="py-10">
+    <div className="py-10">*
+    
       <header>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h1 className="text-3xl font-bold leading-tight tracking-tight text-gray-900">
+              <h1 className="text-2xl sm:text-3xl font-bold leading-tight tracking-tight text-gray-900">
                 {cours.titre}
               </h1>
               <p className="mt-1 text-sm text-gray-500">
@@ -129,10 +130,10 @@ export default function CoursDetails() {
             </div>
             
             {isFormateur && (
-              <div className="mt-4 sm:mt-0 flex space-x-3">
+              <div className="mt-4 sm:mt-0 flex flex-wrap gap-2 sm:space-x-3">
                 <Link
                   href={`/cours/edit/${cours.id}`}
-                  className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                   Modifier
                 </Link>
@@ -140,14 +141,14 @@ export default function CoursDetails() {
                 <button
                   onClick={handleDelete}
                   disabled={loading}
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:bg-red-300"
+                  className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:bg-red-300"
                 >
                   {loading ? 'Chargement...' : 'Supprimer'}
                 </button>
                 
                 <Link
                   href={`/quiz/create?coursId=${cours.id}`}
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                  className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                 >
                   Ajouter un quiz
                 </Link>
@@ -165,15 +166,15 @@ export default function CoursDetails() {
             </div>
           )}
           
-          <div className="px-4 py-8 sm:px-0">
-            <div className="bg-white shadow rounded-lg p-6">
-              <div className="prose max-w-none">
+          <div className="px-2 sm:px-4 py-6 sm:py-8 sm:px-0">
+            <div className="bg-white shadow rounded-lg p-3 sm:p-6">
+              <div className="prose prose-sm sm:prose max-w-none overflow-x-auto">
                 <div dangerouslySetInnerHTML={{ __html: cours.contenu }} />
               </div>
               
               {cours.presentationUrl && (
-                <div className="mt-8">
-                  <h3 className="text-lg font-medium leading-6 text-gray-900 mb-4">
+                <div className="mt-6 sm:mt-8">
+                  <h3 className="text-lg font-medium leading-6 text-gray-900 mb-3 sm:mb-4">
                     Présentation PowerPoint
                   </h3>
                   <div className="aspect-[16/9] w-full relative">
@@ -186,7 +187,7 @@ export default function CoursDetails() {
                       width="100%"
                       height="100%"
                       frameBorder="0"
-                      className="min-h-[500px] relative z-10"
+                      className="min-h-[300px] sm:min-h-[500px] relative z-10"
                       loading="lazy"
                       onLoad={(e) => {
                         if (e.target.parentElement) {
@@ -210,8 +211,8 @@ export default function CoursDetails() {
               )}
             </div>
             
-            <div className="mt-8">
-              <h2 className="text-2xl font-bold leading-tight tracking-tight text-gray-900">
+            <div className="mt-6 sm:mt-8">
+              <h2 className="text-xl sm:text-2xl font-bold leading-tight tracking-tight text-gray-900">
                 Quiz
               </h2>
               
@@ -220,7 +221,7 @@ export default function CoursDetails() {
                   <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-500"></div>
                 </div>
               ) : quiz.length === 0 ? (
-                <div className="mt-4 bg-white shadow rounded-lg p-6">
+                <div className="mt-4 bg-white shadow rounded-lg p-4 sm:p-6">
                   <p className="text-gray-500">
                     Aucun quiz disponible pour ce cours.
                   </p>
@@ -229,7 +230,7 @@ export default function CoursDetails() {
                     <div className="mt-4">
                       <Link
                         href={`/quiz/create?coursId=${cours.id}`}
-                        className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                       >
                         Créer un quiz
                       </Link>
@@ -237,20 +238,20 @@ export default function CoursDetails() {
                   )}
                 </div>
               ) : (
-                <div className="mt-4 space-y-4">
+                <div className="mt-4 space-y-3 sm:space-y-4">
                   {quiz.map((q) => (
-                    <div key={q.id} className="bg-white shadow rounded-lg p-6">
-                      <h3 className="text-lg font-medium leading-6 text-gray-900">
+                    <div key={q.id} className="bg-white shadow rounded-lg p-4 sm:p-6">
+                      <h3 className="text-base sm:text-lg font-medium leading-6 text-gray-900">
                         {q.titre}
                       </h3>
                       <p className="mt-1 text-sm text-gray-500">
                         {q.description}
                       </p>
                       
-                      <div className="mt-4 flex space-x-3">
+                      <div className="mt-4 flex flex-wrap gap-2 sm:space-x-3">
                         <Link
                           href={`/quiz/${q.id}`}
-                          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                          className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
                           {isFormateur ? 'Voir le quiz' : 'Passer le quiz'}
                         </Link>
@@ -258,7 +259,7 @@ export default function CoursDetails() {
                         {isFormateur && (
                           <Link
                             href={`/quiz/edit/${q.id}`}
-                            className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                           >
                             Modifier
                           </Link>

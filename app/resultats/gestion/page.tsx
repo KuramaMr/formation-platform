@@ -324,18 +324,18 @@ export default function GestionResultatsPage() {
       const autoTable = autoTableModule.autoTable;
       
       // Créer un nouveau document PDF
-      const doc = new jsPDF();
+      const pdfDoc = new jsPDF();
       
       // Ajouter le titre et les informations
-      doc.setFontSize(18);
-      doc.text(`Résultats de l'élève: ${eleveNom}`, 14, 20);
+      pdfDoc.setFontSize(18);
+      pdfDoc.text(`Résultats de l'élève: ${eleveNom}`, 14, 20);
       
-      doc.setFontSize(12);
-      doc.text(`Email: ${eleveResultats[0].eleve?.email || 'Email inconnu'}`, 14, 30);
-      doc.text(`Nombre de quiz complétés: ${eleveResultats.length}`, 14, 37);
+      pdfDoc.setFontSize(12);
+      pdfDoc.text(`Email: ${eleveResultats[0].eleve?.email || 'Email inconnu'}`, 14, 30);
+      pdfDoc.text(`Nombre de quiz complétés: ${eleveResultats.length}`, 14, 37);
       
       const averageScore = eleveResultats.reduce((sum, result) => sum + result.score, 0) / eleveResultats.length;
-      doc.text(`Score moyen: ${averageScore.toFixed(2)}%`, 14, 44);
+      pdfDoc.text(`Score moyen: ${averageScore.toFixed(2)}%`, 14, 44);
       
       // Créer le tableau des résultats
       const tableColumn = ["Quiz", "Score", "Date de complétion"];
@@ -346,7 +346,7 @@ export default function GestionResultatsPage() {
       ]);
       
       // Ajouter le tableau au document - utiliser autoTable comme fonction
-      autoTable(doc, {
+      autoTable(pdfDoc, {
         head: [tableColumn],
         body: tableRows,
         startY: 51,
@@ -355,8 +355,162 @@ export default function GestionResultatsPage() {
         headStyles: { fillColor: [66, 66, 66] }
       });
       
+      // Ajouter les détails des questions et réponses pour chaque quiz
+      let yPosition = pdfDoc.lastAutoTable.finalY + 15;
+      
+      // Pour chaque résultat de quiz
+      for (const resultat of eleveResultats) {
+        // Vérifier si on a besoin d'une nouvelle page
+        if (yPosition > 250) {
+          pdfDoc.addPage();
+          yPosition = 20;
+        }
+        
+        // Titre du quiz
+        pdfDoc.setFontSize(14);
+        pdfDoc.setFont(undefined, 'bold');
+        pdfDoc.text(`Quiz: ${resultat.quiz?.titre || 'Quiz non trouvé'}`, 14, yPosition);
+        yPosition += 10;
+        
+        try {
+          // Récupérer les détails du quiz directement
+          const quizDoc = await getDoc(doc(db, 'quiz', resultat.quizId));
+          
+          if (!quizDoc.exists()) {
+            pdfDoc.setFontSize(11);
+            pdfDoc.setFont(undefined, 'normal');
+            pdfDoc.text('Détails du quiz non disponibles.', 14, yPosition);
+            yPosition += 10;
+            continue;
+          }
+          
+          const quizData = quizDoc.data();
+          console.log("Quiz data:", quizData);
+          
+          // Vérifier si les questions sont dans le document du quiz
+          if (!quizData.questions || !Array.isArray(quizData.questions) || quizData.questions.length === 0) {
+            pdfDoc.setFontSize(11);
+            pdfDoc.setFont(undefined, 'normal');
+            pdfDoc.text('Aucune question trouvée pour ce quiz.', 14, yPosition);
+            yPosition += 10;
+            continue;
+          }
+          
+          // Récupérer les réponses de l'élève depuis le résultat
+          const reponsesEleve = resultat.reponses || {};
+          console.log("Réponses élève:", reponsesEleve);
+          
+          // Afficher chaque question
+          for (let i = 0; i < quizData.questions.length; i++) {
+            const question = quizData.questions[i];
+            
+            // Vérifier si on a besoin d'une nouvelle page
+            if (yPosition > 270) {
+              pdfDoc.addPage();
+              yPosition = 20;
+            }
+            
+            // Question
+            pdfDoc.setFontSize(11);
+            pdfDoc.setFont(undefined, 'bold');
+            pdfDoc.text(`Question ${i+1}: ${question.texte || 'Question non disponible'}`, 14, yPosition);
+            yPosition += 7;
+            
+            // Options (choix possibles)
+            if (question.options && Array.isArray(question.options)) {
+              pdfDoc.setFont(undefined, 'normal');
+              pdfDoc.text('Options:', 20, yPosition);
+              yPosition += 5;
+              
+              for (let j = 0; j < question.options.length; j++) {
+                const option = question.options[j];
+                // Vérifier si l'option est un objet ou une chaîne
+                const optionText = typeof option === 'object' ? option.text || `Option ${j}` : option;
+                pdfDoc.text(`${j}: ${optionText}`, 25, yPosition);
+                yPosition += 5;
+              }
+              yPosition += 2;
+            }
+            
+            // Réponse de l'élève
+            pdfDoc.setFont(undefined, 'normal');
+            
+            // Essayer de trouver la réponse de l'élève
+            let reponseEleve = "Réponse non disponible";
+            let estCorrect = false;
+            
+            // Vérifier si nous avons la réponse de l'élève pour cette question
+            if (question.id && reponsesEleve[question.id] !== undefined) {
+              const reponseValue = reponsesEleve[question.id];
+              
+              // Convertir la réponse en texte
+              if (Array.isArray(reponseValue)) {
+                reponseEleve = reponseValue.join(', ');
+              } else {
+                reponseEleve = reponseValue.toString();
+              }
+              
+              // Vérifier si la réponse est correcte
+              if (question.reponseCorrecte !== undefined) {
+                if (Array.isArray(question.reponseCorrecte)) {
+                  // Pour les questions à choix multiples
+                  const reponseEleveArray = Array.isArray(reponseValue) ? reponseValue : [reponseValue];
+                  estCorrect = JSON.stringify(reponseEleveArray.sort()) === JSON.stringify(question.reponseCorrecte.sort());
+                } else {
+                  // Pour les questions à choix unique
+                  estCorrect = reponseValue.toString() === question.reponseCorrecte.toString();
+                }
+              }
+            }
+            
+            // Afficher la réponse de l'élève avec la couleur appropriée
+            pdfDoc.setTextColor(estCorrect ? 0 : 255, estCorrect ? 128 : 0, 0);
+            pdfDoc.text(`Réponse de l'élève: ${reponseEleve}`, 20, yPosition);
+            yPosition += 7;
+            
+            // Réinitialiser la couleur pour le texte normal
+            pdfDoc.setTextColor(0, 0, 0);
+            
+            // Réponse correcte
+            if (question.reponseCorrecte !== undefined) {
+              let reponseCorrecteTexte = '';
+              
+              if (Array.isArray(question.reponseCorrecte)) {
+                reponseCorrecteTexte = question.reponseCorrecte.join(', ');
+              } else {
+                reponseCorrecteTexte = question.reponseCorrecte.toString();
+              }
+              
+              // Afficher la réponse correcte en vert
+              pdfDoc.setTextColor(0, 128, 0);
+              pdfDoc.text(`Réponse correcte: ${reponseCorrecteTexte}`, 20, yPosition);
+              pdfDoc.setTextColor(0, 0, 0); // Réinitialiser la couleur
+              yPosition += 7;
+            }
+            
+            // Statut (correct/incorrect) avec couleur et style plus visible
+            pdfDoc.setFillColor(estCorrect ? 220 : 255, estCorrect ? 255 : 220, estCorrect ? 220 : 220);
+            pdfDoc.rect(20, yPosition - 5, 50, 7, 'F');
+            pdfDoc.setTextColor(estCorrect ? 0 : 255, estCorrect ? 128 : 0, 0);
+            pdfDoc.setFont(undefined, 'bold');
+            pdfDoc.text(`Statut: ${estCorrect ? 'Correct' : 'Incorrect'}`, 22, yPosition);
+            pdfDoc.setFont(undefined, 'normal');
+            pdfDoc.setTextColor(0, 0, 0); // Réinitialiser la couleur
+            yPosition += 10;
+          }
+        } catch (error) {
+          console.error("Erreur lors de la récupération des détails:", error);
+          pdfDoc.setFontSize(11);
+          pdfDoc.setFont(undefined, 'normal');
+          pdfDoc.text('Erreur lors de la récupération des détails pour ce quiz.', 14, yPosition);
+          yPosition += 10;
+        }
+        
+        yPosition += 10; // Espace entre les quiz
+      }
+      
       // Enregistrer le PDF
-      doc.save(`resultats_eleve_${eleveId}.pdf`);
+      pdfDoc.save(`resultats_eleve_${eleveId}.pdf`);
       
     } catch (error) {
       console.error("Erreur lors de la génération du PDF:", error);
