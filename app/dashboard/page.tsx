@@ -175,102 +175,100 @@ export default function DashboardPage() {
         </div>
       </div>
       
-      {userData?.role === 'formateur' && (
-        <div className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          <div className="bg-white overflow-hidden shadow rounded-lg">
-            <div className="p-5">
-              <div className="flex items-center">
-                <div className="flex-shrink-0 bg-indigo-100 rounded-md p-3">
-                  <svg className="h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                  </svg>
-                </div>
-                <div className="ml-5 w-0 flex-1">
-                  <dl>
-                    <dt className="text-sm font-medium text-gray-500 truncate">
-                      Formations
-                    </dt>
-                    <dd>
-                      <div className="text-lg font-medium text-gray-900">
-                        {stats.totalFormations}
-                      </div>
-                    </dd>
-                  </dl>
-                </div>
+      <div className="grid grid-cols-1 xxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
+        <div className="bg-white overflow-hidden shadow rounded-lg">
+          <div className="p-5">
+            <div className="flex items-center">
+              <div className="flex-shrink-0 bg-indigo-100 rounded-md p-3">
+                <svg className="h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2M7 7h10" />
+                </svg>
               </div>
-            </div>
-            <div className="bg-gray-50 px-5 py-3">
-              <div className="text-sm">
-                <Link href="/formations" className="font-medium text-indigo-600 hover:text-indigo-500">
-                  Voir toutes les formations
-                </Link>
+              <div className="ml-5 w-0 flex-1">
+                <dl>
+                  <dt className="text-sm font-medium text-gray-500 truncate">
+                    Formations
+                  </dt>
+                  <dd>
+                    <div className="text-lg font-medium text-gray-900">
+                      {stats.totalFormations}
+                    </div>
+                  </dd>
+                </dl>
               </div>
             </div>
           </div>
-          
-          <div className="bg-white overflow-hidden shadow rounded-lg">
-            <div className="p-5">
-              <div className="flex items-center">
-                <div className="flex-shrink-0 bg-green-100 rounded-md p-3">
-                  <svg className="h-6 w-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                  </svg>
-                </div>
-                <div className="ml-5 w-0 flex-1">
-                  <dl>
-                    <dt className="text-sm font-medium text-gray-500 truncate">
-                      Quiz
-                    </dt>
-                    <dd>
-                      <div className="text-lg font-medium text-gray-900">
-                        {stats.totalQuizzes}
-                      </div>
-                    </dd>
-                  </dl>
-                </div>
-              </div>
-            </div>
-            <div className="bg-gray-50 px-5 py-3">
-              <div className="text-sm">
-                <Link href="/quiz" className="font-medium text-indigo-600 hover:text-indigo-500">
-                  Gérer les quiz
-                </Link>
-              </div>
-            </div>
-          </div>
-          
-          <div className="bg-white overflow-hidden shadow rounded-lg">
-            <div className="p-5">
-              <div className="flex items-center">
-                <div className="flex-shrink-0 bg-purple-100 rounded-md p-3">
-                  <svg className="h-6 w-6 text-purple-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                  </svg>
-                </div>
-                <div className="ml-5 w-0 flex-1">
-                  <dl>
-                    <dt className="text-sm font-medium text-gray-500 truncate">
-                      Élèves inscrits
-                    </dt>
-                    <dd>
-                      <div className="text-lg font-medium text-gray-900">
-                        {stats.totalStudents}
-                      </div>
-                    </dd>
-                  </dl>
-                </div>
-              </div>
-            </div>
-            <div className="bg-gray-50 px-5 py-3">
-              <div className="text-sm">
-                <span className="font-medium text-indigo-600">
-                  Total des élèves inscrits
-                </span>
-              </div>
+          <div className="bg-gray-50 px-5 py-3">
+            <div className="text-sm">
+              <Link href="/formations" className="font-medium text-indigo-600 hover:text-indigo-500">
+                Voir toutes les formations
+              </Link>
             </div>
           </div>
         </div>
-      )}
+        
+        <div className="bg-white overflow-hidden shadow rounded-lg">
+          <div className="p-5">
+            <div className="flex items-center">
+              <div className="flex-shrink-0 bg-green-100 rounded-md p-3">
+                <svg className="h-6 w-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+              </div>
+              <div className="ml-5 w-0 flex-1">
+                <dl>
+                  <dt className="text-sm font-medium text-gray-500 truncate">
+                    Quiz
+                  </dt>
+                  <dd>
+                    <div className="text-lg font-medium text-gray-900">
+                      {stats.totalQuizzes}
+                    </div>
+                  </dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+          <div className="bg-gray-50 px-5 py-3">
+            <div className="text-sm">
+              <Link href="/quiz" className="font-medium text-indigo-600 hover:text-indigo-500">
+                Gérer les quiz
+              </Link>
+            </div>
+          </div>
+        </div>
+        
+        <div className="bg-white overflow-hidden shadow rounded-lg">
+          <div className="p-5">
+            <div className="flex items-center">
+              <div className="flex-shrink-0 bg-purple-100 rounded-md p-3">
+                <svg className="h-6 w-6 text-purple-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              </div>
+              <div className="ml-5 w-0 flex-1">
+                <dl>
+                  <dt className="text-sm font-medium text-gray-500 truncate">
+                    Élèves inscrits
+                  </dt>
+                  <dd>
+                    <div className="text-lg font-medium text-gray-900">
+                      {stats.totalStudents}
+                    </div>
+                  </dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+          <div className="bg-gray-50 px-5 py-3">
+            <div className="text-sm">
+              <span className="font-medium text-indigo-600">
+                Total des élèves inscrits
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
       
       <div className="mb-8">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
@@ -371,62 +369,55 @@ export default function DashboardPage() {
             )}
           </div>
         ) : (
-          <ul className="divide-y divide-gray-200">
-            {formations.map((formation) => (
-              <li key={formation.id} className="hover:bg-gray-50">
-                <Link href={`/formations/${formation.id}`} className="block">
-                  <div className="px-4 py-4 sm:px-6">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center">
-                          <span className="text-indigo-600 font-medium text-lg">
-                            {formation.titre ? formation.titre.charAt(0) : '?'}
-                          </span>
-                        </div>
-                        <div className="ml-4">
-                          <p className="text-sm font-medium text-indigo-600 truncate">
-                            {formation.titre || 'Sans titre'}
-                          </p>
-                          <p className="text-sm text-gray-500 truncate">
-                            {formation.description?.substring(0, 100) || 'Aucune description'}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="ml-2 flex-shrink-0 flex">
-                        {userData?.role === 'formateur' ? (
-                          <p className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                            {formation.studentCount || 0} élève(s)
-                          </p>
-                        ) : (
-                          <p className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                            Inscrit(e) le {formatDate(formation.dateInscription)}
-                          </p>
-                        )}
-                      </div>
+          <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4">Mes formations récentes</h2>
+            
+            <div className="space-y-4">
+              {formations.map((formation) => (
+                <div key={formation.id} className="border-b border-gray-200 pb-4 last:border-0 last:pb-0">
+                  <div className="flex items-start">
+                    <div className="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mr-3">
+                      <span className="text-sm sm:text-base font-medium">{formation.titre.charAt(0)}</span>
                     </div>
-                    <div className="mt-2 sm:flex sm:justify-between">
-                      <div className="sm:flex">
-                        <p className="flex items-center text-sm text-gray-500">
-                          <svg className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                            <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                    <div className="flex-1 min-w-0">
+                      <Link 
+                        href={`/formations/${formation.id}`}
+                        className="text-sm sm:text-base font-medium text-indigo-600 hover:text-indigo-800 line-clamp-1"
+                      >
+                        {formation.titre}
+                      </Link>
+                      <p className="text-xs sm:text-sm text-gray-600 line-clamp-2 mt-1">
+                        {formation.description || "Aucune description"}
+                      </p>
+                      
+                      <div className="mt-2 flex flex-col xs:flex-row space-y-2 xs:space-y-0 xs:space-x-4 text-xs text-gray-500">
+                        <div className="flex items-center">
+                          <svg className="h-3 w-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                           </svg>
-                          Créée le {formatDate(formation.createdAt)}
-                        </p>
-                      </div>
-                      <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                        <svg className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                        </svg>
-                        <p>
-                          {formation.duration || 'Durée non spécifiée'}
-                        </p>
+                          <span>Créée le {formatDate(formation.createdAt)}</span>
+                        </div>
+                        <div className="flex items-center">
+                          <svg className="h-3 w-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          <span>Durée non spécifiée</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </Link>
-              </li>
-            ))}
-          </ul>
+                  
+                  {formation.studentCount !== undefined && (
+                    <div className="mt-2 flex justify-end">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+                        {formation.studentCount} élève(s)
+                      </span>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
         )}
       </div>
       
@@ -438,38 +429,40 @@ export default function DashboardPage() {
             </h2>
           </div>
           
-          <ul className="divide-y divide-gray-200">
-            {quizzes.slice(0, 5).map((quiz) => (
-              <li key={quiz.id} className="hover:bg-gray-50">
-                <Link href={`/quiz/${quiz.id}`} className="block">
-                  <div className="px-4 py-4 sm:px-6">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
-                          <span className="text-green-600 font-medium text-lg">
-                            Q
+          <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4">Mes quiz récents</h2>
+            
+            <div className="space-y-4">
+              {quizzes.map((quiz) => (
+                <div key={quiz.id} className="border-b border-gray-200 pb-4 last:border-0 last:pb-0">
+                  <div className="flex items-start">
+                    <div className="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 bg-green-100 text-green-600 rounded-full flex items-center justify-center mr-3">
+                      <span className="text-sm sm:text-base font-medium">Q</span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <Link 
+                        href={`/quiz/${quiz.id}`}
+                        className="text-sm sm:text-base font-medium text-indigo-600 hover:text-indigo-800 line-clamp-1"
+                      >
+                        {quiz.titre}
+                      </Link>
+                      <p className="text-xs sm:text-sm text-gray-600 mt-1">
+                        {quiz.questions?.length || 0} question(s)
+                      </p>
+                      
+                      {quiz.formationTitre && (
+                        <div className="mt-2">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
+                            {quiz.formationTitre}
                           </span>
                         </div>
-                        <div className="ml-4">
-                          <p className="text-sm font-medium text-indigo-600 truncate">
-                            {quiz.titre || 'Sans titre'}
-                          </p>
-                          <p className="text-sm text-gray-500">
-                            {quiz.questions?.length || 0} question(s)
-                          </p>
-                        </div>
-                      </div>
-                      <div className="ml-2 flex-shrink-0 flex">
-                        <p className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                          {quiz.formationTitle || 'Sans formation'}
-                        </p>
-                      </div>
+                      )}
                     </div>
                   </div>
-                </Link>
-              </li>
-            ))}
-          </ul>
+                </div>
+              ))}
+            </div>
+          </div>
           
           {quizzes.length > 5 && (
             <div className="bg-gray-50 px-4 py-3 text-center">
@@ -488,7 +481,7 @@ export default function DashboardPage() {
           </h2>
         </div>
         
-        <div className="p-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <Link href="/formations" className="bg-indigo-50 hover:bg-indigo-100 p-4 rounded-lg flex items-center transition-colors duration-200">
             <div className="flex-shrink-0 h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center">
               <svg className="h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">

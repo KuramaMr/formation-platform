@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useAuth } from '../contexts/AuthContext';
 import { useRouter, usePathname } from 'next/navigation';
@@ -10,6 +10,7 @@ export default function Navigation() {
   const router = useRouter();
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef(null);
   
   const handleSignOut = async () => {
     try {
@@ -24,6 +25,32 @@ export default function Navigation() {
   const isActive = (path) => {
     return pathname === path || pathname.startsWith(`${path}/`);
   };
+  
+  // Fermer le menu quand on clique sur un lien
+  const handleLinkClick = () => {
+    setIsMenuOpen(false);
+  };
+  
+  // Fermer le menu quand on clique en dehors
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isMenuOpen && menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+    
+    // Ajouter l'écouteur d'événement quand le menu est ouvert
+    if (isMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('touchstart', handleClickOutside);
+    }
+    
+    // Nettoyer l'écouteur d'événement
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, [isMenuOpen]);
   
   return (
     <nav className="bg-gray-800 text-white">
@@ -41,7 +68,7 @@ export default function Navigation() {
             </Link>
             
             {/* Liens de navigation desktop - Utilisation de classe personnalisée pour 990px */}
-            <div className="hidden max-[1030px]:hidden min-[1031px]:flex items-center space-x-4 ml-6">
+            <div className="hidden max-[1030px]:hidden min-[1031px]:flex ml-6 space-x-4">
               <Link 
                 href="/" 
                 className={`px-3 py-2 rounded-md text-sm font-medium ${
@@ -105,7 +132,7 @@ export default function Navigation() {
             </div>
           </div>
           
-          {/* Profil et déconnexion - Utilisation de classe personnalisée pour 990px */}
+          {/* Boutons de connexion/déconnexion desktop */}
           <div className="hidden max-[1030px]:hidden min-[1031px]:flex items-center space-x-3">
             {user ? (
               <div className="flex items-center space-x-4">
@@ -154,7 +181,7 @@ export default function Navigation() {
           </div>
           
           {/* Bouton menu mobile - Utilisation de classe personnalisée pour 990px */}
-          <div className="flex min-[1030px]:hidden items-center">
+          <div className="flex min-[1031px]:hidden items-center">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none"
@@ -176,10 +203,11 @@ export default function Navigation() {
       
       {/* Menu mobile - Utilisation de classe personnalisée pour 990px */}
       {isMenuOpen && (
-        <div className="min-[1030px]:hidden bg-gray-800 pb-3 px-2">
+        <div ref={menuRef} className="min-[1031px]:hidden bg-gray-800 pb-3 px-2">
           <div className="space-y-1 px-2 pt-2 pb-3">
             <Link 
               href="/" 
+              onClick={handleLinkClick}
               className={`block px-3 py-2 rounded-md text-base font-medium ${
                 isActive('/') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'
               }`}
@@ -190,6 +218,7 @@ export default function Navigation() {
             {user && (
               <Link 
                 href="/dashboard" 
+                onClick={handleLinkClick}
                 className={`block px-3 py-2 rounded-md text-base font-medium ${
                   isActive('/dashboard') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'
                 }`}
@@ -200,6 +229,7 @@ export default function Navigation() {
             
             <Link 
               href="/formations" 
+              onClick={handleLinkClick}
               className={`block px-3 py-2 rounded-md text-base font-medium ${
                 isActive('/formations') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'
               }`}
@@ -211,6 +241,7 @@ export default function Navigation() {
               <>
                 <Link 
                   href="/resultats/gestion" 
+                  onClick={handleLinkClick}
                   className={`block px-3 py-2 rounded-md text-base font-medium ${
                     isActive('/resultats/gestion') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'
                   }`}
@@ -219,6 +250,7 @@ export default function Navigation() {
                 </Link>
                 <Link 
                   href="/signatures/gestion" 
+                  onClick={handleLinkClick}
                   className={`block px-3 py-2 rounded-md text-base font-medium ${
                     isActive('/signatures/gestion') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'
                   }`}
@@ -231,6 +263,7 @@ export default function Navigation() {
             {userData?.role === 'eleve' && (
               <Link 
                 href="/resultats/eleve" 
+                onClick={handleLinkClick}
                 className={`block px-3 py-2 rounded-md text-base font-medium ${
                   isActive('/resultats/eleve') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'
                 }`}
@@ -243,34 +276,36 @@ export default function Navigation() {
           {/* Profil et déconnexion mobile */}
           <div className="pt-4 pb-3 border-t border-gray-700">
             {user ? (
-              <>
-                <div className="flex items-center px-5">
+              <div className="space-y-3 px-2">
+                <div className="flex items-center px-3">
                   <div className="bg-indigo-600 h-10 w-10 rounded-full flex items-center justify-center">
                     <span className="text-white font-medium">
                       {userData?.displayName?.charAt(0) || user.email?.charAt(0) || '?'}
                     </span>
                   </div>
                   <div className="ml-3">
-                    <div className="text-base font-medium text-white">{userData?.displayName || user.email}</div>
+                    <div className="text-base font-medium text-white">{userData?.displayName || 'Utilisateur'}</div>
                     <div className="text-sm font-medium text-gray-400">{user.email}</div>
                   </div>
                 </div>
-                <div className="mt-3 px-2">
-                  <button
-                    onClick={handleSignOut}
-                    className="block w-full px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white text-left flex items-center"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                    </svg>
-                    Déconnexion
-                  </button>
-                </div>
-              </>
+                <button
+                  onClick={() => {
+                    handleSignOut();
+                    handleLinkClick();
+                  }}
+                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white flex items-center"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                  </svg>
+                  Déconnexion
+                </button>
+              </div>
             ) : (
               <div className="px-2 space-y-2">
                 <Link
                   href="/auth/signin"
+                  onClick={handleLinkClick}
                   className="block w-full px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white flex items-center"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -280,6 +315,7 @@ export default function Navigation() {
                 </Link>
                 <Link
                   href="/auth/signup"
+                  onClick={handleLinkClick}
                   className="block w-full px-3 py-2 rounded-md text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 flex items-center justify-center"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
