@@ -523,6 +523,31 @@ export default function useFormations() {
         batch.delete(doc.ref);
       });
       
+      // 1bis. Supprimer également l'inscription dans la collection "inscriptions"
+      const inscriptionsRef = collection(db, 'inscriptions');
+      const inscriptionsQuery = query(
+        inscriptionsRef,
+        where('formationId', '==', formationId),
+        where('eleveId', '==', userId)
+      );
+      
+      const inscriptionsSnapshot = await getDocs(inscriptionsQuery);
+      inscriptionsSnapshot.forEach((doc) => {
+        batch.delete(doc.ref);
+      });
+      
+      // Vérifier également avec le champ userId au cas où
+      const inscriptionsQuery2 = query(
+        inscriptionsRef,
+        where('formationId', '==', formationId),
+        where('userId', '==', userId)
+      );
+      
+      const inscriptionsSnapshot2 = await getDocs(inscriptionsQuery2);
+      inscriptionsSnapshot2.forEach((doc) => {
+        batch.delete(doc.ref);
+      });
+      
       // 2. Supprimer les signatures de l'élève pour cette formation
       const signaturesRef = collection(db, 'signatures');
       const signaturesQuery = query(
@@ -555,10 +580,12 @@ export default function useFormations() {
         
         if (quizIds.length > 0) {
           const resultatsRef = collection(db, 'resultats');
+          
+          // Utiliser eleveId au lieu de userId pour la requête des résultats
           const resultatsQuery = query(
             resultatsRef,
             where('quizId', 'in', quizIds),
-            where('userId', '==', userId)
+            where('eleveId', '==', userId)
           );
           
           const resultatsSnapshot = await getDocs(resultatsQuery);
