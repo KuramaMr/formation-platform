@@ -69,12 +69,10 @@ export default function Navigation() {
   
   return (
     <nav className="bg-gray-800 text-white">
-      {/* Version desktop */}
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between h-16">
-          {/* Logo et liens principaux */}
+          {/* Logo - toujours visible */}
           <div className="flex items-center">
-            {/* Logo */}
             <Link href="/" className="flex items-center space-x-2">
               <div className="flex-shrink-0 bg-indigo-600 h-10 w-10 rounded-md flex items-center justify-center">
                 <span className="text-xl font-bold">F</span>
@@ -82,11 +80,11 @@ export default function Navigation() {
               <span className="text-xl font-bold hidden sm:block">Formation App</span>
             </Link>
             
-            {/* Liens de navigation desktop - Utilisation de classe personnalisée pour 990px */}
-            <div className="hidden max-[1030px]:hidden min-[1031px]:flex ml-6 space-x-4">
+            {/* Liens de navigation desktop - visibles uniquement au-dessus de 1030px */}
+            <div className="hidden max-[1030px]:hidden min-[1031px]:flex ml-6 space-x-2 xl:space-x-4">
               <Link 
                 href="/" 
-                className={`px-3 py-2 rounded-md text-sm font-medium ${
+                className={`px-2 xl:px-3 py-2 rounded-md text-sm font-medium ${
                   isActive('/') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'
                 }`}
               >
@@ -96,7 +94,7 @@ export default function Navigation() {
               {user && (
                 <Link 
                   href="/dashboard" 
-                  className={`px-3 py-2 rounded-md text-sm font-medium ${
+                  className={`px-2 xl:px-3 py-2 rounded-md text-sm font-medium ${
                     isActive('/dashboard') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'
                   }`}
                 >
@@ -106,7 +104,7 @@ export default function Navigation() {
               
               <Link 
                 href="/formations" 
-                className={`px-3 py-2 rounded-md text-sm font-medium ${
+                className={`px-2 xl:px-3 py-2 rounded-md text-sm font-medium ${
                   isActive('/formations') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'
                 }`}
               >
@@ -117,7 +115,7 @@ export default function Navigation() {
                 <>
                   <Link 
                     href="/resultats/gestion" 
-                    className={`px-3 py-2 rounded-md text-sm font-medium ${
+                    className={`px-2 xl:px-3 py-2 rounded-md text-sm font-medium ${
                       isActive('/resultats/gestion') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'
                     }`}
                   >
@@ -125,7 +123,7 @@ export default function Navigation() {
                   </Link>
                   <Link 
                     href="/signatures/gestion" 
-                    className={`px-3 py-2 rounded-md text-sm font-medium ${
+                    className={`px-2 xl:px-3 py-2 rounded-md text-sm font-medium ${
                       isActive('/signatures/gestion') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'
                     }`}
                   >
@@ -137,7 +135,7 @@ export default function Navigation() {
               {userData?.role === 'eleve' && (
                 <Link 
                   href="/resultats/eleve" 
-                  className={`px-3 py-2 rounded-md text-sm font-medium ${
+                  className={`px-2 xl:px-3 py-2 rounded-md text-sm font-medium ${
                     isActive('/resultats/eleve') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'
                   }`}
                 >
@@ -147,35 +145,35 @@ export default function Navigation() {
             </div>
           </div>
           
-          {/* Boutons de connexion/déconnexion desktop */}
-          <div className="hidden max-[1030px]:hidden min-[1031px]:flex items-center space-x-3">
+          {/* Boutons de connexion/déconnexion desktop - visibles uniquement au-dessus de 1030px */}
+          <div className="hidden max-[1030px]:hidden min-[1031px]:flex items-center space-x-2 xl:space-x-3">
             {user ? (
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2 xl:space-x-4">
                 <div className="flex items-center">
-                  <div className="bg-indigo-600 h-8 w-8 rounded-full flex items-center justify-center ml-4">
+                  <div className="bg-indigo-600 h-8 w-8 rounded-full flex items-center justify-center ml-2 xl:ml-4">
                     <span className="text-white font-medium">
                       {userData?.displayName?.charAt(0) || user.email?.charAt(0) || '?'}
                     </span>
                   </div>
-                  <span className="ml-2 text-sm text-gray-300">
+                  <span className="ml-2 text-sm text-gray-300 hidden xl:inline">
                     {userData?.role === 'formateur' ? 'Formateur' : 'Élève'}
                   </span>
                 </div>
                 <button
                   onClick={handleSignOut}
-                  className="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white flex items-center"
+                  className="px-2 xl:px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white flex items-center"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-0 xl:mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                   </svg>
-                  Déconnexion
+                  <span className="hidden xl:inline">Déconnexion</span>
                 </button>
               </div>
             ) : (
               <>
                 <Link
                   href="/auth/signin"
-                  className="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white flex items-center"
+                  className="px-2 xl:px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white flex items-center"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
@@ -184,7 +182,7 @@ export default function Navigation() {
                 </Link>
                 <Link
                   href="/auth/signup"
-                  className="px-3 py-2 rounded-md text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 flex items-center"
+                  className="px-2 xl:px-3 py-2 rounded-md text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 flex items-center"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
@@ -195,29 +193,31 @@ export default function Navigation() {
             )}
           </div>
           
-          {/* Bouton menu mobile - Utilisation de classe personnalisée pour 990px */}
-          <div className="flex min-[1031px]:hidden items-center">
-            <button
-              ref={menuButtonRef}
-              onClick={toggleMenu}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none"
-            >
-              <span className="sr-only">Ouvrir le menu</span>
-              {isMenuOpen ? (
-                <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              ) : (
-                <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              )}
-            </button>
-          </div>
+          {/* Bouton menu mobile - visible uniquement en dessous de 1031px et seulement si l'utilisateur n'est pas connecté */}
+          {(!user || !userData) && (
+            <div className="flex min-[1031px]:hidden items-center">
+              <button
+                ref={menuButtonRef}
+                onClick={toggleMenu}
+                className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none"
+              >
+                <span className="sr-only">Ouvrir le menu</span>
+                {isMenuOpen ? (
+                  <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                ) : (
+                  <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                )}
+              </button>
+            </div>
+          )}
         </div>
       </div>
       
-      {/* Menu mobile - Utilisation de classe personnalisée pour 990px */}
+      {/* Menu mobile - visible uniquement si ouvert et en dessous de 1031px */}
       {isMenuOpen && (
         <div ref={menuRef} className="min-[1031px]:hidden bg-gray-800 pb-3 px-2">
           <div className="space-y-1 px-2 pt-2 pb-3">
