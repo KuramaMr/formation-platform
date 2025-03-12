@@ -10,6 +10,7 @@ export default function Navigation() {
   const router = useRouter();
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuButtonRef = useRef(null);
   const menuRef = useRef(null);
   
   const handleSignOut = async () => {
@@ -31,26 +32,40 @@ export default function Navigation() {
     setIsMenuOpen(false);
   };
   
-  // Fermer le menu quand on clique en dehors
+  // Gérer les clics en dehors du menu pour le fermer
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (isMenuOpen && menuRef.current && !menuRef.current.contains(event.target)) {
+      // Ne rien faire si le menu est fermé
+      if (!isMenuOpen) return;
+      
+      // Ne pas fermer si on clique sur le bouton du menu (géré séparément)
+      if (menuButtonRef.current && menuButtonRef.current.contains(event.target)) {
+        return;
+      }
+      
+      // Fermer si on clique en dehors du menu
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
         setIsMenuOpen(false);
       }
     };
     
-    // Ajouter l'écouteur d'événement quand le menu est ouvert
-    if (isMenuOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-      document.addEventListener('touchstart', handleClickOutside);
-    }
+    // Ajouter les écouteurs d'événements
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
     
-    // Nettoyer l'écouteur d'événement
+    // Nettoyer les écouteurs d'événements
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('touchstart', handleClickOutside);
     };
   }, [isMenuOpen]);
+  
+  // Fonction dédiée pour gérer le clic sur le bouton du menu
+  const toggleMenu = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsMenuOpen(prevState => !prevState);
+  };
   
   return (
     <nav className="bg-gray-800 text-white">
@@ -183,7 +198,8 @@ export default function Navigation() {
           {/* Bouton menu mobile - Utilisation de classe personnalisée pour 990px */}
           <div className="flex min-[1031px]:hidden items-center">
             <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              ref={menuButtonRef}
+              onClick={toggleMenu}
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none"
             >
               <span className="sr-only">Ouvrir le menu</span>

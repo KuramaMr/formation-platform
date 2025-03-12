@@ -4,6 +4,7 @@ import "./globals.css";
 import { AuthProvider } from './contexts/AuthContext';
 import Link from "next/link";
 import Navigation from './components/Navigation';
+import BottomNavigation from './components/BottomNavigation';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -27,9 +28,10 @@ export default function RootLayout({
         <AuthProvider>
           <div className="min-h-screen flex flex-col">
             <Navigation />
-            <main className="flex-grow">
+            <main className="pb-16 min-[1031px]:pb-0">
               {children}
             </main>
+            <BottomNavigation />
             <footer className="bg-gray-800 text-white py-6">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <p className="text-center">© {new Date().getFullYear()} Plateforme de Formation</p>
