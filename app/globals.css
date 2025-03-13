@@ -537,7 +537,6 @@ body {
 }
 
 .animate-ultra-gradient {
-  background-size: 400% 400%;
   animation: ultra-gradient 15s ease infinite;
 }
 
@@ -729,4 +728,222 @@ body {
 
 .hover\:bg-pos-100:hover {
   background-position: 100% center;
+}
+
+/* Ombres avancées pour la profondeur */
+.depth-shadow-card {
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1),
+    0 20px 25px -5px rgba(79, 70, 229, 0.1),
+    0 0 15px 5px rgba(79, 70, 229, 0.05);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.depth-shadow-card:hover {
+  box-shadow: 
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.1),
+    0 30px 40px -7px rgba(79, 70, 229, 0.2),
+    0 0 20px 7px rgba(79, 70, 229, 0.1);
+  transform: translateY(-2px);
+}
+
+.depth-input {
+  box-shadow: 
+    inset 0 2px 4px 0 rgba(0, 0, 0, 0.05),
+    inset 0 0 0 1px rgba(79, 70, 229, 0.1),
+    0 1px 2px 0 rgba(255, 255, 255, 0.05);
+  transition: box-shadow 0.2s ease;
+}
+
+.depth-input:focus {
+  box-shadow: 
+    0 0 0 2px rgba(79, 70, 229, 0.3),
+    0 0 10px 2px rgba(79, 70, 229, 0.2),
+    inset 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.depth-button {
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -2px rgba(0, 0, 0, 0.1),
+    0 8px 10px -3px rgba(79, 70, 229, 0.2),
+    0 0 0 1px rgba(79, 70, 229, 0.1);
+  transition: all 0.3s ease;
+}
+
+.depth-button:hover {
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1),
+    0 15px 20px -5px rgba(79, 70, 229, 0.3),
+    0 0 0 1px rgba(79, 70, 229, 0.2);
+  transform: translateY(-1px);
+}
+
+.depth-button:active {
+  box-shadow: 
+    0 2px 4px -1px rgba(0, 0, 0, 0.1),
+    0 1px 2px -1px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(79, 70, 229, 0.2),
+    0 0 0 1px rgba(79, 70, 229, 0.2);
+  transform: translateY(1px);
+}
+
+/* Animations pour les transitions entre pages */
+@keyframes slide-in-right {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-out-left {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes slide-in-left {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-out-right {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.auth-transition {
+  width: 100%;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.auth-transition.form-enter {
+  animation: slide-in-right 0.4s forwards ease-out;
+}
+
+.auth-transition.form-exit {
+  animation: slide-out-left 0.4s forwards ease-in;
+}
+
+.auth-transition.form-return {
+  animation: slide-in-left 0.4s forwards ease-out;
+}
+
+.auth-transition.form-leave {
+  animation: slide-out-right 0.4s forwards ease-in;
+}
+
+/* Optimisations pour mobile */
+@media (max-width: 640px) {
+  /* Réduire la complexité des animations */
+  .animate-ultra-gradient {
+    animation-duration: 30s; /* Plus lent pour économiser les ressources */
+  }
+  
+  .animate-ultra-float,
+  .animate-ultra-float-reverse,
+  .animate-ultra-float-alt {
+    animation: none; /* Désactiver certaines animations sur mobile */
+  }
+  
+  /* Réduire le nombre de particules */
+  .particle-container {
+    opacity: 0.5; /* Réduire l'opacité pour alléger visuellement */
+  }
+  
+  /* Simplifier les ombres */
+  .depth-shadow-card {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Augmenter la taille des zones tactiles */
+  input, 
+  button,
+  .checkbox-container {
+    min-height: 48px; /* Taille minimale recommandée pour les éléments tactiles */
+  }
+  
+  /* Améliorer la lisibilité */
+  .text-glow {
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* Réduire l'effet de lueur */
+  }
+  
+  /* Ajuster l'espacement pour les petits écrans */
+  .form-container {
+    padding: 1.5rem;
+  }
+  
+  /* Réduire la taille du formulaire */
+  .max-w-2xl {
+    max-width: 100%;
+  }
+}
+
+/* Interactions tactiles spécifiques */
+@media (hover: none) and (pointer: coarse) {
+  /* Style pour le feedback tactile */
+  .touch-feedback {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .touch-feedback::after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.3) 10%, transparent 10.01%);
+    background-repeat: no-repeat;
+    background-position: 50%;
+    transform: scale(10, 10);
+    opacity: 0;
+    transition: transform 0.5s, opacity 0.5s;
+  }
+  
+  .touch-feedback:active::after {
+    transform: scale(0, 0);
+    opacity: 0.3;
+    transition: 0s;
+  }
+  
+  /* Ajuster les hover states pour le tactile */
+  .depth-button:hover {
+    transform: none;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Effet spécial pour le tactile */
+  .depth-button:active {
+    transform: scale(0.98);
+    transition: transform 0.1s;
+  }
 }

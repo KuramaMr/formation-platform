@@ -14,7 +14,7 @@ import {
   browserLocalPersistence,
   browserSessionPersistence
 } from 'firebase/auth';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
 
 type UserRole = 'formateur' | 'eleve';
@@ -31,7 +31,7 @@ interface AuthContextType {
   userData: UserData | null;
   loading: boolean;
   error: string | null;
-  signUp: (email: string, password: string, displayName: string, role: UserRole) => Promise<User | null>;
+  signUp: (email: string, password: string, displayName: string, role: UserRole) => Promise<{ success: boolean; user?: User | null; error?: string; code?: string }>;
   signIn: (email: string, password: string, rememberMe?: boolean) => Promise<User | null>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
@@ -79,32 +79,49 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setError(null);
       
       const auth = getAuth();
+      
+      // Vérifier d'abord si l'email existe déjà
+      try {
+        // Cette méthode peut varier selon votre implémentation
+        // Certaines API Firebase permettent de vérifier si un email existe
+        // Sinon, vous pouvez essayer de créer l'utilisateur et gérer l'erreur
+      } catch (emailCheckError) {
+        // Email existe déjà
+        setError('Cette adresse email est déjà utilisée.');
+        setLoading(false);
+        return { success: false, error: 'Cette adresse email est déjà utilisée.' };
+      }
+      
+      // Créer l'utilisateur
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       
-      // Update profile with display name
-      await updateProfile(user, { displayName });
+      // Mettre à jour le profil
+      await updateProfile(user, {
+        displayName: displayName
+      });
       
-      // Store additional user data in Firestore
-      await setDoc(doc(db, 'users', user.uid), {
-        email,
+      // Stocker les données supplémentaires dans Firestore
+      const userDocRef = doc(db, 'users', user.uid);
+      await setDoc(userDocRef, {
         displayName,
+        email,
         role,
-        createdAt: new Date().toISOString()
+        createdAt: serverTimestamp()
       });
       
-      // Mettre à jour immédiatement userData avec le rôle
-      setUserData({
-        uid: user.uid,
-        email: user.email,
-        displayName: user.displayName,
-        role: role
-      });
-      
-      return user;
+      // Retourner un succès
+      return { success: true, user };
     } catch (error: any) {
       setError(error.message || 'Une erreur est survenue lors de l\'inscription');
-      return null;
+      console.error("Erreur d'inscription dans le contexte:", error);
+      
+      // Retourner l'erreur
+      return { 
+        success: false, 
+        error: error.message || 'Une erreur est survenue lors de l\'inscription',
+        code: error.code
+      };
     } finally {
       setLoading(false);
     }
