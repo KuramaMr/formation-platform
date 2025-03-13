@@ -240,22 +240,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-      
-      {/* Footer */}
-      <footer className="bg-gray-900">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row sm:justify-between items-center px-4">
-            <div className="flex space-x-6 md:order-2">
-              <p className="text-gray-400 text-sm">
-                © 2023 Formation App. Tous droits réservés.
-              </p>
-            </div>
-            <p className="mt-8 text-base text-gray-400 md:mt-0 md:order-1">
-              Une plateforme d'apprentissage en ligne pour tous.
-            </p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
