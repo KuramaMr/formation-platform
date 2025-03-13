@@ -80,12 +80,30 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Version mobile */}
+      {/* Version mobile et tablette */}
       <div className="hidden max-[1030px]:block">
         <div className="relative isolate overflow-hidden max-[1030px]:py-2">
           <div className="absolute inset-0 bg-gradient-to-b from-indigo-100 to-white -z-10"></div>
           
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 pb-12">
+          {/* Navigation mobile en haut */}
+          <div className="bg-white py-3 px-4 mb-6 shadow-sm">
+            <div className="grid grid-cols-2 gap-4">
+              <Link 
+                href="/tableau-de-bord" 
+                className="rounded-md border border-indigo-700 bg-white px-4 py-2 text-indigo-700 shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] text-center"
+              >
+                Tableau de bord
+              </Link>
+              <Link 
+                href="/formations" 
+                className="rounded-md border border-indigo-700 bg-indigo-600 px-4 py-2 text-white shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] text-center"
+              >
+                Formations
+              </Link>
+            </div>
+          </div>
+          
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-4 pb-12">
             <div className="flex flex-col items-center">
               <div className="text-center">
                 <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-4">
@@ -111,28 +129,36 @@ export default function Home() {
                         Se connecter
                       </Link>
                     </>
-                  ) : (
-                    <>
-                      <div className="flex space-x-4">
-                        <Link
-                          href="/dashboard"
-                          className="text-center px-4 py-2.5 bg-white text-indigo-600 font-medium rounded-md border border-gray-300 shadow-[0_5px_0_0_#cbd5e1,0_5px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_3px_0_0_#cbd5e1,0_3px_6px_rgba(0,0,0,0.1)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-indigo-50 active:border-indigo-200 transition-all duration-75 mr-4"
-                        >
-                          Mon tableau de bord
-                        </Link>
-                        <Link
-                          href="/formations"
-                          className="text-center px-5 py-2.5 bg-white text-indigo-600 font-medium rounded-md border border-gray-300 shadow-[0_5px_0_0_#cbd5e1,0_5px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_3px_0_0_#cbd5e1,0_3px_6px_rgba(0,0,0,0.1)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-indigo-50 active:border-indigo-200 transition-all duration-75 whitespace-nowrap"
-                        >
-                          Voir les formations
-                        </Link>
-                      </div>
-                    </>
-                  )}
+                  ) : null}
                 </div>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Boutons de navigation juste avant la section Features - visibles uniquement en dessous de 1030px */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 hidden max-[1030px]:block">
+        <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
+          {!user ? (
+            <>
+              <Link href="/auth/signin" className="rounded-md border border-indigo-700 bg-white px-4 py-2 text-indigo-700 shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] text-center">
+                Connexion
+              </Link>
+              <Link href="/auth/signup" className="rounded-md border border-indigo-700 bg-indigo-600 px-4 py-2 text-white shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] text-center">
+                Inscription
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link href="/dashboard" className="rounded-md border border-indigo-700 bg-white px-4 py-2 text-indigo-700 shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] text-center">
+                Tableau de bord
+              </Link>
+              <Link href="/formations" className="rounded-md border border-indigo-700 bg-indigo-600 px-4 py-2 text-white shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] text-center">
+                Formations
+              </Link>
+            </>
+          )}
         </div>
       </div>
 
@@ -230,28 +256,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-
-      {user ? (
-        // Utilisateur connecté
-        <div className="grid grid-cols-2 gap-4 mt-8 md:hidden">
-          <Link href="/dashboard" className="rounded-md border border-indigo-700 bg-white px-4 py-2 text-indigo-700 shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] text-center">
-            Tableau de bord
-          </Link>
-          <Link href="/formations" className="rounded-md border border-indigo-700 bg-indigo-600 px-4 py-2 text-white shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] text-center">
-            Formations
-          </Link>
-        </div>
-      ) : (
-        // Utilisateur non connecté
-        <div className="grid grid-cols-2 gap-4 mt-8 md:hidden">
-          <Link href="/auth/signin" className="rounded-md border border-indigo-700 bg-white px-4 py-2 text-indigo-700 shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] text-center">
-            Connexion
-          </Link>
-          <Link href="/auth/signup" className="rounded-md border border-indigo-700 bg-indigo-600 px-4 py-2 text-white shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] text-center">
-            S'inscrire
-          </Link>
-        </div>
-      )}
     </div>
   );
 }
