@@ -324,7 +324,7 @@ export default function ResultatsElevePage() {
                       {resultat.quiz ? (
                         <Link 
                           href={`/resultats/${resultat.id}`}
-                          className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                          className="inline-flex items-center px-3 py-1.5 border border-indigo-700 text-sm font-medium rounded-md text-white bg-indigo-600 shadow-[0_3px_0_0_#4338ca,0_3px_6px_rgba(0,0,0,0.1)] hover:shadow-[0_2px_0_0_#4338ca,0_2px_3px_rgba(0,0,0,0.1)] hover:translate-y-[1px] active:shadow-none active:translate-y-[3px] active:bg-indigo-700 transition-all duration-75"
                         >
                           Voir les détails
                         </Link>

@@ -176,7 +176,7 @@ export default function QuizForm({ quiz, coursId, isEditing = false }: QuizFormP
                   <button
                     type="button"
                     onClick={() => remove(index)}
-                    className="text-red-600 hover:text-red-800"
+                    className="text-red-600 hover:text-red-800 rounded-md border border-red-700 bg-white px-2 py-1 shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)]"
                   >
                     Supprimer
                   </button>
@@ -233,7 +233,7 @@ export default function QuizForm({ quiz, coursId, isEditing = false }: QuizFormP
           <button
             type="button"
             onClick={addQuestion}
-            className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="inline-flex items-center px-4 py-2 rounded-md border border-indigo-700 bg-white text-indigo-700 shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)]"
           >
             Ajouter une question
           </button>
@@ -244,9 +244,13 @@ export default function QuizForm({ quiz, coursId, isEditing = false }: QuizFormP
         <button
           type="submit"
           disabled={loading}
-          className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-indigo-300"
+          className="mt-4 w-full rounded-md border border-indigo-700 bg-indigo-600 px-4 py-2 text-white shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)]"
         >
-          {loading ? 'Chargement...' : isEditing ? 'Mettre à jour' : 'Créer le quiz'}
+          {loading
+            ? "Chargement..."
+            : isEditing
+            ? "Mettre à jour"
+            : "Créer le quiz"}
         </button>
       </div>
     </form>

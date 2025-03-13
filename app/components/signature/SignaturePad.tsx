@@ -88,7 +88,7 @@ export default function SignaturePad({ formationId, formationTitre, onSignatureC
       <div className="flex mt-3 space-x-2">
         <button
           onClick={clear}
-          className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100"
+          className="px-3 py-1 text-sm rounded-md border border-gray-700 bg-white text-gray-700 shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)]"
           disabled={isLoading}
         >
           Effacer
@@ -96,7 +96,7 @@ export default function SignaturePad({ formationId, formationTitre, onSignatureC
         
         <button
           onClick={save}
-          className="px-3 py-1 text-sm text-white bg-indigo-600 rounded-md hover:bg-indigo-700 disabled:bg-indigo-300"
+          className="px-3 py-1 text-sm rounded-md border border-indigo-700 bg-indigo-600 text-white shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] disabled:bg-indigo-300"
           disabled={isLoading || isSaved}
         >
           {isLoading ? 'Enregistrement...' : isSaved ? 'Signature enregistrée' : 'Enregistrer la signature'}

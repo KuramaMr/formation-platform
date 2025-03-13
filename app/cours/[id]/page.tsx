@@ -133,7 +133,7 @@ export default function CoursDetails() {
               <div className="mt-4 sm:mt-0 flex flex-wrap gap-2 sm:space-x-3">
                 <Link
                   href={`/cours/edit/${cours.id}`}
-                  className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 border border-gray-300 text-sm font-medium rounded-md shadow-[0_3px_0_0_#cbd5e1,0_3px_6px_rgba(0,0,0,0.1)] hover:shadow-[0_2px_0_0_#cbd5e1,0_2px_3px_rgba(0,0,0,0.1)] hover:translate-y-[1px] active:shadow-none active:translate-y-[3px] active:bg-gray-50 text-gray-700 bg-white transition-all duration-75"
                 >
                   Modifier
                 </Link>
@@ -141,14 +141,14 @@ export default function CoursDetails() {
                 <button
                   onClick={handleDelete}
                   disabled={loading}
-                  className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:bg-red-300"
+                  className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 border border-red-700 text-sm font-medium rounded-md shadow-[0_3px_0_0_#b91c1c,0_3px_6px_rgba(0,0,0,0.1)] hover:shadow-[0_2px_0_0_#b91c1c,0_2px_3px_rgba(0,0,0,0.1)] hover:translate-y-[1px] active:shadow-none active:translate-y-[3px] active:bg-red-700 text-white bg-red-600 disabled:bg-red-300 transition-all duration-75"
                 >
                   {loading ? 'Chargement...' : 'Supprimer'}
                 </button>
                 
                 <Link
                   href={`/quiz/create?coursId=${cours.id}`}
-                  className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                  className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 border border-green-700 text-sm font-medium rounded-md shadow-[0_3px_0_0_#15803d,0_3px_6px_rgba(0,0,0,0.1)] hover:shadow-[0_2px_0_0_#15803d,0_2px_3px_rgba(0,0,0,0.1)] hover:translate-y-[1px] active:shadow-none active:translate-y-[3px] active:bg-green-700 text-white bg-green-600 transition-all duration-75"
                 >
                   Ajouter un quiz
                 </Link>
@@ -166,9 +166,9 @@ export default function CoursDetails() {
             </div>
           )}
           
-          <div className="px-2 sm:px-4 py-6 sm:py-8 sm:px-0">
-            <div className="bg-white shadow rounded-lg p-3 sm:p-6">
-              <div className="prose prose-sm sm:prose max-w-none overflow-x-auto">
+          <div className="px-4 sm:px-6 py-6 sm:py-8">
+            <div className="bg-white shadow rounded-lg p-4 sm:p-6">
+              <div className="prose prose-sm sm:prose max-w-none overflow-x-auto mx-auto light-theme">
                 <div dangerouslySetInnerHTML={{ __html: cours.contenu }} />
               </div>
               
@@ -230,7 +230,7 @@ export default function CoursDetails() {
                     <div className="mt-4">
                       <Link
                         href={`/quiz/create?coursId=${cours.id}`}
-                        className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 border border-indigo-700 text-sm font-medium rounded-md shadow-[0_3px_0_0_#4338ca,0_3px_6px_rgba(0,0,0,0.1)] hover:shadow-[0_2px_0_0_#4338ca,0_2px_3px_rgba(0,0,0,0.1)] hover:translate-y-[1px] active:shadow-none active:translate-y-[3px] active:bg-indigo-700 text-white bg-indigo-600 transition-all duration-75"
                       >
                         Créer un quiz
                       </Link>
@@ -251,7 +251,7 @@ export default function CoursDetails() {
                       <div className="mt-4 flex flex-wrap gap-2 sm:space-x-3">
                         <Link
                           href={`/quiz/${q.id}`}
-                          className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                          className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-md border border-indigo-700 bg-indigo-600 text-white shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)]"
                         >
                           {isFormateur ? 'Voir le quiz' : 'Passer le quiz'}
                         </Link>
@@ -259,7 +259,7 @@ export default function CoursDetails() {
                         {isFormateur && (
                           <Link
                             href={`/quiz/edit/${q.id}`}
-                            className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-md border border-gray-700 bg-white text-gray-700 shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)]"
                           >
                             Modifier
                           </Link>

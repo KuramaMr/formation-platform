@@ -246,9 +246,13 @@ export default function CoursForm({ cours, formationId, isEditing = false }: Cou
         <button
           type="submit"
           disabled={loading}
-          className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-indigo-300"
+          className="mt-4 w-full rounded-md border border-indigo-700 bg-indigo-600 px-4 py-2 text-white shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)]"
         >
-          {loading ? 'Chargement...' : isEditing ? 'Mettre à jour' : 'Créer le cours'}
+          {loading
+            ? "Chargement..."
+            : isEditing
+            ? "Mettre à jour"
+            : "Créer le cours"}
         </button>
       </div>
     </form>

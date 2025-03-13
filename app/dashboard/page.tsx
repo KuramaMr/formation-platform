@@ -163,7 +163,7 @@ export default function DashboardPage() {
             <div className="mt-4 md:mt-0">
               <Link
                 href="/formations/create"
-                className="inline-flex items-center rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all duration-200"
+                className="inline-flex items-center rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white border border-indigo-700 shadow-[0_5px_0_0_#4338ca,0_5px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_3px_0_0_#4338ca,0_3px_6px_rgba(0,0,0,0.1)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-indigo-700 transition-all duration-75"
               >
                 <svg className="-ml-0.5 mr-1.5 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -200,9 +200,9 @@ export default function DashboardPage() {
           </div>
           <div className="bg-gray-50 px-5 py-3">
             <div className="text-sm">
-              <Link href="/formations" className="font-medium text-indigo-600 hover:text-indigo-500">
-                Voir toutes les formations
-              </Link>
+              <Link href="/formations" className="font-medium text-indigo-600 hover:text-indigo-500 inline-flex items-center px-3 py-1.5 rounded-md border border-gray-200 shadow-[0_3px_0_0_#cbd5e1,0_3px_6px_rgba(0,0,0,0.05)] hover:shadow-[0_2px_0_0_#cbd5e1,0_2px_3px_rgba(0,0,0,0.05)] hover:translate-y-[1px] active:shadow-none active:translate-y-[3px] active:bg-indigo-50 transition-all duration-75">
+              Voir toutes les formations
+            </Link>
             </div>
           </div>
         </div>
@@ -231,7 +231,7 @@ export default function DashboardPage() {
           </div>
           <div className="bg-gray-50 px-5 py-3">
             <div className="text-sm">
-              <Link href="/quiz" className="font-medium text-indigo-600 hover:text-indigo-500">
+              <Link href="/quiz" className="font-medium text-indigo-600 hover:text-indigo-500 inline-flex items-center px-3 py-1.5 rounded-md border border-gray-200 shadow-[0_3px_0_0_#cbd5e1,0_3px_6px_rgba(0,0,0,0.05)] hover:shadow-[0_2px_0_0_#cbd5e1,0_2px_3px_rgba(0,0,0,0.05)] hover:translate-y-[1px] active:shadow-none active:translate-y-[3px] active:bg-indigo-50 transition-all duration-75">
                 Gérer les quiz
               </Link>
             </div>
@@ -334,7 +334,7 @@ export default function DashboardPage() {
               
               {resultats.length > 5 && (
                 <div className="mt-4 text-center">
-                  <Link href="/resultats/eleve" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                  <Link href="/resultats/eleve" className="text-sm font-medium text-indigo-600 hover:text-indigo-500 inline-flex items-center px-3 py-1.5 rounded-md border border-gray-200 shadow-[0_3px_0_0_#cbd5e1,0_3px_6px_rgba(0,0,0,0.05)] hover:shadow-[0_2px_0_0_#cbd5e1,0_2px_3px_rgba(0,0,0,0.05)] hover:translate-y-[1px] active:shadow-none active:translate-y-[3px] active:bg-indigo-50 transition-all duration-75">
                     Voir tous mes résultats
                   </Link>
                 </div>
@@ -361,7 +361,7 @@ export default function DashboardPage() {
               <div className="mt-4">
                 <Link
                   href="/formations/create"
-                  className="inline-flex items-center rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all duration-200"
+                  className="inline-flex items-center rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white border border-indigo-700 shadow-[0_5px_0_0_#4338ca,0_5px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_3px_0_0_#4338ca,0_3px_6px_rgba(0,0,0,0.1)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-indigo-700 transition-all duration-75"
                 >
                   Créer ma première formation
                 </Link>
@@ -382,7 +382,7 @@ export default function DashboardPage() {
                     <div className="flex-1 min-w-0">
                       <Link 
                         href={`/formations/${formation.id}`}
-                        className="text-sm sm:text-base font-medium text-indigo-600 hover:text-indigo-800 line-clamp-1"
+                        className="text-sm sm:text-base font-medium text-indigo-600 hover:text-indigo-800 line-clamp-1 inline-flex items-center px-2 py-1 rounded-md border border-transparent hover:border-gray-200 shadow-[0_2px_0_0_transparent] hover:shadow-[0_2px_0_0_#cbd5e1,0_2px_3px_rgba(0,0,0,0.05)] hover:translate-y-[1px] active:shadow-none active:translate-y-[2px] active:bg-indigo-50 transition-all duration-75"
                       >
                         {formation.titre}
                       </Link>
@@ -442,7 +442,7 @@ export default function DashboardPage() {
                     <div className="flex-1 min-w-0">
                       <Link 
                         href={`/quiz/${quiz.id}`}
-                        className="text-sm sm:text-base font-medium text-indigo-600 hover:text-indigo-800 line-clamp-1"
+                        className="text-sm sm:text-base font-medium text-indigo-600 hover:text-indigo-800 line-clamp-1 inline-flex items-center px-2 py-1 rounded-md border border-transparent hover:border-gray-200 shadow-[0_2px_0_0_transparent] hover:shadow-[0_2px_0_0_#cbd5e1,0_2px_3px_rgba(0,0,0,0.05)] hover:translate-y-[1px] active:shadow-none active:translate-y-[2px] active:bg-indigo-50 transition-all duration-75"
                       >
                         {quiz.titre}
                       </Link>
@@ -466,7 +466,7 @@ export default function DashboardPage() {
           
           {quizzes.length > 5 && (
             <div className="bg-gray-50 px-4 py-3 text-center">
-              <Link href="/quiz" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+              <Link href="/quiz" className="text-sm font-medium text-indigo-600 hover:text-indigo-500 inline-flex items-center px-3 py-1.5 rounded-md border border-gray-200 shadow-[0_3px_0_0_#cbd5e1,0_3px_6px_rgba(0,0,0,0.05)] hover:shadow-[0_2px_0_0_#cbd5e1,0_2px_3px_rgba(0,0,0,0.05)] hover:translate-y-[1px] active:shadow-none active:translate-y-[3px] active:bg-indigo-50 transition-all duration-75">
                 Voir tous les quiz
               </Link>
             </div>
@@ -482,7 +482,7 @@ export default function DashboardPage() {
         </div>
         
         <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Link href="/formations" className="bg-indigo-50 hover:bg-indigo-100 p-4 rounded-lg flex items-center transition-colors duration-200">
+          <Link href="/formations" className="bg-indigo-50 hover:bg-indigo-100 p-4 rounded-lg flex items-center transition-colors duration-200 border border-indigo-100 shadow-[0_5px_0_0_#e0e7ff,0_5px_10px_rgba(0,0,0,0.05)] hover:shadow-[0_3px_0_0_#e0e7ff,0_3px_6px_rgba(0,0,0,0.05)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-indigo-100 transition-all duration-75">
             <div className="flex-shrink-0 h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center">
               <svg className="h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
@@ -496,7 +496,7 @@ export default function DashboardPage() {
           
           {userData?.role === 'formateur' && (
             <>
-              <Link href="/quiz" className="bg-green-50 hover:bg-green-100 p-4 rounded-lg flex items-center transition-colors duration-200">
+              <Link href="/quiz" className="bg-green-50 hover:bg-green-100 p-4 rounded-lg flex items-center transition-colors duration-200 border border-green-100 shadow-[0_5px_0_0_#dcfce7,0_5px_10px_rgba(0,0,0,0.05)] hover:shadow-[0_3px_0_0_#dcfce7,0_3px_6px_rgba(0,0,0,0.05)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-green-100 transition-all duration-75">
                 <div className="flex-shrink-0 h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
                   <svg className="h-6 w-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
@@ -508,7 +508,7 @@ export default function DashboardPage() {
                 </div>
               </Link>
               
-              <Link href="/signatures/gestion" className="bg-purple-50 hover:bg-purple-100 p-4 rounded-lg flex items-center transition-colors duration-200">
+              <Link href="/signatures/gestion" className="bg-purple-50 hover:bg-purple-100 p-4 rounded-lg flex items-center transition-colors duration-200 border border-purple-100 shadow-[0_5px_0_0_#f3e8ff,0_5px_10px_rgba(0,0,0,0.05)] hover:shadow-[0_3px_0_0_#f3e8ff,0_3px_6px_rgba(0,0,0,0.05)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-purple-100 transition-all duration-75">
                 <div className="flex-shrink-0 h-10 w-10 rounded-full bg-purple-100 flex items-center justify-center">
                   <svg className="h-6 w-6 text-purple-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
@@ -523,7 +523,7 @@ export default function DashboardPage() {
           )}
           
           {userData?.role === 'eleve' && (
-            <Link href="/resultats/eleve" className="bg-blue-50 hover:bg-blue-100 p-4 rounded-lg flex items-center transition-colors duration-200">
+            <Link href="/resultats/eleve" className="bg-blue-50 hover:bg-blue-100 p-4 rounded-lg flex items-center transition-colors duration-200 border border-blue-100 shadow-[0_5px_0_0_#dbeafe,0_5px_10px_rgba(0,0,0,0.05)] hover:shadow-[0_3px_0_0_#dbeafe,0_3px_6px_rgba(0,0,0,0.05)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-blue-100 transition-all duration-75">
               <div className="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
                 <svg className="h-6 w-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />

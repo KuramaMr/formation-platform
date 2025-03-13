@@ -87,9 +87,9 @@ function FormationsContent() {
             {userData?.role === 'formateur' && (
               <Link
                 href="/formations/create"
-                className="btn-secondary flex items-center gap-2"
+                className="inline-flex items-center rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-indigo-600 border border-gray-300 shadow-[0_5px_0_0_#cbd5e1,0_5px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_3px_0_0_#cbd5e1,0_3px_6px_rgba(0,0,0,0.1)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-indigo-50 active:border-indigo-200 transition-all duration-75"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
                 </svg>
                 Créer une formation
@@ -101,20 +101,20 @@ function FormationsContent() {
             <div className="mt-6 flex flex-wrap gap-2">
               <Link
                 href="/formations"
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-75 border ${
                   !inscrit 
-                    ? 'bg-white text-indigo-600' 
-                    : 'bg-indigo-500 text-white border border-indigo-300'
+                    ? 'bg-white text-indigo-600 border-white shadow-[0_3px_0_0_#fff,0_3px_6px_rgba(0,0,0,0.1)] hover:shadow-[0_2px_0_0_#fff,0_2px_3px_rgba(0,0,0,0.1)] hover:translate-y-[1px] active:shadow-none active:translate-y-[3px]' 
+                    : 'bg-indigo-500 text-white border-indigo-300 shadow-[0_3px_0_0_#4338ca,0_3px_6px_rgba(0,0,0,0.1)] hover:shadow-[0_2px_0_0_#4338ca,0_2px_3px_rgba(0,0,0,0.1)] hover:translate-y-[1px] active:shadow-none active:translate-y-[3px]'
                 }`}
               >
                 Toutes les formations
               </Link>
               <Link
                 href="/formations?inscrit=true"
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-75 border ${
                   inscrit 
-                    ? 'bg-white text-indigo-600' 
-                    : 'bg-indigo-500 text-white border border-indigo-300'
+                    ? 'bg-white text-indigo-600 border-white shadow-[0_3px_0_0_#fff,0_3px_6px_rgba(0,0,0,0.1)] hover:shadow-[0_2px_0_0_#fff,0_2px_3px_rgba(0,0,0,0.1)] hover:translate-y-[1px] active:shadow-none active:translate-y-[3px]' 
+                    : 'bg-indigo-500 text-white border-indigo-300 shadow-[0_3px_0_0_#4338ca,0_3px_6px_rgba(0,0,0,0.1)] hover:shadow-[0_2px_0_0_#4338ca,0_2px_3px_rgba(0,0,0,0.1)] hover:translate-y-[1px] active:shadow-none active:translate-y-[3px]'
                 }`}
               >
                 Mes inscriptions
@@ -157,9 +157,9 @@ function FormationsContent() {
               <div className="mt-6">
                 <Link
                   href="/formations/create"
-                  className="btn-primary inline-flex items-center gap-2"
+                  className="inline-flex items-center rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white border border-indigo-700 shadow-[0_5px_0_0_#4338ca,0_5px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_3px_0_0_#4338ca,0_3px_6px_rgba(0,0,0,0.1)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-indigo-700 transition-all duration-75"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
                   </svg>
                   Créer ma première formation

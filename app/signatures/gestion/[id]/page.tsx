@@ -302,7 +302,7 @@ export default function GestionSignaturesFormationPage() {
           <div className="flex flex-wrap gap-2 w-full sm:w-auto">
             <button
               onClick={() => setShowSignaturePad(true)}
-              className="inline-flex items-center px-3 py-2 border border-gray-300 text-xs sm:text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 flex-1 sm:flex-none justify-center"
+              className="inline-flex items-center px-3 py-2 rounded-md border border-gray-700 bg-white text-gray-700 shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] flex-1 sm:flex-none justify-center"
             >
               Ajouter une signature
             </button>
@@ -310,14 +310,14 @@ export default function GestionSignaturesFormationPage() {
             <button
               onClick={handleGenerateCalendarPDF}
               disabled={signaturesLoading || Object.keys(signaturesByDay).length === 0}
-              className="inline-flex items-center px-3 py-2 border border-transparent text-xs sm:text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 disabled:bg-green-300 flex-1 sm:flex-none justify-center"
+              className="inline-flex items-center px-3 py-2 rounded-md border border-green-700 bg-green-600 text-white shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] disabled:bg-green-300 flex-1 sm:flex-none justify-center"
             >
               {signaturesLoading ? 'Génération...' : 'PDF'}
             </button>
             
             <Link
               href="/signatures/gestion"
-              className="inline-flex items-center px-3 py-2 border border-gray-300 text-xs sm:text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 flex-1 sm:flex-none justify-center"
+              className="inline-flex items-center px-3 py-2 rounded-md border border-gray-700 bg-white text-gray-700 shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] flex-1 sm:flex-none justify-center"
             >
               Retour
             </Link>
@@ -370,7 +370,7 @@ export default function GestionSignaturesFormationPage() {
               <div className="flex items-end">
                 <button
                   onClick={applyPeriodFilter}
-                  className="inline-flex items-center px-3 py-2 border border-transparent text-xs sm:text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 w-full sm:w-auto justify-center"
+                  className="inline-flex items-center px-3 py-2 rounded-md border border-indigo-700 bg-indigo-600 text-white shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] w-full sm:w-auto justify-center"
                 >
                   Appliquer le filtre
                 </button>
@@ -418,21 +418,21 @@ export default function GestionSignaturesFormationPage() {
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={clearSignature}
-                className="inline-flex items-center px-3 py-2 border border-gray-300 text-xs sm:text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 flex-1 sm:flex-none justify-center"
+                className="inline-flex items-center px-3 py-2 rounded-md border border-gray-700 bg-white text-gray-700 shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] flex-1 sm:flex-none justify-center"
               >
                 Effacer
               </button>
               
               <button
                 onClick={handleAddSignature}
-                className="inline-flex items-center px-3 py-2 border border-transparent text-xs sm:text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 flex-1 sm:flex-none justify-center"
+                className="inline-flex items-center px-3 py-2 rounded-md border border-indigo-700 bg-indigo-600 text-white shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] flex-1 sm:flex-none justify-center"
               >
                 Enregistrer
               </button>
               
               <button
                 onClick={() => setShowSignaturePad(false)}
-                className="inline-flex items-center px-3 py-2 border border-gray-300 text-xs sm:text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 flex-1 sm:flex-none justify-center"
+                className="inline-flex items-center px-3 py-2 rounded-md border border-gray-700 bg-white text-gray-700 shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] flex-1 sm:flex-none justify-center"
               >
                 Annuler
               </button>
@@ -472,10 +472,10 @@ export default function GestionSignaturesFormationPage() {
               <div className="flex gap-2 w-full sm:w-auto">
                 <button
                   onClick={toggleSelectionMode}
-                  className={`px-3 py-1 text-xs sm:text-sm rounded-md flex-1 sm:flex-none justify-center ${
+                  className={`px-3 py-1 text-xs sm:text-sm rounded-md flex-1 sm:flex-none justify-center border shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] ${
                     selectionMode 
-                      ? 'bg-red-100 text-red-700 border border-red-300' 
-                      : 'bg-gray-100 text-gray-700 border border-gray-300'
+                      ? 'bg-red-100 text-red-700 border-red-700' 
+                      : 'bg-gray-100 text-gray-700 border-gray-700'
                   }`}
                 >
                   {selectionMode ? 'Annuler' : 'Sélectionner'}
@@ -484,7 +484,7 @@ export default function GestionSignaturesFormationPage() {
                 {selectionMode && (
                   <button
                     onClick={handleDeleteSelectedSignatures}
-                    className="px-3 py-1 text-xs sm:text-sm bg-red-600 text-white rounded-md hover:bg-red-700 flex-1 sm:flex-none justify-center"
+                    className="px-3 py-1 text-xs sm:text-sm rounded-md border border-red-700 bg-red-600 text-white shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] flex-1 sm:flex-none justify-center"
                     disabled={Object.values(selectedSignatures).filter(Boolean).length === 0}
                   >
                     Supprimer sélection
@@ -516,13 +516,13 @@ export default function GestionSignaturesFormationPage() {
                     <div className="flex gap-2 w-full sm:w-auto">
                       <button
                         onClick={() => toggleAllSignaturesForDay(date, true)}
-                        className="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded hover:bg-blue-200 flex-1 sm:flex-none justify-center"
+                        className="px-2 py-1 text-xs rounded-md border border-blue-700 bg-blue-100 text-blue-700 shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] flex-1 sm:flex-none justify-center"
                       >
                         Tout sélectionner
                       </button>
                       <button
                         onClick={() => toggleAllSignaturesForDay(date, false)}
-                        className="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded hover:bg-gray-200 flex-1 sm:flex-none justify-center"
+                        className="px-2 py-1 text-xs rounded-md border border-gray-700 bg-gray-100 text-gray-700 shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] flex-1 sm:flex-none justify-center"
                       >
                         Tout désélectionner
                       </button>
@@ -577,7 +577,7 @@ export default function GestionSignaturesFormationPage() {
                                 e.stopPropagation();
                                 handleDeleteSignature(signature.id);
                               }}
-                              className="text-xs text-red-600 hover:text-red-800"
+                              className="text-xs text-red-600 hover:text-red-800 px-2 py-1 rounded-md border border-red-700 bg-white shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)]"
                               title="Supprimer cette signature"
                             >
                               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

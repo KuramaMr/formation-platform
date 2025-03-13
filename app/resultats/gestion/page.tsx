@@ -613,9 +613,9 @@ export default function GestionResultatsPage() {
                     alert('Une erreur est survenue lors de la génération du PDF.');
                   }
                 }}
-                className="inline-flex items-center px-3 py-2 text-xs sm:text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 w-full sm:w-auto justify-center"
+                className="inline-flex items-center px-3 py-2 border border-green-700 text-sm font-medium rounded-md text-white bg-green-600 shadow-[0_3px_0_0_#15803d,0_3px_6px_rgba(0,0,0,0.1)] hover:shadow-[0_2px_0_0_#15803d,0_2px_3px_rgba(0,0,0,0.1)] hover:translate-y-[1px] active:shadow-none active:translate-y-[3px] active:bg-green-700 transition-all duration-75"
               >
-                Télécharger tous les résultats (PDF)
+                Générer PDF de tous les résultats
               </button>
             </div>
           </div>
@@ -728,13 +728,13 @@ export default function GestionResultatsPage() {
                               <>
                                 <Link 
                                   href={`/quiz/${quizId}`}
-                                  className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs sm:text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 flex-1 sm:flex-none justify-center"
+                                  className="inline-flex items-center px-3 py-1.5 border border-indigo-700 text-xs sm:text-sm font-medium rounded-md text-white bg-indigo-600 shadow-[0_3px_0_0_#4338ca,0_3px_6px_rgba(0,0,0,0.1)] hover:shadow-[0_2px_0_0_#4338ca,0_2px_3px_rgba(0,0,0,0.1)] hover:translate-y-[1px] active:shadow-none active:translate-y-[3px] active:bg-indigo-700 transition-all duration-75 flex-1 sm:flex-none justify-center"
                                 >
                                   Voir le quiz
                                 </Link>
                                 <button 
                                   onClick={() => generateQuizPDF(quizId, typedResults)}
-                                  className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs sm:text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 flex-1 sm:flex-none justify-center"
+                                  className="inline-flex items-center px-3 py-1.5 border border-green-700 text-xs sm:text-sm font-medium rounded-md text-white bg-green-600 shadow-[0_3px_0_0_#15803d,0_3px_6px_rgba(0,0,0,0.1)] hover:shadow-[0_2px_0_0_#15803d,0_2px_3px_rgba(0,0,0,0.1)] hover:translate-y-[1px] active:shadow-none active:translate-y-[3px] active:bg-green-700 transition-all duration-75 flex-1 sm:flex-none justify-center"
                                 >
                                   PDF
                                 </button>
@@ -742,7 +742,7 @@ export default function GestionResultatsPage() {
                             )}
                             <button 
                               onClick={() => handleDeleteQuizResults(quizId)}
-                              className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs sm:text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 flex-1 sm:flex-none justify-center"
+                              className="inline-flex items-center px-3 py-1.5 border border-red-700 text-xs sm:text-sm font-medium rounded-md text-white bg-red-600 shadow-[0_3px_0_0_#b91c1c,0_3px_6px_rgba(0,0,0,0.1)] hover:shadow-[0_2px_0_0_#b91c1c,0_2px_3px_rgba(0,0,0,0.1)] hover:translate-y-[1px] active:shadow-none active:translate-y-[3px] active:bg-red-700 transition-all duration-75 flex-1 sm:flex-none justify-center"
                             >
                               Supprimer
                             </button>
@@ -799,7 +799,7 @@ export default function GestionResultatsPage() {
                                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <button 
                                       onClick={() => handleDeleteResult(resultat.id)}
-                                      className="text-red-600 hover:text-red-900"
+                                      className="text-red-600 hover:text-red-900 px-2 py-1 rounded border border-transparent hover:border-red-200 shadow-[0_2px_0_0_transparent] hover:shadow-[0_2px_0_0_#fecaca,0_2px_3px_rgba(0,0,0,0.05)] hover:translate-y-[1px] active:shadow-none active:translate-y-[2px] active:bg-red-50 transition-all duration-75"
                                     >
                                       Supprimer
                                     </button>

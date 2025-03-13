@@ -169,7 +169,7 @@ export default function FormationDetails() {
                     ) : (
                       <Link
                         href={`/formations/${formation.id}/signature`}
-                        className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-indigo-700 bg-white hover:bg-indigo-50 transition-colors duration-200"
+                        className="w-full inline-flex justify-center items-center px-4 py-2 border border-white text-sm font-medium rounded-md shadow-[0_3px_0_0_#fff,0_3px_6px_rgba(0,0,0,0.1)] hover:shadow-[0_2px_0_0_#fff,0_2px_3px_rgba(0,0,0,0.1)] hover:translate-y-[1px] active:shadow-none active:translate-y-[3px] active:bg-white/90 text-indigo-700 bg-white transition-all duration-75"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
@@ -182,7 +182,7 @@ export default function FormationDetails() {
                   <button
                     onClick={handleInscription}
                     disabled={loading}
-                    className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-indigo-700 bg-white hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-indigo-300 transition-colors duration-200"
+                    className="inline-flex items-center px-6 py-3 border border-white text-base font-medium rounded-md shadow-[0_5px_0_0_#fff,0_5px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_3px_0_0_#fff,0_3px_6px_rgba(0,0,0,0.1)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-white/90 text-indigo-700 bg-white disabled:bg-indigo-300 transition-all duration-75"
                   >
                     {loading ? (
                       <>
@@ -209,7 +209,7 @@ export default function FormationDetails() {
               <div className="flex flex-wrap gap-3">
                 <Link
                   href={`/formations/edit/${formation.id}`}
-                  className="inline-flex items-center px-4 py-2 border border-white/30 text-sm font-medium rounded-md shadow-sm text-white bg-white/10 hover:bg-white/20 transition-colors duration-200"
+                  className="inline-flex items-center px-4 py-2 border border-white/30 text-sm font-medium rounded-md shadow-[0_3px_0_0_rgba(255,255,255,0.3),0_3px_6px_rgba(0,0,0,0.1)] hover:shadow-[0_2px_0_0_rgba(255,255,255,0.3),0_2px_3px_rgba(0,0,0,0.1)] hover:translate-y-[1px] active:shadow-none active:translate-y-[3px] active:bg-white/20 text-white bg-white/10 transition-all duration-75"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
@@ -219,7 +219,7 @@ export default function FormationDetails() {
                 
                 <Link
                   href={`/formations/gestion/${formation.id}`}
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-indigo-700 bg-white hover:bg-indigo-50 transition-colors duration-200"
+                  className="inline-flex items-center px-4 py-2 border border-white text-sm font-medium rounded-md shadow-[0_3px_0_0_#fff,0_3px_6px_rgba(0,0,0,0.1)] hover:shadow-[0_2px_0_0_#fff,0_2px_3px_rgba(0,0,0,0.1)] hover:translate-y-[1px] active:shadow-none active:translate-y-[3px] active:bg-white/90 text-indigo-700 bg-white transition-all duration-75"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z" />
@@ -269,7 +269,7 @@ export default function FormationDetails() {
             {isFormateurOfFormation && (
               <Link
                 href={`/cours/create?formationId=${formation.id}`}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200"
+                className="inline-flex items-center px-4 py-2 border border-indigo-700 text-sm font-medium rounded-md shadow-[0_3px_0_0_#4338ca,0_3px_6px_rgba(0,0,0,0.1)] hover:shadow-[0_2px_0_0_#4338ca,0_2px_3px_rgba(0,0,0,0.1)] hover:translate-y-[1px] active:shadow-none active:translate-y-[3px] active:bg-indigo-700 text-white bg-indigo-600 transition-all duration-75"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
@@ -297,7 +297,7 @@ export default function FormationDetails() {
                 <div className="mt-6">
                   <Link
                     href={`/cours/create?formationId=${formation.id}`}
-                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200"
+                    className="inline-flex items-center px-4 py-2 border border-indigo-700 text-sm font-medium rounded-md shadow-[0_3px_0_0_#4338ca,0_3px_6px_rgba(0,0,0,0.1)] hover:shadow-[0_2px_0_0_#4338ca,0_2px_3px_rgba(0,0,0,0.1)] hover:translate-y-[1px] active:shadow-none active:translate-y-[3px] active:bg-indigo-700 text-white bg-indigo-600 transition-all duration-75"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
@@ -325,7 +325,7 @@ export default function FormationDetails() {
                     <div className="flex flex-wrap gap-2">
                       <Link
                         href={`/cours/${cours.id}`}
-                        className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200"
+                        className="inline-flex items-center px-3 py-1.5 border border-indigo-700 text-sm font-medium rounded-md shadow-[0_3px_0_0_#4338ca,0_3px_6px_rgba(0,0,0,0.1)] hover:shadow-[0_2px_0_0_#4338ca,0_2px_3px_rgba(0,0,0,0.1)] hover:translate-y-[1px] active:shadow-none active:translate-y-[3px] active:bg-indigo-700 text-white bg-indigo-600 transition-all duration-75"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
                           <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
@@ -338,7 +338,7 @@ export default function FormationDetails() {
                         <>
                           <Link
                             href={`/cours/edit/${cours.id}`}
-                            className="inline-flex items-center px-3 py-1.5 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 transition-colors duration-200"
+                            className="inline-flex items-center px-3 py-1.5 rounded-md border border-gray-700 bg-white text-gray-700 shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)]"
                           >
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
                               <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
@@ -348,7 +348,7 @@ export default function FormationDetails() {
                           
                           <Link
                             href={`/quiz/create?coursId=${cours.id}`}
-                            className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 transition-colors duration-200"
+                            className="inline-flex items-center px-3 py-1.5 border border-green-700 text-sm font-medium rounded-md shadow-[0_3px_0_0_#15803d,0_3px_6px_rgba(0,0,0,0.1)] hover:shadow-[0_2px_0_0_#15803d,0_2px_3px_rgba(0,0,0,0.1)] hover:translate-y-[1px] active:shadow-none active:translate-y-[3px] active:bg-green-700 text-white bg-green-600 transition-all duration-75"
                           >
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
                               <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />

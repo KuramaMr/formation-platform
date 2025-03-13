@@ -26,7 +26,7 @@ export default function Home() {
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <div className="relative isolate overflow-hidden">
+      <div className="relative isolate overflow-hidden max-[1030px]:hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-indigo-100 to-white -z-10"></div>
         
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-24 pb-16 sm:pt-32 sm:pb-24">
@@ -45,31 +45,33 @@ export default function Home() {
                   <>
                     <Link
                       href="/auth/signup"
-                      className="rounded-md bg-indigo-600 px-5 py-3 text-base font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all duration-200"
+                      className="rounded-md bg-indigo-600 px-5 py-2.5 text-base font-semibold text-white border border-indigo-700 shadow-[0_5px_0_0_#4338ca,0_5px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_3px_0_0_#4338ca,0_3px_6px_rgba(0,0,0,0.1)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-indigo-700 transition-all duration-75"
                     >
                       S'inscrire gratuitement
                     </Link>
                     <Link
                       href="/auth/signin"
-                      className="rounded-md bg-white px-5 py-3 text-base font-semibold text-indigo-600 shadow-sm ring-1 ring-inset ring-indigo-200 hover:bg-gray-50 transition-all duration-200"
+                      className="rounded-md bg-white px-5 py-2.5 text-base font-semibold text-indigo-600 border border-gray-300 shadow-[0_5px_0_0_#cbd5e1,0_5px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_3px_0_0_#cbd5e1,0_3px_6px_rgba(0,0,0,0.1)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-indigo-50 active:border-indigo-200 transition-all duration-75"
                     >
                       Se connecter
                     </Link>
                   </>
                 ) : (
                   <>
-                    <Link
-                      href="/dashboard"
-                      className="rounded-md bg-indigo-600 px-5 py-3 text-base font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all duration-200"
-                    >
-                      Mon tableau de bord
-                    </Link>
-                    <Link
-                      href="/formations"
-                      className="rounded-md bg-white px-5 py-3 text-base font-semibold text-indigo-600 shadow-sm ring-1 ring-inset ring-indigo-200 hover:bg-gray-50 transition-all duration-200"
-                    >
-                      Voir les formations
-                    </Link>
+                    <div className="flex space-x-4 mb-16 max-[1030px]:mb-4">
+                      <Link
+                        href="/dashboard"
+                        className="flex-1 text-center px-4 py-2.5 bg-white text-indigo-600 font-medium rounded-md border border-gray-300 shadow-[0_5px_0_0_#cbd5e1,0_5px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_3px_0_0_#cbd5e1,0_3px_6px_rgba(0,0,0,0.1)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-indigo-50 active:border-indigo-200 transition-all duration-75 mr-4"
+                      >
+                        Mon tableau de bord
+                      </Link>
+                      <Link
+                        href="/formations"
+                        className="w-auto text-center px-5 py-2.5 bg-white text-indigo-600 font-medium rounded-md border border-gray-300 shadow-[0_5px_0_0_#cbd5e1,0_5px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_3px_0_0_#cbd5e1,0_3px_6px_rgba(0,0,0,0.1)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-indigo-50 active:border-indigo-200 transition-all duration-75 whitespace-nowrap"
+                      >
+                        Voir les formations
+                      </Link>
+                    </div>
                   </>
                 )}
               </div>
@@ -89,19 +91,109 @@ export default function Home() {
         </div>
       </div>
 
+      <div className="hidden max-[1030px]:block">
+        {/* Hero Section */}
+        <div className="relative isolate overflow-hidden max-[1030px]:py-2">
+          <div className="absolute inset-0 bg-gradient-to-b from-indigo-100 to-white -z-10"></div>
+          
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-24 pb-16 sm:pt-32 sm:pb-24">
+            <div className="flex flex-col lg:flex-row items-center">
+              <div className="lg:w-1/2 lg:pr-12 mb-10 lg:mb-0">
+                <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl mb-6">
+                  <span className="block text-indigo-600">Formation App</span>
+                  <span className="block">Apprenez à votre rythme</span>
+                </h1>
+                <p className="mt-6 text-lg leading-8 text-gray-600 max-w-2xl">
+                  Une plateforme simple et efficace pour les formateurs indépendants et leurs élèves. 
+                  Gérez vos formations, suivez vos progrès et restez connecté avec vos formateurs.
+                </p>
+                <div className="mt-10 flex flex-wrap gap-4">
+                  {!user ? (
+                    <>
+                      <Link
+                        href="/auth/signup"
+                        className="rounded-md bg-indigo-600 px-5 py-2.5 text-base font-semibold text-white border border-indigo-700 shadow-[0_5px_0_0_#4338ca,0_5px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_3px_0_0_#4338ca,0_3px_6px_rgba(0,0,0,0.1)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-indigo-700 transition-all duration-75"
+                      >
+                        S'inscrire gratuitement
+                      </Link>
+                      <Link
+                        href="/auth/signin"
+                        className="rounded-md bg-white px-5 py-2.5 text-base font-semibold text-indigo-600 border border-gray-300 shadow-[0_5px_0_0_#cbd5e1,0_5px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_3px_0_0_#cbd5e1,0_3px_6px_rgba(0,0,0,0.1)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-indigo-50 active:border-indigo-200 transition-all duration-75"
+                      >
+                        Se connecter
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <div className="flex space-x-4 mb-16 max-[1030px]:mb-4">
+                        <Link
+                          href="/dashboard"
+                          className="flex-1 text-center px-4 py-2.5 bg-white text-indigo-600 font-medium rounded-md border border-gray-300 shadow-[0_5px_0_0_#cbd5e1,0_5px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_3px_0_0_#cbd5e1,0_3px_6px_rgba(0,0,0,0.1)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-indigo-50 active:border-indigo-200 transition-all duration-75 mr-4"
+                        >
+                          Mon tableau de bord
+                        </Link>
+                        <Link
+                          href="/formations"
+                          className="w-auto text-center px-5 py-2.5 bg-white text-indigo-600 font-medium rounded-md border border-gray-300 shadow-[0_5px_0_0_#cbd5e1,0_5px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_3px_0_0_#cbd5e1,0_3px_6px_rgba(0,0,0,0.1)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-indigo-50 active:border-indigo-200 transition-all duration-75 whitespace-nowrap"
+                        >
+                          Voir les formations
+                        </Link>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+              <div className="lg:w-1/2 relative">
+                <div className="relative h-64 sm:h-80 lg:h-96 w-full rounded-xl overflow-hidden shadow-xl">
+                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-600 opacity-90"></div>
+                  <div className="absolute inset-0 flex items-center justify-center text-white p-6">
+                    <div className="text-center">
+                      <h2 className="text-2xl sm:text-3xl font-bold mb-4">Apprenez n'importe où, n'importe quand</h2>
+                      <p className="text-lg opacity-90">Accédez à vos cours sur tous vos appareils</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* En-tête amélioré pour mobile */}
+      <div className="bg-gradient-to-r from-indigo-50 to-blue-50 p-6 rounded-lg mb-8 max-[1030px]:block hidden">
+        <p className="text-gray-700 mb-5 text-center">
+          Bienvenue sur notre plateforme d'apprentissage en ligne. Découvrez nos formations interactives et suivez votre progression.
+        </p>
+        
+        <div className="flex space-x-4">
+          <Link 
+            href="/dashboard" 
+            className="flex-1 text-center px-4 py-2.5 bg-white text-indigo-600 font-medium rounded-md border border-gray-300 shadow-[0_5px_0_0_#cbd5e1,0_5px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_3px_0_0_#cbd5e1,0_3px_6px_rgba(0,0,0,0.1)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-indigo-50 active:border-indigo-200 transition-all duration-75"
+          >
+            Tableau de bord
+          </Link>
+          <Link 
+            href="/formations" 
+            className="flex-1 text-center px-4 py-2.5 bg-white text-indigo-600 font-medium rounded-md border border-gray-300 shadow-[0_5px_0_0_#cbd5e1,0_5px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_3px_0_0_#cbd5e1,0_3px_6px_rgba(0,0,0,0.1)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-indigo-50 active:border-indigo-200 transition-all duration-75"
+          >
+            Formations
+          </Link>
+        </div>
+      </div>
+
       {/* Features Section */}
-      <div className="py-16 sm:py-24 bg-white">
+      <div className="py-16 sm:py-24 max-[1030px]:py-0 max-[1030px]:mt-4">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">
               Pourquoi choisir notre plateforme ?
             </h2>
-            <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto px-4">
               Découvrez les fonctionnalités qui font de Formation App la solution idéale pour l'apprentissage en ligne.
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 sm:px-6">
             {/* Feature 1 */}
             <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
               <div className="h-12 w-12 bg-indigo-100 text-indigo-600 rounded-md flex items-center justify-center mb-4">
@@ -153,13 +245,15 @@ export default function Home() {
               <span className="block text-indigo-200">Rejoignez notre plateforme dès aujourd'hui.</span>
             </h2>
             <div className="mt-8 flex lg:mt-0 lg:flex-shrink-0">
-              <div className="inline-flex rounded-md shadow">
-                <Link
-                  href={user ? "/dashboard" : "/auth/signup"}
-                  className="inline-flex items-center justify-center rounded-md border border-transparent bg-white px-5 py-3 text-base font-medium text-indigo-600 hover:bg-indigo-50"
-                >
-                  {user ? "Accéder à mon tableau de bord" : "S'inscrire gratuitement"}
-                </Link>
+              <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 px-4">
+                <div className="inline-flex rounded-md shadow">
+                  <Link
+                    href={user ? "/dashboard" : "/auth/signup"}
+                    className="inline-flex items-center justify-center rounded-md border border-transparent bg-white px-5 py-2.5 text-base font-medium text-indigo-600 border border-gray-300 shadow-[0_5px_0_0_#cbd5e1,0_5px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_3px_0_0_#cbd5e1,0_3px_6px_rgba(0,0,0,0.1)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-indigo-50 active:border-indigo-200 transition-all duration-75"
+                  >
+                    {user ? "Accéder à mon tableau de bord" : "S'inscrire gratuitement"}
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
@@ -169,7 +263,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="bg-gray-900">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <div className="border-t border-gray-800 pt-8 md:flex md:items-center md:justify-between">
+          <div className="flex flex-col sm:flex-row sm:justify-between items-center px-4">
             <div className="flex space-x-6 md:order-2">
               <p className="text-gray-400 text-sm">
                 © 2023 Formation App. Tous droits réservés.

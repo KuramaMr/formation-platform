@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from './contexts/AuthContext';
-import Link from "next/link";
 import Navigation from './components/Navigation';
 import BottomNavigation from './components/BottomNavigation';
 
@@ -28,7 +27,7 @@ export default function RootLayout({
         <AuthProvider>
           <div className="min-h-screen flex flex-col">
             <Navigation />
-            <main className="pb-16 min-[1031px]:pb-0">
+            <main className="pb-0">
               {children}
             </main>
             <BottomNavigation />

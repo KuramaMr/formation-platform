@@ -130,7 +130,7 @@ export default function GestionFormationPage() {
           <div className="mt-4 sm:mt-0">
             <Link 
               href={`/formations/${id}`}
-              className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm ring-1 ring-inset ring-indigo-200 hover:bg-gray-50 transition-all duration-200"
+              className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-indigo-600 border border-gray-300 shadow-[0_3px_0_0_#cbd5e1,0_3px_6px_rgba(0,0,0,0.1)] hover:shadow-[0_2px_0_0_#cbd5e1,0_2px_3px_rgba(0,0,0,0.1)] hover:translate-y-[1px] active:shadow-none active:translate-y-[3px] active:bg-gray-50 transition-all duration-75"
             >
               Retour à la formation
             </Link>
@@ -212,13 +212,13 @@ export default function GestionFormationPage() {
                             <div className="flex space-x-2">
                               <button
                                 onClick={() => handleDesinscrireEleve(student.id, student.userId, student.displayName || student.email)}
-                                className="text-white bg-red-600 hover:bg-red-700 px-3 py-1 rounded-md text-sm font-medium transition-colors duration-200"
+                                className="text-white bg-red-600 border border-red-700 shadow-[0_3px_0_0_#b91c1c,0_3px_6px_rgba(0,0,0,0.1)] hover:shadow-[0_2px_0_0_#b91c1c,0_2px_3px_rgba(0,0,0,0.1)] hover:translate-y-[1px] active:shadow-none active:translate-y-[3px] active:bg-red-700 px-3 py-1 rounded-md text-sm font-medium transition-all duration-75"
                               >
                                 Confirmer
                               </button>
                               <button
                                 onClick={() => setConfirmDelete(null)}
-                                className="text-gray-700 bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded-md text-sm font-medium transition-colors duration-200"
+                                className="text-gray-700 bg-gray-200 border border-gray-300 shadow-[0_3px_0_0_#cbd5e1,0_3px_6px_rgba(0,0,0,0.1)] hover:shadow-[0_2px_0_0_#cbd5e1,0_2px_3px_rgba(0,0,0,0.1)] hover:translate-y-[1px] active:shadow-none active:translate-y-[3px] active:bg-gray-300 px-3 py-1 rounded-md text-sm font-medium transition-all duration-75"
                               >
                                 Annuler
                               </button>
@@ -226,7 +226,7 @@ export default function GestionFormationPage() {
                           ) : (
                             <button
                               onClick={() => setConfirmDelete(student.id)}
-                              className="text-red-600 hover:text-red-900 font-medium"
+                              className="text-red-600 hover:text-red-900 font-medium border border-transparent px-3 py-1 rounded-md shadow-[0_2px_0_0_transparent] hover:border-red-200 hover:shadow-[0_2px_0_0_#fecaca,0_2px_3px_rgba(0,0,0,0.05)] hover:translate-y-[1px] active:shadow-none active:translate-y-[2px] active:bg-red-50 transition-all duration-75"
                             >
                               Désinscrire
                             </button>

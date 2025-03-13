@@ -64,7 +64,7 @@ export default function GestionSignaturesPage() {
             </p>
             <Link
               href="/formations/create"
-              className="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"
+              className="mt-4 inline-flex items-center px-4 py-2.5 border border-indigo-700 text-sm font-medium rounded-md text-white bg-indigo-600 shadow-[0_5px_0_0_#4338ca,0_5px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_3px_0_0_#4338ca,0_3px_6px_rgba(0,0,0,0.1)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-indigo-700 transition-all duration-75"
             >
               Créer une formation
             </Link>
@@ -76,7 +76,7 @@ export default function GestionSignaturesPage() {
                 <li key={formation.id}>
                   <Link
                     href={`/signatures/gestion/${formation.id}`}
-                    className="block hover:bg-gray-50"
+                    className="block hover:bg-gray-50 border-l-4 border-transparent hover:border-indigo-500 transition-all duration-75 shadow-[0_2px_0_0_transparent] hover:shadow-[0_2px_0_0_#e0e7ff] hover:translate-y-[1px] active:shadow-none active:translate-y-[2px]"
                   >
                     <div className="px-4 py-4 sm:px-6">
                       <div className="flex items-center justify-between">
