@@ -275,6 +275,28 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {user ? (
+        // Utilisateur connecté
+        <div className="grid grid-cols-2 gap-4 mt-8 md:hidden">
+          <Link href="/dashboard" className="rounded-md border border-indigo-700 bg-white px-4 py-2 text-indigo-700 shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] text-center">
+            Tableau de bord
+          </Link>
+          <Link href="/formations" className="rounded-md border border-indigo-700 bg-indigo-600 px-4 py-2 text-white shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] text-center">
+            Formations
+          </Link>
+        </div>
+      ) : (
+        // Utilisateur non connecté
+        <div className="grid grid-cols-2 gap-4 mt-8 md:hidden">
+          <Link href="/auth/signin" className="rounded-md border border-indigo-700 bg-white px-4 py-2 text-indigo-700 shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] text-center">
+            Connexion
+          </Link>
+          <Link href="/auth/signup" className="rounded-md border border-indigo-700 bg-indigo-600 px-4 py-2 text-white shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] transition-all hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0.25rem_0.5rem_0px_0px_rgba(0,0,0,0.1)] active:translate-y-0 active:shadow-[0.25rem_0.25rem_0px_0px_rgba(0,0,0,0.1)] text-center">
+            S'inscrire
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
