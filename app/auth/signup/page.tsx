@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
@@ -27,6 +27,20 @@ export default function SignUp() {
     }
   });
   const password = watch('password');
+  
+  const [particles, setParticles] = useState([]);
+
+  useEffect(() => {
+    const newParticles = Array.from({ length: 20 }).map((_, i) => ({
+      id: i,
+      top: `${Math.random() * 100}%`,
+      left: `${Math.random() * 100}%`,
+      delay: `${Math.random() * 5}s`,
+      duration: `${15 + Math.random() * 15}s`,
+      type: i % 5 + 1
+    }));
+    setParticles(newParticles);
+  }, []);
   
   const onSubmit = async (data: FormData) => {
     if (data.password !== data.confirmPassword) {
@@ -87,15 +101,15 @@ export default function SignUp() {
       {/* Particules flottantes */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="particle-container">
-          {Array.from({ length: 20 }).map((_, i) => (
+          {particles.map((particle) => (
             <div 
-              key={i} 
-              className={`particle particle-${i % 5 + 1}`}
+              key={particle.id} 
+              className={`particle particle-${particle.type}`}
               style={{
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`,
-                animationDuration: `${15 + Math.random() * 15}s`
+                top: particle.top,
+                left: particle.left,
+                animationDelay: particle.delay,
+                animationDuration: particle.duration
               }}
             ></div>
           ))}
@@ -129,18 +143,19 @@ export default function SignUp() {
                 </p>
               </div>
 
-              {/* Messages d'erreur */}
+              {/* Messages d'erreur avec effet de verre avancé pour la page d'inscription */}
               {error && (
-                <div className="mb-8 rounded-xl bg-red-900/30 backdrop-blur-md p-5 border border-red-500/50 animate-fade-in-bounce neon-error-glow">
-                  <div className="flex">
+                <div className="mb-8 rounded-xl bg-gradient-to-r from-red-500/15 to-purple-500/10 backdrop-blur-md p-5 border-l-4 border-red-400/40 animate-fade-in-bounce shadow-[0_4px_15px_rgba(248,113,113,0.15)] overflow-hidden relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 via-purple-500/5 to-indigo-500/5 animate-pulse-slow opacity-50"></div>
+                  <div className="flex relative z-10">
                     <div className="flex-shrink-0">
-                      <svg className="h-6 w-6 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                      <svg className="h-6 w-6 text-red-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                       </svg>
                     </div>
                     <div className="ml-3">
-                      <h3 className="text-base font-medium text-red-300">Erreur d'inscription</h3>
-                      <div className="mt-2 text-sm text-red-200">
+                      <h3 className="text-base font-medium text-red-200">Erreur d'inscription</h3>
+                      <div className="mt-2 text-sm text-red-100">
                         <p>{error}</p>
                       </div>
                     </div>
@@ -164,11 +179,17 @@ export default function SignUp() {
                       type="text"
                       autoComplete="name"
                       {...register('displayName', { required: 'Le nom est requis' })}
-                      className="pl-12 block w-full rounded-xl border-indigo-500/50 bg-indigo-900/30 backdrop-blur-md shadow-inner-glow focus:border-cyan-400 focus:ring-cyan-400 text-white text-base py-4 input-glow"
+                      className={`pl-12 block w-full rounded-xl backdrop-blur-md shadow-inner-glow focus:border-cyan-400 focus:ring-cyan-400 text-white text-base py-4 input-glow ${
+                        errors.displayName 
+                          ? 'border-indigo-500/50 bg-indigo-900/20 animate-pulse-subtle' 
+                          : 'border-indigo-500/50 bg-indigo-900/30'
+                      }`}
                     />
                   </div>
                   {errors.displayName && (
-                    <p className="mt-2 text-sm text-red-300 text-glow-red">{errors.displayName.message}</p>
+                    <p className="mt-2 text-sm font-medium text-white bg-red-500/30 px-3 py-1 rounded-md backdrop-blur-sm border border-red-400/30 shadow-inner">
+                      {errors.displayName.message}
+                    </p>
                   )}
                 </div>
                 
@@ -197,7 +218,9 @@ export default function SignUp() {
                     />
                   </div>
                   {errors.email && (
-                    <p className="mt-2 text-sm text-red-300 text-glow-red">{errors.email.message}</p>
+                    <p className="mt-2 text-sm font-medium text-white bg-red-500/30 px-3 py-1 rounded-md backdrop-blur-sm border border-red-400/30 shadow-inner">
+                      {errors.email.message}
+                    </p>
                   )}
                 </div>
 
@@ -226,7 +249,9 @@ export default function SignUp() {
                     />
                   </div>
                   {errors.password && (
-                    <p className="mt-2 text-sm text-red-300 text-glow-red">{errors.password.message}</p>
+                    <p className="mt-2 text-sm font-medium text-white bg-red-500/30 px-3 py-1 rounded-md backdrop-blur-sm border border-red-400/30 shadow-inner">
+                      {errors.password.message}
+                    </p>
                   )}
                 </div>
 
@@ -252,7 +277,9 @@ export default function SignUp() {
                     />
                   </div>
                   {errors.confirmPassword && (
-                    <p className="mt-2 text-sm text-red-300 text-glow-red">{errors.confirmPassword.message}</p>
+                    <p className="mt-2 text-sm font-medium text-white bg-red-500/30 px-3 py-1 rounded-md backdrop-blur-sm border border-red-400/30 shadow-inner">
+                      {errors.confirmPassword.message}
+                    </p>
                   )}
                 </div>
 
@@ -287,7 +314,9 @@ export default function SignUp() {
                     </div>
                   </div>
                   {errors.role && (
-                    <p className="mt-2 text-sm text-red-300 text-glow-red">Veuillez sélectionner un type de compte</p>
+                    <p className="mt-2 text-sm font-medium text-white bg-red-500/30 px-3 py-1 rounded-md backdrop-blur-sm border border-red-400/30 shadow-inner">
+                      Veuillez sélectionner un type de compte
+                    </p>
                   )}
                 </div>
 

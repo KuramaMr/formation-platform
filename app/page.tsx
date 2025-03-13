@@ -25,22 +25,22 @@ export default function Home() {
 
   return (
     <div className="bg-white">
-      {/* Hero Section */}
+      {/* Hero Section - Version Desktop */}
       <div className="relative isolate overflow-hidden max-[1030px]:hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-indigo-100 to-white -z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-100 via-blue-50 to-white -z-10"></div>
         
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-24 pb-16 sm:pt-32 sm:pb-24">
-          <div className="flex flex-col lg:flex-row items-center">
-            <div className="lg:w-1/2 lg:pr-12 mb-10 lg:mb-0">
+          <div className="flex flex-col items-center">
+            <div className="max-w-3xl text-center mb-12">
               <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl mb-6">
                 <span className="block text-indigo-600">Formation App</span>
                 <span className="block">Apprenez à votre rythme</span>
               </h1>
-              <p className="mt-6 text-lg leading-8 text-gray-600 max-w-2xl">
+              <p className="mt-6 text-lg leading-8 text-gray-600">
                 Une plateforme simple et efficace pour les formateurs indépendants et leurs élèves. 
                 Gérez vos formations, suivez vos progrès et restez connecté avec vos formateurs.
               </p>
-              <div className="mt-10 flex flex-wrap gap-4">
+              <div className="mt-10 flex flex-wrap justify-center gap-4">
                 {!user ? (
                   <>
                     <Link
@@ -58,16 +58,16 @@ export default function Home() {
                   </>
                 ) : (
                   <>
-                    <div className="flex space-x-4 mb-16 max-[1030px]:mb-4">
+                    <div className="flex space-x-4">
                       <Link
                         href="/dashboard"
-                        className="flex-1 text-center px-4 py-2.5 bg-white text-indigo-600 font-medium rounded-md border border-gray-300 shadow-[0_5px_0_0_#cbd5e1,0_5px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_3px_0_0_#cbd5e1,0_3px_6px_rgba(0,0,0,0.1)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-indigo-50 active:border-indigo-200 transition-all duration-75 mr-4"
+                        className="text-center px-4 py-2.5 bg-white text-indigo-600 font-medium rounded-md border border-gray-300 shadow-[0_5px_0_0_#cbd5e1,0_5px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_3px_0_0_#cbd5e1,0_3px_6px_rgba(0,0,0,0.1)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-indigo-50 active:border-indigo-200 transition-all duration-75 mr-4"
                       >
                         Mon tableau de bord
                       </Link>
                       <Link
                         href="/formations"
-                        className="w-auto text-center px-5 py-2.5 bg-white text-indigo-600 font-medium rounded-md border border-gray-300 shadow-[0_5px_0_0_#cbd5e1,0_5px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_3px_0_0_#cbd5e1,0_3px_6px_rgba(0,0,0,0.1)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-indigo-50 active:border-indigo-200 transition-all duration-75 whitespace-nowrap"
+                        className="text-center px-5 py-2.5 bg-white text-indigo-600 font-medium rounded-md border border-gray-300 shadow-[0_5px_0_0_#cbd5e1,0_5px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_3px_0_0_#cbd5e1,0_3px_6px_rgba(0,0,0,0.1)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-indigo-50 active:border-indigo-200 transition-all duration-75 whitespace-nowrap"
                       >
                         Voir les formations
                       </Link>
@@ -76,38 +76,26 @@ export default function Home() {
                 )}
               </div>
             </div>
-            <div className="lg:w-1/2 relative">
-              <div className="relative h-64 sm:h-80 lg:h-96 w-full rounded-xl overflow-hidden shadow-xl">
-                <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-600 opacity-90"></div>
-                <div className="absolute inset-0 flex items-center justify-center text-white p-6">
-                  <div className="text-center">
-                    <h2 className="text-2xl sm:text-3xl font-bold mb-4">Apprenez n'importe où, n'importe quand</h2>
-                    <p className="text-lg opacity-90">Accédez à vos cours sur tous vos appareils</p>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
 
+      {/* Version mobile */}
       <div className="hidden max-[1030px]:block">
-        {/* Hero Section */}
         <div className="relative isolate overflow-hidden max-[1030px]:py-2">
           <div className="absolute inset-0 bg-gradient-to-b from-indigo-100 to-white -z-10"></div>
           
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-24 pb-16 sm:pt-32 sm:pb-24">
-            <div className="flex flex-col lg:flex-row items-center">
-              <div className="lg:w-1/2 lg:pr-12 mb-10 lg:mb-0">
-                <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl mb-6">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 pb-12">
+            <div className="flex flex-col items-center">
+              <div className="text-center">
+                <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-4">
                   <span className="block text-indigo-600">Formation App</span>
                   <span className="block">Apprenez à votre rythme</span>
                 </h1>
-                <p className="mt-6 text-lg leading-8 text-gray-600 max-w-2xl">
-                  Une plateforme simple et efficace pour les formateurs indépendants et leurs élèves. 
-                  Gérez vos formations, suivez vos progrès et restez connecté avec vos formateurs.
+                <p className="mt-4 text-base leading-7 text-gray-600">
+                  Une plateforme simple et efficace pour les formateurs indépendants et leurs élèves.
                 </p>
-                <div className="mt-10 flex flex-wrap gap-4">
+                <div className="mt-8 flex flex-wrap justify-center gap-4">
                   {!user ? (
                     <>
                       <Link
@@ -125,16 +113,16 @@ export default function Home() {
                     </>
                   ) : (
                     <>
-                      <div className="flex space-x-4 mb-16 max-[1030px]:mb-4">
+                      <div className="flex space-x-4">
                         <Link
                           href="/dashboard"
-                          className="flex-1 text-center px-4 py-2.5 bg-white text-indigo-600 font-medium rounded-md border border-gray-300 shadow-[0_5px_0_0_#cbd5e1,0_5px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_3px_0_0_#cbd5e1,0_3px_6px_rgba(0,0,0,0.1)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-indigo-50 active:border-indigo-200 transition-all duration-75 mr-4"
+                          className="text-center px-4 py-2.5 bg-white text-indigo-600 font-medium rounded-md border border-gray-300 shadow-[0_5px_0_0_#cbd5e1,0_5px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_3px_0_0_#cbd5e1,0_3px_6px_rgba(0,0,0,0.1)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-indigo-50 active:border-indigo-200 transition-all duration-75 mr-4"
                         >
                           Mon tableau de bord
                         </Link>
                         <Link
                           href="/formations"
-                          className="w-auto text-center px-5 py-2.5 bg-white text-indigo-600 font-medium rounded-md border border-gray-300 shadow-[0_5px_0_0_#cbd5e1,0_5px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_3px_0_0_#cbd5e1,0_3px_6px_rgba(0,0,0,0.1)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-indigo-50 active:border-indigo-200 transition-all duration-75 whitespace-nowrap"
+                          className="text-center px-5 py-2.5 bg-white text-indigo-600 font-medium rounded-md border border-gray-300 shadow-[0_5px_0_0_#cbd5e1,0_5px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_3px_0_0_#cbd5e1,0_3px_6px_rgba(0,0,0,0.1)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-indigo-50 active:border-indigo-200 transition-all duration-75 whitespace-nowrap"
                         >
                           Voir les formations
                         </Link>
@@ -143,46 +131,13 @@ export default function Home() {
                   )}
                 </div>
               </div>
-              <div className="lg:w-1/2 relative">
-                <div className="relative h-64 sm:h-80 lg:h-96 w-full rounded-xl overflow-hidden shadow-xl">
-                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-600 opacity-90"></div>
-                  <div className="absolute inset-0 flex items-center justify-center text-white p-6">
-                    <div className="text-center">
-                      <h2 className="text-2xl sm:text-3xl font-bold mb-4">Apprenez n'importe où, n'importe quand</h2>
-                      <p className="text-lg opacity-90">Accédez à vos cours sur tous vos appareils</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* En-tête amélioré pour mobile */}
-      <div className="bg-gradient-to-r from-indigo-50 to-blue-50 p-6 rounded-lg mb-8 max-[1030px]:block hidden">
-        <p className="text-gray-700 mb-5 text-center">
-          Bienvenue sur notre plateforme d'apprentissage en ligne. Découvrez nos formations interactives et suivez votre progression.
-        </p>
-        
-        <div className="flex space-x-4">
-          <Link 
-            href="/dashboard" 
-            className="flex-1 text-center px-4 py-2.5 bg-white text-indigo-600 font-medium rounded-md border border-gray-300 shadow-[0_5px_0_0_#cbd5e1,0_5px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_3px_0_0_#cbd5e1,0_3px_6px_rgba(0,0,0,0.1)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-indigo-50 active:border-indigo-200 transition-all duration-75"
-          >
-            Tableau de bord
-          </Link>
-          <Link 
-            href="/formations" 
-            className="flex-1 text-center px-4 py-2.5 bg-white text-indigo-600 font-medium rounded-md border border-gray-300 shadow-[0_5px_0_0_#cbd5e1,0_5px_10px_rgba(0,0,0,0.1)] hover:shadow-[0_3px_0_0_#cbd5e1,0_3px_6px_rgba(0,0,0,0.1)] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] active:bg-indigo-50 active:border-indigo-200 transition-all duration-75"
-          >
-            Formations
-          </Link>
-        </div>
-      </div>
-
       {/* Features Section */}
-      <div className="py-16 sm:py-24 max-[1030px]:py-0 max-[1030px]:mt-4">
+      <div className="py-16 sm:py-24 max-[1030px]:py-8">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">

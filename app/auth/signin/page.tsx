@@ -145,9 +145,9 @@ export default function SignIn() {
                     </button>
                   ) : (
                     <>
-                      Ou{' '}
+                      <span className="text-pink-100 text-glow-subtle">Je n'ai pas de compte</span>{' '}
                       <Link href="/auth/signup" className="font-medium text-pink-300 hover:text-pink-200 transition-colors text-glow-pink">
-                        créez un nouveau compte
+                        Créer un compte
                       </Link>
                     </>
                   )}
@@ -156,16 +156,16 @@ export default function SignIn() {
 
               {/* Messages d'erreur */}
               {error && (
-                <div className="mb-8 rounded-xl bg-red-900/30 backdrop-blur-md p-5 border border-red-500/50 animate-fade-in-bounce neon-error-glow">
+                <div className="mb-8 rounded-xl bg-red-500/30 backdrop-blur-md p-5 border border-red-400/30 animate-fade-in-bounce shadow-inner">
                   <div className="flex">
                     <div className="flex-shrink-0">
-                      <svg className="h-6 w-6 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                      <svg className="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                       </svg>
                     </div>
                     <div className="ml-3">
-                      <h3 className="text-base font-medium text-red-300">Erreur de connexion</h3>
-                      <div className="mt-2 text-sm text-red-200">
+                      <h3 className="text-base font-medium text-white">Erreur de connexion</h3>
+                      <div className="mt-2 text-sm text-white">
                         <p>{error}</p>
                       </div>
                     </div>
@@ -265,7 +265,9 @@ export default function SignIn() {
                       />
                     </div>
                     {errors.email && (
-                      <p className="mt-2 text-sm text-red-300 text-glow-red">{errors.email.message}</p>
+                      <p className="mt-2 text-sm font-medium text-white bg-red-500/30 px-3 py-1 rounded-md backdrop-blur-sm border border-red-400/30 shadow-inner">
+                        {errors.email.message}
+                      </p>
                     )}
                   </div>
 
@@ -288,7 +290,9 @@ export default function SignIn() {
                       />
                     </div>
                     {errors.password && (
-                      <p className="mt-2 text-sm text-red-300 text-glow-red">{errors.password.message}</p>
+                      <p className="mt-2 text-sm font-medium text-white bg-red-500/30 px-3 py-1 rounded-md backdrop-blur-sm border border-red-400/30 shadow-inner">
+                        {errors.password.message}
+                      </p>
                     )}
                   </div>
 
