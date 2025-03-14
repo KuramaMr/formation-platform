@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { confirmPasswordReset, verifyPasswordResetCode, getAuth } from 'firebase/auth';
-import AuthTransition from '../../components/AuthTransition';
+import AuthTransition from '../components/AuthTransition';
 
 export default function ResetPassword() {
   const [newPassword, setNewPassword] = useState('');
