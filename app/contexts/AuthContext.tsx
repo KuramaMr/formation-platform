@@ -39,11 +39,46 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Constante pour la durée de session (12 heures en millisecondes)
+const SESSION_DURATION = 12 * 60 * 60 * 1000;
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [sessionTimeout, setSessionTimeout] = useState<NodeJS.Timeout | null>(null);
+
+  // Fonction pour configurer le timeout de session
+  const setupSessionTimeout = () => {
+    // Effacer tout timeout existant
+    if (sessionTimeout) {
+      clearTimeout(sessionTimeout);
+    }
+
+    // Récupérer l'heure de connexion depuis le localStorage
+    const loginTime = localStorage.getItem('loginTime');
+    
+    if (loginTime) {
+      const loginTimeMs = parseInt(loginTime, 10);
+      const currentTime = Date.now();
+      const elapsedTime = currentTime - loginTimeMs;
+      
+      // Si le temps écoulé est inférieur à la durée de session
+      if (elapsedTime < SESSION_DURATION) {
+        // Configurer un timeout pour la durée restante
+        const remainingTime = SESSION_DURATION - elapsedTime;
+        const timeout = setTimeout(() => {
+          signOut();
+        }, remainingTime);
+        
+        setSessionTimeout(timeout);
+      } else {
+        // Si le temps est déjà écoulé, déconnecter immédiatement
+        signOut();
+      }
+    }
+  };
 
   useEffect(() => {
     const auth = getAuth();
@@ -63,14 +98,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             role: userDoc.data().role as UserRole
           });
         }
+        
+        // Configurer le timeout de session quand l'utilisateur est connecté
+        setupSessionTimeout();
       } else {
         setUserData(null);
+        // Nettoyer le timeout si l'utilisateur est déconnecté
+        if (sessionTimeout) {
+          clearTimeout(sessionTimeout);
+          setSessionTimeout(null);
+        }
+        // Supprimer l'heure de connexion du localStorage
+        localStorage.removeItem('loginTime');
       }
       
       setLoading(false);
     });
 
-    return () => unsubscribe();
+    return () => {
+      unsubscribe();
+      // Nettoyer le timeout lors du démontage du composant
+      if (sessionTimeout) {
+        clearTimeout(sessionTimeout);
+      }
+    };
   }, []);
 
   const signUp = async (email: string, password: string, displayName: string, role: UserRole) => {
@@ -140,6 +191,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       
+      // Enregistrer l'heure de connexion dans le localStorage
+      localStorage.setItem('loginTime', Date.now().toString());
+      
+      // Configurer le timeout de session
+      const timeout = setTimeout(() => {
+        signOut();
+      }, SESSION_DURATION);
+      
+      setSessionTimeout(timeout);
+      
       return userCredential.user;
     } catch (error: any) {
       setError(error.message || 'Une erreur est survenue lors de la connexion');
@@ -156,6 +217,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       
       const auth = getAuth();
       await firebaseSignOut(auth);
+      
+      // Nettoyer le timeout et supprimer l'heure de connexion
+      if (sessionTimeout) {
+        clearTimeout(sessionTimeout);
+        setSessionTimeout(null);
+      }
+      localStorage.removeItem('loginTime');
     } catch (error: any) {
       setError(error.message || 'Une erreur est survenue lors de la déconnexion');
     } finally {

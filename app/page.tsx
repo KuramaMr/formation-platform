@@ -33,7 +33,7 @@ export default function Home() {
           <div className="flex flex-col items-center">
             <div className="max-w-3xl text-center mb-12">
               <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl mb-6">
-                <span className="block text-indigo-600">Formation App</span>
+                <span className="block text-indigo-600">FormationNexus</span>
                 <span className="block">Apprenez à votre rythme</span>
               </h1>
               <p className="mt-6 text-lg leading-8 text-gray-600">
@@ -107,7 +107,7 @@ export default function Home() {
             <div className="flex flex-col items-center">
               <div className="text-center">
                 <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-4">
-                  <span className="block text-indigo-600">Formation App</span>
+                  <span className="block text-indigo-600">FormationNexus</span>
                   <span className="block">Apprenez à votre rythme</span>
                 </h1>
                 <p className="mt-4 text-base leading-7 text-gray-600">
@@ -170,7 +170,7 @@ export default function Home() {
               Pourquoi choisir notre plateforme ?
             </h2>
             <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto px-4">
-              Découvrez les fonctionnalités qui font de Formation App la solution idéale pour l'apprentissage en ligne.
+              Découvrez les fonctionnalités qui font de FormationNexus la solution idéale pour l'apprentissage en ligne.
             </p>
           </div>
           

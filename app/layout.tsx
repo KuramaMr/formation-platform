@@ -23,6 +23,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr" className={inter.variable}>
+      <head>
+        <title>FormationNexus</title>
+        <meta name="description" content="Plateforme d'apprentissage et de formation en ligne" />
+      </head>
       <body>
         <AuthProvider>
           <div className="min-h-screen flex flex-col">

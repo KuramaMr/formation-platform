@@ -77,7 +77,7 @@ export default function Navigation() {
               <div className="flex-shrink-0 bg-indigo-600 h-10 w-10 rounded-md flex items-center justify-center">
                 <span className="text-xl font-bold">F</span>
               </div>
-              <span className="text-xl font-bold hidden sm:block">Formation App</span>
+              <span className="text-xl font-bold hidden sm:block">FormationNexus</span>
             </Link>
             
             {/* Liens de navigation desktop - visibles uniquement au-dessus de 1030px */}
