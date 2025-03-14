@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { confirmPasswordReset, verifyPasswordResetCode, getAuth } from 'firebase/auth';
 import AuthTransition from '../components/AuthTransition';
 
-export default function ResetPassword() {
+// Composant qui utilise useSearchParams
+function ResetPasswordContent() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -77,7 +78,7 @@ export default function ResetPassword() {
       setLoading(false);
     }
   };
-  
+
   return (
     <div className="min-h-screen flex flex-col justify-center items-center px-6 py-16 relative overflow-hidden">
       {/* Fond animé avec dégradés */}
@@ -227,5 +228,18 @@ export default function ResetPassword() {
         </AuthTransition>
       </div>
     </div>
+  );
+}
+
+// Composant principal avec Suspense
+export default function ResetPassword() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500">
+        <div className="text-white text-xl">Chargement...</div>
+      </div>
+    }>
+      <ResetPasswordContent />
+    </Suspense>
   );
 }
