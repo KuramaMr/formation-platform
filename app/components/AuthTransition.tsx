@@ -1,20 +1,22 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 
-export default function AuthTransition({ 
-  children, 
-  currentPage, 
-  onTransitionComplete 
-}: { 
-  children: React.ReactNode, 
-  currentPage: 'signin' | 'signup' | 'reset',
+interface AuthTransitionProps {
+  children: ReactNode;
+  currentPage: 'signin' | 'signup' | 'reset';
   onTransitionComplete?: () => void
-}) {
-  const [animation, setAnimation] = useState('');
-  const [nextPage, setNextPage] = useState<'signin' | 'signup' | 'reset' | null>(null);
+}
+
+export default function AuthTransition({ children, currentPage, onTransitionComplete }: AuthTransitionProps) {
+  const [isVisible, setIsVisible] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
 
   // Fonction pour naviguer avec animation
   const navigateTo = (page: 'signin' | 'signup' | 'reset') => {
@@ -28,8 +30,7 @@ export default function AuthTransition({
       (currentPage === 'signin' && page === 'reset');
     
     // Appliquer l'animation de sortie
-    setAnimation(isForward ? 'form-exit' : 'form-leave');
-    setNextPage(page);
+    setIsVisible(false);
     
     // Attendre la fin de l'animation avant de naviguer
     setTimeout(() => {
@@ -39,46 +40,44 @@ export default function AuthTransition({
     }, 400);
   };
 
-  // Appliquer l'animation d'entrée au chargement
-  useEffect(() => {
-    setAnimation('form-enter');
-    
-    // Notifier que la transition est terminée
-    if (onTransitionComplete) {
-      setTimeout(onTransitionComplete, 400);
-    }
-  }, [currentPage, onTransitionComplete]);
-
   return (
-    <div className={`auth-transition ${animation}`}>
-      {children}
-      
-      {/* Navigation contextuelle */}
-      <div className="auth-navigation mt-6 text-center">
-        {currentPage === 'signin' && (
-          <p className="text-white/90">
-            Pas encore de compte ?{' '}
-            <button 
-              onClick={() => navigateTo('signup')}
-              className="font-medium text-pink-300 hover:text-pink-200 transition-colors text-glow-pink"
-            >
-              Créer un compte
-            </button>
-          </p>
-        )}
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={currentPage}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
+      >
+        {children}
         
-        {currentPage === 'signup' && (
-          <p className="text-white/90">
-            Déjà un compte ?{' '}
-            <button 
-              onClick={() => navigateTo('signin')}
-              className="font-medium text-cyan-300 hover:text-cyan-200 transition-colors text-glow-cyan"
-            >
-              Se connecter
-            </button>
-          </p>
-        )}
-      </div>
-    </div>
+        {/* Navigation contextuelle */}
+        <div className="auth-navigation mt-6 text-center">
+          {currentPage === 'signin' && (
+            <p className="text-white/90">
+              Pas encore de compte ?{' '}
+              <button 
+                onClick={() => navigateTo('signup')}
+                className="font-medium text-pink-300 hover:text-pink-200 transition-colors text-glow-pink"
+              >
+                Créer un compte
+              </button>
+            </p>
+          )}
+          
+          {currentPage === 'signup' && (
+            <p className="text-white/90">
+              Déjà un compte ?{' '}
+              <button 
+                onClick={() => navigateTo('signin')}
+                className="font-medium text-cyan-300 hover:text-cyan-200 transition-colors text-glow-cyan"
+              >
+                Se connecter
+              </button>
+            </p>
+          )}
+        </div>
+      </motion.div>
+    </AnimatePresence>
   );
 } 
